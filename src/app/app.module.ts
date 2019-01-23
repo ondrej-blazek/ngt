@@ -1,8 +1,15 @@
+// NG core and NPM
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
-import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
+// Declarations
+import { AppRoutingModule } from '@app/app-routing.module';
+import { AppComponent } from '@app/app.component';
+
+// Local functionality - Imports
+import { NgsModule } from '@ngs/ngs.module';
+import { NgcModule } from '@ngc/ngc.module';
+import { NgtModule } from '@ngt/ngt.module';
 
 @NgModule({
   declarations: [
@@ -10,7 +17,10 @@ import { AppComponent } from './app.component';
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    NgsModule,
+    NgcModule,
+    NgtModule
   ],
   providers: [],
   bootstrap: [AppComponent]

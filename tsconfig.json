@@ -1,7 +1,14 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
-    "baseUrl": "./",
+    "baseUrl": ".",
+    "paths": {
+      "@app/*": ["src/app/*"],
+      "@env/*": ["src/environments/*"],
+      "@ngt/*": ["src/ng-three/*"],
+      "@ngs/*": ["src/ng-share/*"],
+      "@ngc/*": ["src/ng-canvas/*"]
+    },
     "outDir": "./dist/out-tsc",
     "sourceMap": true,
     "declaration": false,
@@ -17,13 +24,6 @@
     "lib": [
       "es2018",
       "dom"
-    ],
-    "paths": {
-      "@app/*": ["app/*"],
-      "@env/*": ["environments/*"],
-      "@ngt/*": ["ngthree/*"],
-      "@ngs/*": ["ngshare/*"],
-      "@ngc/*": ["ngcanvas/*"]
-    }
+    ]
   }
 }
