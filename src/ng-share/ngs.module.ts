@@ -1,10 +1,16 @@
 import { NgModule, Optional, SkipSelf } from '@angular/core';
 import { CommonModule } from '@angular/common';
+
+import { NgcModule } from '@ngc/ngc.module';
+import { NgtModule } from '@ngt/ngt.module';
+
 import { ChronosDirective } from './core/chronos.directive';
 
 @NgModule({
   imports: [
-    CommonModule
+    CommonModule,
+    NgcModule,
+    NgtModule
   ],
   declarations: [
     ChronosDirective

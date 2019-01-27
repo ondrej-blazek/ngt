@@ -1,33 +1,43 @@
-import { Directive, ContentChild } from '@angular/core';
-// import { RenderDirective } from './render.directive';
-// import { ConnectedDirective } from '@app/canvas/connected/connected.directive';
+import { Directive, ContentChildren, QueryList, AfterContentInit } from '@angular/core';
+
+import { NgtRenderDirective } from '@ngt/core';
+import { NgcRenderDirective } from '@ngc/core';
 
 
 @Directive({
-  selector: 'ngs-chronos'
+  selector: 'ngs-chronos'     // tslint:disable-line
 })
-export class ChronosDirective {
+export class ChronosDirective implements AfterContentInit {
   // child components / directives
-  // @ContentChild(RenderDirective) RenderDirective: RenderDirective;
-  // @ContentChild(ConnectedDirective) ConnectedDirective: ConnectedDirective;
+  @ContentChildren(NgtRenderDirective) threeDOMquery: QueryList<NgtRenderDirective>;
+  @ContentChildren(NgcRenderDirective) canvasDOMquery: QueryList<NgcRenderDirective>;
 
-  // get threescene() {
-  //   return this.RenderDirective;
-  // }
-  // get overlay() {
-  //   return this.ConnectedDirective;
-  // }
+  private threeDirectives: NgtRenderDirective[] = [];
+  private canvasDirectives: NgcRenderDirective[] = [];
+
 
   constructor() { }
+
   ngAfterContentInit() {
+    this.threeDirectives = this.threeDOMquery.toArray();
+    this.canvasDirectives = this.canvasDOMquery.toArray();
+
+    this.propagateRender ();
     this.render();
+  }
+
+  propagateRender () {
+    for (const oneThree of this.threeDirectives) {
+      oneThree.render();
+    }
+    for (const oneCanvas of this.canvasDirectives) {
+      oneCanvas.render();
+    }
   }
 
   render() {
     // This function now executes all rendering needs synchronously across all enclosed directives
-
-    // if (this.threescene) this.threescene.render();
-    // if (this.overlay) this.overlay.render();
+    // this.propagateRender ();
 
     try {
       requestAnimationFrame(() => this.render());
@@ -40,6 +50,7 @@ export class ChronosDirective {
 
 
 /*
+Order of elements within chronos matter!!!
 
 <ngs-chronos>
   <!-- 3D scene(s) -->
@@ -56,7 +67,7 @@ export class ChronosDirective {
       <ngt-geometry/>
     </ngt-scene>
   </ngt-render>
-  
+
   <!-- 2D canvas overlay(s) -->
   <ngc-render id="baseUI">
     <ngc-content></ngc-content>
