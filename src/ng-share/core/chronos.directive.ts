@@ -1,4 +1,4 @@
-import { Directive, ContentChildren, QueryList, AfterContentInit } from '@angular/core';
+import { Directive, ContentChildren, QueryList, AfterContentInit, HostListener } from '@angular/core';
 
 import { NgtRenderDirective } from '@ngt/core';
 import { NgcRenderDirective } from '@ngc/core';
@@ -11,6 +11,9 @@ export class ChronosDirective implements AfterContentInit {
   // child components / directives
   @ContentChildren(NgtRenderDirective) threeDOMquery: QueryList<NgtRenderDirective>;
   @ContentChildren(NgcRenderDirective) canvasDOMquery: QueryList<NgcRenderDirective>;
+
+  private width: number = 0;
+  private height: number = 0;
 
   private threeDirectives: NgtRenderDirective[] = [];
   private canvasDirectives: NgcRenderDirective[] = [];
@@ -44,6 +47,25 @@ export class ChronosDirective implements AfterContentInit {
     } catch (evt) {
       console.error (evt);
     }
+  }
+
+  // Browser events / resize
+  @HostListener('window:resize')
+  @HostListener('window:vrdisplaypresentchange')
+  resetWidthHeight():void {
+    this.height = window.innerHeight;
+    this.width = window.innerWidth;
+    // console.log('window resize', this.width, this.height);
+  }
+
+  @HostListener('window:focus')
+  windowFocus():void {
+    // console.log('window focus');
+  }
+
+  @HostListener('window:blur')
+  windowBlur():void {
+    // console.log('window blur');
   }
 }
 
