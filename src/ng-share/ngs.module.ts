@@ -5,6 +5,7 @@ import { NgcModule } from '@ngc/ngc.module';
 import { NgtModule } from '@ngt/ngt.module';
 
 import { ChronosDirective } from './core/chronos.directive';
+import { ChronosService } from './core/chronos.service';
 
 @NgModule({
   imports: [
@@ -15,7 +16,9 @@ import { ChronosDirective } from './core/chronos.directive';
   declarations: [
     ChronosDirective
   ],
-  providers: [],
+  providers: [
+    ChronosService
+  ],
   exports: [
     ChronosDirective
   ]

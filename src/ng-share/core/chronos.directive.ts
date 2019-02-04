@@ -1,5 +1,6 @@
 import { Directive, ContentChildren, QueryList, AfterContentInit, HostListener } from '@angular/core';
 
+import { ChronosService } from '@ngs/core/chronos.service';
 import { NgtRenderDirective } from '@ngt/core';
 import { NgcRenderDirective } from '@ngc/core';
 
@@ -19,17 +20,24 @@ export class ChronosDirective implements AfterContentInit {
   private canvasDirectives: NgcRenderDirective[] = [];
 
 
-  constructor() { }
+  constructor(
+    private chronosService: ChronosService
+  ) { }
 
   ngAfterContentInit() {
+    // Fetch the dom elements into an array
     this.threeDirectives = this.threeDOMquery.toArray();
     this.canvasDirectives = this.canvasDOMquery.toArray();
 
-    this.propagateRender ();
+    // Update the screen resolutions
+    this.height = window.innerHeight;
+    this.width = window.innerWidth;
+
+    this.propagateRender();
     this.render();
   }
 
-  propagateRender () {
+  propagateRender() {
     for (const oneThree of this.threeDirectives) {
       oneThree.render();
     }
@@ -45,27 +53,27 @@ export class ChronosDirective implements AfterContentInit {
     try {
       requestAnimationFrame(() => this.render());
     } catch (evt) {
-      console.error (evt);
+      console.error(evt);
     }
   }
 
   // Browser events / resize
   @HostListener('window:resize')
   @HostListener('window:vrdisplaypresentchange')
-  resetWidthHeight():void {
+  resetWidthHeight(): void {
     this.height = window.innerHeight;
     this.width = window.innerWidth;
-    // console.log('window resize', this.width, this.height);
+    this.chronosService.screenSize(this.width, this.height);
   }
 
   @HostListener('window:focus')
-  windowFocus():void {
-    // console.log('window focus');
+  windowFocus(): void {
+    this.chronosService.screenIsActive(true);
   }
 
   @HostListener('window:blur')
-  windowBlur():void {
-    // console.log('window blur');
+  windowBlur(): void {
+    this.chronosService.screenIsActive(false);
   }
 }
 
