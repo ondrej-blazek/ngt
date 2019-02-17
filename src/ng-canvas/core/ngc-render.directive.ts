@@ -11,6 +11,7 @@ export class NgcRenderDirective {
   @Input() id: string;
 
   private message: any;
+  private parentID: string = "";
   private subscription: Subscription;
 
   constructor(
@@ -20,9 +21,13 @@ export class NgcRenderDirective {
     this.subscription = this.chronosService.getMessage().subscribe(
       message => {
         this.message = message;
-        console.log('canvas ', this.message);
+        // console.log('canvas', this.message);
       }
     );
+  }
+
+  ngOnInit() {
+    // console.log('canvas one', this.id);
   }
 
   ngOnDestroy() {
@@ -30,7 +35,14 @@ export class NgcRenderDirective {
     this.subscription.unsubscribe();
   }
 
+
+
+  renderID(passDown: string): void {
+    this.parentID = passDown;
+    // console.log('ngc-render', this.parentID, this.id);
+  }
+
   render(): void {
-    console.log('ngc-render - called', this.id);
+    // console.log('ngc-render - called', this.id);
   }
 }

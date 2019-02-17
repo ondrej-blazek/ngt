@@ -1,6 +1,5 @@
 import { Directive, ContentChildren, QueryList, AfterContentInit, HostListener } from '@angular/core';
 
-import { ChronosService } from '@ngs/core/chronos.service';
 import { NgtRenderDirective } from '@ngt/core';
 import { NgcRenderDirective } from '@ngc/core';
 
@@ -13,28 +12,38 @@ export class ChronosDirective implements AfterContentInit {
   @ContentChildren(NgtRenderDirective) threeDOMquery: QueryList<NgtRenderDirective>;
   @ContentChildren(NgcRenderDirective) canvasDOMquery: QueryList<NgcRenderDirective>;
 
-  private width: number = 0;
-  private height: number = 0;
-
+  private parentID: string = '';
   private threeDirectives: NgtRenderDirective[] = [];
   private canvasDirectives: NgcRenderDirective[] = [];
 
-
-  constructor(
-    private chronosService: ChronosService
-  ) { }
+  constructor() { }
+  
+  ngOnInit() {
+    // console.log('inner one', this.parentID);
+  }
 
   ngAfterContentInit() {
     // Fetch the dom elements into an array
     this.threeDirectives = this.threeDOMquery.toArray();
     this.canvasDirectives = this.canvasDOMquery.toArray();
 
-    // Update the screen resolutions
-    this.height = window.innerHeight;
-    this.width = window.innerWidth;
-
+    this.propagateID(this.parentID);
     this.propagateRender();
     this.render();
+  }
+
+  idUpdate (passDown: string) {
+    this.parentID = passDown;
+  }
+
+  propagateID(passDown: string) {
+    // console.log('propagateID', passDown);
+    for (const oneThree of this.threeDirectives) {
+      oneThree.renderID(passDown);
+    }
+    for (const oneCanvas of this.canvasDirectives) {
+      oneCanvas.renderID(passDown);
+    }
   }
 
   propagateRender() {
@@ -55,25 +64,6 @@ export class ChronosDirective implements AfterContentInit {
     } catch (evt) {
       console.error(evt);
     }
-  }
-
-  // Browser events / resize
-  @HostListener('window:resize')
-  @HostListener('window:vrdisplaypresentchange')
-  resetWidthHeight(): void {
-    this.height = window.innerHeight;
-    this.width = window.innerWidth;
-    this.chronosService.screenSize(this.width, this.height);
-  }
-
-  @HostListener('window:focus')
-  windowFocus(): void {
-    this.chronosService.screenIsActive(true);
-  }
-
-  @HostListener('window:blur')
-  windowBlur(): void {
-    this.chronosService.screenIsActive(false);
   }
 }
 

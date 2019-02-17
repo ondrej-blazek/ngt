@@ -4,8 +4,9 @@ import { CommonModule } from '@angular/common';
 import { NgcModule } from '@ngc/ngc.module';
 import { NgtModule } from '@ngt/ngt.module';
 
-import { ChronosDirective } from './core/chronos.directive';
 import { ChronosService } from './core/chronos.service';
+import { ChronosDirective } from './core/chronos.directive';
+import { ReporterDirective } from './core/reporter.directive';
 
 @NgModule({
   imports: [
@@ -14,13 +15,15 @@ import { ChronosService } from './core/chronos.service';
     NgtModule
   ],
   declarations: [
-    ChronosDirective
+    ChronosDirective,
+    ReporterDirective
   ],
   providers: [
     ChronosService
   ],
   exports: [
-    ChronosDirective
+    ChronosDirective,
+    ReporterDirective
   ]
 })
 export class NgsModule {
