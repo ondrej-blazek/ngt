@@ -37,7 +37,6 @@ export class ChronosDirective implements AfterContentInit {
   }
 
   propagateID(passDown: string) {
-    // console.log('propagateID', passDown);
     for (const oneThree of this.threeDirectives) {
       oneThree.renderID(passDown);
     }

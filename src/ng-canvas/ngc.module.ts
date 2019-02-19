@@ -2,17 +2,20 @@ import { NgModule, Optional, SkipSelf } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { NgcRenderDirective } from './core/ngc-render.directive';
+import { TestContDirective } from './content/test-cont.directive';
 
 @NgModule({
   imports: [
     CommonModule
   ],
   declarations: [
-    NgcRenderDirective
+    NgcRenderDirective,
+    TestContDirective
   ],
   providers: [],
   exports: [
-    NgcRenderDirective
+    NgcRenderDirective,
+    TestContDirective
   ]
 })
 export class NgcModule {

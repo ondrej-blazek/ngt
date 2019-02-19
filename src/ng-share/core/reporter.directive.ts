@@ -27,7 +27,6 @@ export class ReporterDirective {
   ) { }
 
   ngOnInit() {    // Update chronos BEFORE rendering starts
-    // console.log('reporter one', this.el.nativeElement.id);
     if (this.chronos) this.chronos.idUpdate(this.el.nativeElement.id);
   }
 
