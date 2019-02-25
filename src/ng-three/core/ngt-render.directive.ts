@@ -1,4 +1,4 @@
-import { Directive, Input } from '@angular/core';
+import { Directive, OnDestroy, Input } from '@angular/core';
 import { Subscription } from 'rxjs';
 
 import { ChronosService } from '@ngs/core/chronos.service';
@@ -6,17 +6,19 @@ import { ChronosService } from '@ngs/core/chronos.service';
 @Directive({
   selector: 'ngt-render'     // tslint:disable-line
 })
-export class NgtRenderDirective {
+export class NgtRenderDirective implements OnDestroy {
   // element parameters
   @Input() id: string;
 
   private message: any;
-  private parentID: string = "";
+  private parentID: string;
   private subscription: Subscription;
 
   constructor(
     private chronosService: ChronosService
   ) {
+    this.parentID = '';
+
     // subscribe to home component messages
     this.subscription = this.chronosService.getMessage().subscribe(
       message => {
@@ -25,7 +27,7 @@ export class NgtRenderDirective {
     );
   }
 
-  ngOnInit() { }
+  // ngOnInit() { }
 
   ngOnDestroy() {
     this.subscription.unsubscribe();

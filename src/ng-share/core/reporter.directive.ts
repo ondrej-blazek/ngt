@@ -1,12 +1,12 @@
-import { Directive, ElementRef, HostListener, ContentChild } from '@angular/core';
+import { Directive, OnInit, ElementRef, HostListener, ContentChild } from '@angular/core';
 
 import { ChronosService } from '@ngs/core/chronos.service';
 import { ChronosDirective } from '@ngs/core/chronos.directive';
 
 @Directive({
-  selector: '[ngsreporter]'
+  selector: '[ngsreporter]'       // tslint:disable-line
 })
-export class ReporterDirective {
+export class ReporterDirective implements OnInit {
   // child directives - Each reporter should only handle one chronos
   @ContentChild(ChronosDirective) ChronosDirective: ChronosDirective;
 
@@ -14,20 +14,28 @@ export class ReporterDirective {
     return this.ChronosDirective;
   }
 
-  private windowWidth: number = 0;
-  private windowHeight: number = 0;
-  
-  private domID: string = '';
-  private domWidth: number = 0;
-  private domHeight: number = 0;
+  private windowWidth: number;
+  private windowHeight: number;
+
+  private domID: string;
+  private domWidth: number;
+  private domHeight: number;
 
   constructor(
     private el: ElementRef,
     private chronosService: ChronosService
-  ) { }
+  ) {
+    this.windowWidth = 0;
+    this.windowHeight = 0;
+    this.domID = '';
+    this.domWidth = 0;
+    this.domHeight = 0;
+  }
 
   ngOnInit() {    // Update chronos BEFORE rendering starts
-    if (this.chronos) this.chronos.idUpdate(this.el.nativeElement.id);
+    if (this.chronos) {
+      this.chronos.idUpdate(this.el.nativeElement.id);
+    }
   }
 
 

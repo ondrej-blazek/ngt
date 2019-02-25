@@ -1,4 +1,4 @@
-import { Directive, ContentChildren, QueryList, AfterContentInit, HostListener } from '@angular/core';
+import { Directive, ContentChildren, QueryList, AfterContentInit } from '@angular/core';
 
 import { NgtRenderDirective } from '@ngt/core';
 import { NgcRenderDirective } from '@ngc/core';
@@ -9,23 +9,22 @@ import { NgcRenderDirective } from '@ngc/core';
 })
 export class ChronosDirective implements AfterContentInit {
   // child components / directives
-  @ContentChildren(NgtRenderDirective) threeDOMquery: QueryList<NgtRenderDirective>;
-  @ContentChildren(NgcRenderDirective) canvasDOMquery: QueryList<NgcRenderDirective>;
+  @ContentChildren(NgtRenderDirective) threeDomQuery: QueryList<NgtRenderDirective>;
+  @ContentChildren(NgcRenderDirective) canvasDomQuery: QueryList<NgcRenderDirective>;
 
-  private parentID: string = '';
+  private parentID: string;
   private threeDirectives: NgtRenderDirective[] = [];
   private canvasDirectives: NgcRenderDirective[] = [];
 
-  constructor() { }
-  
-  ngOnInit() {
-    // console.log('inner one', this.parentID);
+  constructor() {
+    this.parentID = '';
   }
+  // ngOnInit() { }
 
   ngAfterContentInit() {
     // Fetch the dom elements into an array
-    this.threeDirectives = this.threeDOMquery.toArray();
-    this.canvasDirectives = this.canvasDOMquery.toArray();
+    this.threeDirectives = this.threeDomQuery.toArray();
+    this.canvasDirectives = this.canvasDomQuery.toArray();
 
     this.propagateID(this.parentID);
     this.propagateRender();
@@ -65,36 +64,3 @@ export class ChronosDirective implements AfterContentInit {
     }
   }
 }
-
-
-
-/*
-Order of elements within chronos matter!!!
-
-<ngs-chronos>
-  <!-- 3D scene(s) -->
-  <ngt-render>
-    <ngt-orbit></ngt-orbit>
-    <ngt-scene>
-      <ngt-camera/>
-      <ngt-pointlight/>
-      <ngt-hemispherelight/>
-      <ngt-environment>
-        <ngt-ground/>
-        <ngt-dome/>
-      </ngt-environment>
-      <ngt-geometry/>
-    </ngt-scene>
-  </ngt-render>
-
-  <!-- 2D canvas overlay(s) -->
-  <ngc-render id="baseUI">
-    <ngc-content></ngc-content>
-    <ngc-content></ngc-content>
-  </ngc-render>
-  <ngc-render id="popups">
-    <ngc-content></ngc-content>
-  </ngc-render>
-</ngs-chronos>
-
-*/

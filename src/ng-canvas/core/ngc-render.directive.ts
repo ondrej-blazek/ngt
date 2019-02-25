@@ -1,4 +1,4 @@
-import { Directive, Input, ElementRef } from '@angular/core';
+import { OnInit, AfterViewInit, AfterContentInit, OnDestroy, Directive, Input, Renderer2, ElementRef } from '@angular/core';
 import { Subscription } from 'rxjs';
 
 import { ChronosService } from '@ngs/core/chronos.service';
@@ -6,19 +6,29 @@ import { ChronosService } from '@ngs/core/chronos.service';
 @Directive({
   selector: 'ngc-render'     // tslint:disable-line
 })
-export class NgcRenderDirective {
+export class NgcRenderDirective implements OnInit, AfterViewInit, AfterContentInit, OnDestroy {
   // element parameters
   @Input() id: string;
+  @Input() content: any;
+  @Input() data: any;
+
+  // Canvas HTML element
+  private canvas: HTMLCanvasElement;
+  private canvasRef: HTMLCanvasElement;
+  private canvasContext: any;
+
 
   private message: any;
-  private parentID: string = '';
+  private parentID: string;
   private subscription: Subscription;
-  public someValue: string = 'hua this works!!';
 
   constructor(
-    private el: ElementRef,
-    private chronosService: ChronosService
+    private chronosService: ChronosService,
+    private renderer: Renderer2,
+    private element: ElementRef
   ) {
+    this.parentID = '';
+
     // subscribe to home component messages
     this.subscription = this.chronosService.getMessage().subscribe(
       message => {
@@ -27,21 +37,28 @@ export class NgcRenderDirective {
     );
   }
 
-  ngOnInit() { }
+  ngOnInit() {
+    this.canvas = this.renderer.createElement('canvas');
+    this.canvasRef = this.element.nativeElement.appendChild(this.canvas);
+    this.canvasRef.setAttribute('class', 'overlay');
+    this.canvasContext = this.canvas.getContext('2d');
+  }
+
+  ngAfterViewInit() {
+    this.canvasRef.width = 600;
+    this.canvasRef.height = 400;
+  }
+
+  ngAfterContentInit() {}
+
   ngOnDestroy() {
     this.subscription.unsubscribe();
   }
-
-  ngAfterViewInit(){
-    console.log('NgcRenderDirective - el', this.el);
-    // console.log('NgcRenderDirective - tc', this.el.nativeElement);
-  }
-
 
   renderID(passDown: string): void {
     this.parentID = passDown;
   }
   render(): void {
-    // console.log('ngc-render - called', this.id);
+    this.content.render(this.canvasRef, this.canvasContext);
   }
 }

@@ -9,7 +9,7 @@ export class ChronosService {
 
   constructor() { }
 
-  // Watch for speciffic Dom element to change 
+  // Watch for speciffic Dom element to change
   elementSize(id: string, width: number, height: number) {
     this.subject.next({
       type: 'elementSize',

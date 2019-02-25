@@ -1,1 +1,1 @@
-export * from './test-cont.directive';
+export * from './test-content-service.service';
