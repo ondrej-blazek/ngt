@@ -1,10 +1,4 @@
-// import { Injectable } from '@angular/core';
-
-// @Injectable({
-//   providedIn: 'root'
-// })
 export class TestContentServiceService {
-
   private rectShape: any;
   private counter: number;
 
@@ -20,16 +14,6 @@ export class TestContentServiceService {
       borderWidth: 5
     };
   }
-
-  // ngAfterViewInit() {
-  //   // console.log('TestContDirective - ngAfterViewInit');
-  // }
-
-  // ngAfterContentInit() {
-  //   // console.log('TestContDirective - ngAfterContentInit');
-  // }
-
-
 
   cloud(ctx: any): void {
     // begin custom shape

@@ -17,7 +17,6 @@ export class NgcRenderDirective implements OnInit, AfterViewInit, AfterContentIn
   private canvasRef: HTMLCanvasElement;
   private canvasContext: any;
 
-
   private message: any;
   private parentID: string;
   private subscription: Subscription;
@@ -29,10 +28,10 @@ export class NgcRenderDirective implements OnInit, AfterViewInit, AfterContentIn
   ) {
     this.parentID = '';
 
-    // subscribe to home component messages
+    // subscribe to Global environment messages
     this.subscription = this.chronosService.getMessage().subscribe(
       message => {
-        this.message = message;
+        this.processMessage (message);
       }
     );
   }
@@ -53,6 +52,14 @@ export class NgcRenderDirective implements OnInit, AfterViewInit, AfterContentIn
 
   ngOnDestroy() {
     this.subscription.unsubscribe();
+  }
+
+  processMessage (message: any):void {
+    this.message = message;
+    if (this.message.type === 'elementSize' && this.message.id === this.parentID ) {
+      this.canvasRef.width = this.message.width;
+      this.canvasRef.height = this.message.height;
+    }
   }
 
   renderID(passDown: string): void {
