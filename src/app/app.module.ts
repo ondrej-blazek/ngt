@@ -6,10 +6,14 @@ import { NgModule } from '@angular/core';
 import { AppRoutingModule } from '@app/app-routing.module';
 import { AppComponent } from '@app/app.component';
 
-// Local functionality - Imports
+// NGT base code
 import { NgsModule } from '@ngs/ngs.module';
 import { NgcModule } from '@ngc/ngc.module';
 import { NgtModule } from '@ngt/ngt.module';
+
+// Standard app / testing
+import { HomeModule } from '@app/home/home.module';
+import { SandboxModule } from '@app/sandbox/sandbox.module';
 
 @NgModule({
   declarations: [
@@ -20,7 +24,9 @@ import { NgtModule } from '@ngt/ngt.module';
     AppRoutingModule,
     NgsModule,
     NgcModule,
-    NgtModule
+    NgtModule,
+    HomeModule,
+    SandboxModule
   ],
   providers: [],
   bootstrap: [AppComponent]

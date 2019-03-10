@@ -1,19 +1,13 @@
 import { Component } from '@angular/core';
 
-import { TestContentServiceService } from '@ngc/content';
-
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-
-  public testContService: TestContentServiceService = new TestContentServiceService;
   public title = 'ngt';
-
   constructor() {}
-
 }
 
 

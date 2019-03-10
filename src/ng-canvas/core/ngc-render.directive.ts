@@ -52,6 +52,7 @@ export class NgcRenderDirective implements OnInit, AfterViewInit, AfterContentIn
 
   ngOnDestroy() {
     this.subscription.unsubscribe();
+    this.content = null;
   }
 
   processMessage (message: any):void {
@@ -66,6 +67,8 @@ export class NgcRenderDirective implements OnInit, AfterViewInit, AfterContentIn
     this.parentID = passDown;
   }
   render(): void {
-    this.content.render(this.canvasRef, this.canvasContext);
+    if (this.content !== null) {
+      this.content.render(this.canvasRef, this.canvasContext);
+    }
   }
 }
