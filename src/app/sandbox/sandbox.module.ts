@@ -9,10 +9,12 @@ import { NgtModule } from '@ngt/ngt.module';
 
 // Local setup
 import { TestCanvasComponent } from './test-canvas/test-canvas.component';
+import { TestSetupComponent } from './test-setup/test-setup.component';
 
 @NgModule({
   declarations: [
-    TestCanvasComponent
+    TestCanvasComponent,
+    TestSetupComponent
   ],
   imports: [
     CommonModule,
