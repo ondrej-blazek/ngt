@@ -22,7 +22,7 @@ export class NgtRenderDirective implements OnDestroy {
     // subscribe to home component messages
     this.subscription = this.chronosService.getMessage().subscribe(
       message => {
-        this.message = message;
+        this.processMessage (message);
       }
     );
   }
@@ -34,10 +34,17 @@ export class NgtRenderDirective implements OnDestroy {
   }
 
 
+  processMessage (message: any):void {
+    this.message = message;
+    if (this.message.type === 'elementSize' && this.message.id === this.parentID ) {
+      // this.canvasRef.width = this.message.width;
+      // this.canvasRef.height = this.message.height;
+    }
+  }
+
   renderID(passDown: string): void {
     this.parentID = passDown;
   }
-
   render(): void {
     // console.log ('ngt-render - called', this.id);
   }
