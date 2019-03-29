@@ -6,10 +6,15 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./test-setup.component.scss']
 })
 export class TestSetupComponent implements OnInit {
+  public helpersFlag: boolean;
+  public camPosition: number[];
+  public isVRMode: boolean;
 
-  constructor() { }
-
-  ngOnInit() {
+  constructor() {
+    this.helpersFlag = true;
+    this.camPosition = [50, 75, 100];
+    this.isVRMode = false;
   }
 
+  ngOnInit() {}
 }

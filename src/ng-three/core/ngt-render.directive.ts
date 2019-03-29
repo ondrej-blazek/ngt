@@ -1,21 +1,44 @@
-import { Directive, OnDestroy, Input } from '@angular/core';
+import { Directive, OnInit, OnDestroy, Input, ContentChild, ElementRef } from '@angular/core';
+import * as THREE from 'three';
 import { Subscription } from 'rxjs';
 
 import { ChronosService } from '@ngs/core/chronos.service';
+import { SceneDirective, OrbitDirective, VrDirective } from '@ngt/scene';
 
 @Directive({
   selector: 'ngt-render'     // tslint:disable-line
 })
-export class NgtRenderDirective implements OnDestroy {
+export class NgtRenderDirective implements OnInit, OnDestroy {
   // element parameters
   @Input() id: string;
+
+  // child components / directives
+  @ContentChild(SceneDirective) sceneDirective: SceneDirective;
+  @ContentChild(OrbitDirective) orbitDirective: OrbitDirective;
+  @ContentChild(VrDirective) vrDirective: VrDirective;
+
+  get scene() {
+    return this.sceneDirective.scene;
+  }
+  get camera() {
+    return this.sceneDirective.camera;
+  }
+
+  // variables
+  private renderer: THREE.WebGLRenderer = new THREE.WebGLRenderer({
+    antialias: true,
+    precision: 'lowp'
+  });
 
   private message: any;
   private parentID: string;
   private subscription: Subscription;
+  private width: number;
+  private height: number;
 
   constructor(
-    private chronosService: ChronosService
+    private chronosService: ChronosService,
+    private element: ElementRef
   ) {
     this.parentID = '';
 
@@ -27,18 +50,66 @@ export class NgtRenderDirective implements OnDestroy {
     );
   }
 
-  // ngOnInit() { }
+  ngOnInit() {
+    console.log ('NgtRenderDirective');
+  }
 
   ngOnDestroy() {
     this.subscription.unsubscribe();
+
+    this.camera.remove();
+    this.render = () => {};
+
+    cancelAnimationFrame(0);
+    this.renderer.clear();
+    this.renderer.dispose();
+    this.element = null;
+  }
+
+
+  ngOnChanges(changes) {
+    // if(changes.isVRMode && changes.isVRMode.currentValue) {
+    //   if(this.vrDirective) {
+    //     if(!this.vrDirective.controls) {
+    //       this.vrDirective.enabled = true;
+    //       this.vrDirective.setupControls(this.camera, this.renderer);
+    //     }
+
+    //     this.vrDirective.requestVR(this.renderer.domElement);
+    //   }
+    // }
+
+    const widthChng = changes.width && changes.width.currentValue;
+    const heightChng = changes.height && changes.height.currentValue;
+    if(widthChng || heightChng) {
+      this.renderer.setSize(this.width, this.height);
+    }
+  }
+
+  ngAfterContentInit() {
+    this.renderer.setSize(this.width, this.height);
+    this.renderer.setPixelRatio(Math.floor(window.devicePixelRatio));
+    this.renderer.shadowMap.enabled = true;
+
+    // if(this.orbitDirective) {
+    //   this.orbitDirective.setupControls(this.camera, this.renderer);
+    // }
+    // if(this.vrDirective) {
+    //   this.vrDirective.setupControls(this.camera, this.renderer);
+    // }
+
+    // This bit will append <canvas> into the directive
+    const elCatch = this.element.nativeElement.appendChild(this.renderer.domElement);
+    elCatch.setAttribute('class', 'webgl');
   }
 
 
   processMessage (message: any):void {
     this.message = message;
     if (this.message.type === 'elementSize' && this.message.id === this.parentID ) {
-      // this.canvasRef.width = this.message.width;
-      // this.canvasRef.height = this.message.height;
+      this.width = this.message.width;
+      this.height = this.message.height;
+      this.renderer.setSize(this.width, this.height);
     }
   }
 
@@ -47,5 +118,9 @@ export class NgtRenderDirective implements OnDestroy {
   }
   render(): void {
     // console.log ('ngt-render - called', this.id);
+
+    if (this.element !== null) {
+      this.renderer.render(this.scene, this.camera);
+    }
   }
 }

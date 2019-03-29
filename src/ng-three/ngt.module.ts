@@ -1,18 +1,28 @@
 import { NgModule, Optional, SkipSelf } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { NgtRenderDirective } from './core/ngt-render.directive';
+import { NgtRenderDirective } from '@ngt/core';
+import { SceneDirective, OrbitDirective, VrDirective } from '@ngt/scene';
+import { CameraDirective } from '@ngt/camera';
 
 @NgModule({
   imports: [
     CommonModule
   ],
   declarations: [
-    NgtRenderDirective
+    NgtRenderDirective,
+    SceneDirective,
+    OrbitDirective,
+    VrDirective,
+    CameraDirective
   ],
   providers: [],
   exports: [
-    NgtRenderDirective
+    NgtRenderDirective,
+    SceneDirective,
+    OrbitDirective,
+    VrDirective,
+    CameraDirective
   ]
 })
 export class NgtModule {
