@@ -13,10 +13,17 @@ export class VrDirective {
   @Input() width: number;
   @Input() enabled: boolean = true;
 
+  private parentID: string;
   public controls: any;
   public effect: any;
 
-  constructor() { }
+  constructor() {
+    this.parentID = '';
+  }
+
+  renderID(passDown: string): void {
+    this.parentID = passDown;
+  }
 
   // ngOnChanges(changes) {
   //   const widthChng = changes.width && changes.width.currentValue;

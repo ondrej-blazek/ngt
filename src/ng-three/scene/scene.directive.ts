@@ -1,4 +1,4 @@
-import { Directive, ContentChild, ContentChildren, Input } from '@angular/core';
+import { Directive, ContentChild, OnChanges, ContentChildren, Input } from '@angular/core';
 import * as THREE from 'three';
 
 // import { PointLightDirective, HemisphereLightDirective } from '@app/core/light';
@@ -10,7 +10,7 @@ import { CameraDirective } from '@ngt/camera';
 @Directive({
   selector: 'ngt-scene'
 })
-export class SceneDirective {
+export class SceneDirective implements OnChanges {
   // element parameters 
   @Input() helpers: boolean = false;
 
@@ -23,9 +23,9 @@ export class SceneDirective {
   // @ContentChild(GeometryDirective) geometryDirective: any;
   // @ContentChild(DynamicGeometryDirective) dynamicGeometryDirective: any;
 
-
-  // private axesHelper: THREE.AxesHelper;
-  // private gridHelper: THREE.GridHelper;
+  private parentID: string;
+  private axesHelper: THREE.AxesHelper;
+  private gridHelper: THREE.GridHelper;
   // private cameraHelper: THREE.CameraHelper;
   // private pointLightHelperArr: THREE.PointLightHelper[] = [];
   // private hemisphereLightHelperArr: THREE.HemisphereLightHelper[] = [];
@@ -45,7 +45,9 @@ export class SceneDirective {
   //   return this.dynamicGeometryDirective;
   // }
 
-  constructor() { }
+  constructor() {
+    this.parentID = '';
+  }
 
   ngOnInit() {
     // Pass this scene handler to geometry directive
@@ -60,12 +62,12 @@ export class SceneDirective {
   }
 
   ngOnChanges(changes) {
-    // if(changes.helpers) {
+    if(changes.helpers) {
     //   this.helpers = changes.helpers.currentValue;
 
-    //   if (this.axesHelper) this.axesHelper.visible = this.helpers;
-    //   if (this.gridHelper) this.gridHelper.visible = this.helpers;
-    //   if (this.cameraHelper) this.cameraHelper.visible = this.helpers;
+      // if (this.axesHelper) this.axesHelper.visible = this.helpers;
+      if (this.gridHelper) this.gridHelper.visible = this.helpers;
+      // if (this.cameraHelper) this.cameraHelper.visible = this.helpers;
 
     //   if (this.pointLightHelperArr.length > 0) {
     //     for(let onePointHlp of this.pointLightHelperArr) {
@@ -78,7 +80,7 @@ export class SceneDirective {
     //       oneHemiHlp.visible = this.helpers;
     //     }
     //   }
-    // }
+    }
   }
 
   ngAfterContentInit() {
@@ -87,22 +89,22 @@ export class SceneDirective {
     // this.scene.fog = new THREE.Fog( this.scene.background, 1, 1000 );
     // ERROR in src/app/core/scene/scene.directive.ts(87,37): error TS2345: Argument of type 'Color' is not assignable to parameter of type 'number'.
 
-    // // Camera
-    // this.camera.lookAt(this.scene.position);
-    // this.scene.add(this.camera);
+    // Camera
+    this.camera.lookAt(this.scene.position);
+    this.scene.add(this.camera);
 
     // this.cameraHelper = new THREE.CameraHelper( this.camera );
     // this.cameraHelper.visible = this.helpers;
     // this.scene.add( this.cameraHelper );
 
-    // // ThreeJS Helper objects
-    // this.axesHelper = new THREE.AxesHelper(200);
-    // this.axesHelper.visible = this.helpers;
-    // this.scene.add (this.axesHelper);
+    // ThreeJS Helper objects
+    this.axesHelper = new THREE.AxesHelper(200);
+    this.axesHelper.visible = this.helpers;
+    this.scene.add (this.axesHelper);
 
-    // this.gridHelper = new THREE.GridHelper(1200, 60);
-    // this.gridHelper.visible = this.helpers;
-    // this.scene.add (this.gridHelper);
+    this.gridHelper = new THREE.GridHelper(1200, 60);
+    this.gridHelper.visible = this.helpers;
+    this.scene.add (this.gridHelper);
 
     // // Light(s)
     // let pointlightDirectives: PointLightDirective[] = this.pointlightDirective.toArray();
@@ -124,5 +126,25 @@ export class SceneDirective {
     //   this.scene.add( dirLightHeper );
     //   this.hemisphereLightHelperArr.push( dirLightHeper );
     // }
+  }
+
+  renderID(passDown: string): void {
+    this.parentID = passDown;
+    this.propagateID (passDown);
+  }
+
+  propagateID(passDown: string) {
+    // for (const onePointLight of this.pointlightDirective) {
+    //   onePointLight.renderID(passDown);
+    // }
+    // for (const oneHemispherelight of this.hemispherelightDirective) {
+    //   oneHemispherelight.renderID(passDown);
+    // }
+
+    // this.pointlightDirective.renderID(passDown);
+    // this.hemispherelightDirective.renderID(passDown);
+    this.cameraDirective.renderID(passDown);
+    // this.environmentDirective.renderID(passDown);
+    // this.geometryDirective.renderID(passDown);
   }
 }

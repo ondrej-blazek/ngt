@@ -1,4 +1,4 @@
-import { Directive, OnInit, OnDestroy, Input, ContentChild, ElementRef } from '@angular/core';
+import { Directive, OnInit, OnDestroy, OnChanges, AfterContentInit, Input, ContentChild, ElementRef } from '@angular/core';
 import * as THREE from 'three';
 import { Subscription } from 'rxjs';
 
@@ -8,7 +8,7 @@ import { SceneDirective, OrbitDirective, VrDirective } from '@ngt/scene';
 @Directive({
   selector: 'ngt-render'     // tslint:disable-line
 })
-export class NgtRenderDirective implements OnInit, OnDestroy {
+export class NgtRenderDirective implements OnInit, OnDestroy, OnChanges, AfterContentInit {
   // element parameters
   @Input() id: string;
 
@@ -51,7 +51,7 @@ export class NgtRenderDirective implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    console.log ('NgtRenderDirective');
+    // console.log ('NgtRenderDirective - ngOnInit', this.width, this.height);
   }
 
   ngOnDestroy() {
@@ -74,7 +74,6 @@ export class NgtRenderDirective implements OnInit, OnDestroy {
     //       this.vrDirective.enabled = true;
     //       this.vrDirective.setupControls(this.camera, this.renderer);
     //     }
-
     //     this.vrDirective.requestVR(this.renderer.domElement);
     //   }
     // }
@@ -91,9 +90,9 @@ export class NgtRenderDirective implements OnInit, OnDestroy {
     this.renderer.setPixelRatio(Math.floor(window.devicePixelRatio));
     this.renderer.shadowMap.enabled = true;
 
-    // if(this.orbitDirective) {
-    //   this.orbitDirective.setupControls(this.camera, this.renderer);
-    // }
+    if(this.orbitDirective) {
+      this.orbitDirective.setupControls(this.camera, this.renderer);
+    }
     // if(this.vrDirective) {
     //   this.vrDirective.setupControls(this.camera, this.renderer);
     // }
@@ -102,7 +101,6 @@ export class NgtRenderDirective implements OnInit, OnDestroy {
     const elCatch = this.element.nativeElement.appendChild(this.renderer.domElement);
     elCatch.setAttribute('class', 'webgl');
   }
-
 
   processMessage (message: any):void {
     this.message = message;
@@ -115,10 +113,16 @@ export class NgtRenderDirective implements OnInit, OnDestroy {
 
   renderID(passDown: string): void {
     this.parentID = passDown;
+    this.propagateID(passDown);
   }
-  render(): void {
-    // console.log ('ngt-render - called', this.id);
 
+  propagateID(passDown: string) {
+    this.sceneDirective.renderID(passDown);
+    this.orbitDirective.renderID(passDown);
+    this.vrDirective.renderID(passDown);
+  }
+  
+  render(): void {
     if (this.element !== null) {
       this.renderer.render(this.scene, this.camera);
     }

@@ -55,7 +55,7 @@ export class ChronosDirective implements AfterContentInit {
 
   render() {
     // This function now executes all rendering needs synchronously across all enclosed directives
-    // this.propagateRender ();
+    this.propagateRender ();
 
     try {
       requestAnimationFrame(() => this.render());

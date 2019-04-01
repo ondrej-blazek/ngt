@@ -23,7 +23,7 @@
     "core-js": "^2.6.0",
     "rxjs": "~6.4.0",
     "three": "^0.103.0",
-    "three-orbitcontrols-ts": "^0.1.2",
+    "three-orbitcontrols": "2.102.1",
     "tslib": "^1.9.3",
     "webvr-polyfill": "^0.10.10",
     "zone.js": "~0.9.0"

@@ -1,4 +1,4 @@
-import { Directive, OnInit, ElementRef, HostListener, ContentChild } from '@angular/core';
+import { Directive, OnInit, AfterContentInit, ElementRef, HostListener, ContentChild } from '@angular/core';
 
 import { ChronosService } from '@ngs/core/chronos.service';
 import { ChronosDirective } from '@ngs/core/chronos.directive';
@@ -6,7 +6,7 @@ import { ChronosDirective } from '@ngs/core/chronos.directive';
 @Directive({
   selector: '[ngsreporter]'       // tslint:disable-line
 })
-export class ReporterDirective implements OnInit {
+export class ReporterDirective implements OnInit, AfterContentInit {
   // child directives - Each reporter should only handle one chronos
   @ContentChild(ChronosDirective) ChronosDirective: ChronosDirective;
 
@@ -30,19 +30,20 @@ export class ReporterDirective implements OnInit {
     this.domID = '';
     this.domWidth = 0;
     this.domHeight = 0;
-  }
+}
 
   ngOnInit() {    // Update chronos BEFORE rendering starts
     if (this.chronos) {
       this.chronos.idUpdate(this.el.nativeElement.id);
+      this.sizeReportFunction();
     }
   }
 
+  ngAfterContentInit() {
+    this.sizeReportFunction();
+  }
 
-  // Browser events / resize
-  @HostListener('window:resize')
-  @HostListener('window:vrdisplaypresentchange')
-  resetWidthHeight(): void {
+  sizeReportFunction(): void {
     // Window
     this.windowWidth = window.innerWidth;
     this.windowHeight = window.innerHeight;
@@ -53,6 +54,13 @@ export class ReporterDirective implements OnInit {
     this.domWidth = this.el.nativeElement.clientWidth;
     this.domHeight = this.el.nativeElement.clientHeight;
     this.chronosService.elementSize(this.domID, this.domWidth, this.domHeight);
+  }
+
+  // Browser events / resize
+  @HostListener('window:resize')
+  @HostListener('window:vrdisplaypresentchange')
+  resetWidthHeight(): void {
+    this.sizeReportFunction();
   }
 
   @HostListener('window:focus')

@@ -4,12 +4,11 @@
 
       <!-- 3D scene(s) -->
       <ngt-render id="threeMaster">
-
         <ngt-orbit [enabled]="!isVRMode"></ngt-orbit>
         <ngt-vr [enabled]="isVRMode" [height]="height" [width]="width"></ngt-vr>
     
         <ngt-scene [helpers]="helpersFlag">
-            <ngt-camera [height]="height" [width]="width" [location]="camPosition"></ngt-camera>
+            <ngt-camera [location]="camPosition"></ngt-camera>
             <!-- <ngt-pointlight [location]="ligPosition"></ngt-pointlight> -->
             <!-- <ngt-hemispherelight [location]="hemPosition"></ngt-hemispherelight> -->
     
@@ -25,9 +24,6 @@
                 <!-- <ngt-sphere [location]="[0, 10, -10]" [rotation]="[0, 0, 0]"></ngt-sphere> -->
             <!-- </ngt-geometry> -->
         </ngt-scene>
-
-
-        
       </ngt-render>
     
     </ngs-chronos>
