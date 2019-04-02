@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { NgtRenderDirective } from '@ngt/core';
 import { SceneDirective, OrbitDirective, VrDirective } from '@ngt/scene';
 import { CameraDirective } from '@ngt/camera';
+import { PointLightDirective, HemisphereLightDirective } from '@ngt/light';
 
 @NgModule({
   imports: [
@@ -14,7 +15,9 @@ import { CameraDirective } from '@ngt/camera';
     SceneDirective,
     OrbitDirective,
     VrDirective,
-    CameraDirective
+    CameraDirective,
+    PointLightDirective,
+    HemisphereLightDirective
   ],
   providers: [],
   exports: [
@@ -22,7 +25,9 @@ import { CameraDirective } from '@ngt/camera';
     SceneDirective,
     OrbitDirective,
     VrDirective,
-    CameraDirective
+    CameraDirective,
+    PointLightDirective,
+    HemisphereLightDirective
   ]
 })
 export class NgtModule {

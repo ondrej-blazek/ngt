@@ -2,7 +2,7 @@ import { Directive, Input } from '@angular/core';
 import * as THREE from 'three';
 
 @Directive({
-  selector: 'kzri-hemispherelight'
+  selector: 'ngt-hemispherelight'
 })
 export class HemisphereLightDirective {
   // element parameters

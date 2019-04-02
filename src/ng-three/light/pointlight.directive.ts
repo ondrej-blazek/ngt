@@ -2,7 +2,7 @@ import { Directive, Input } from '@angular/core';
 import * as THREE from 'three';
 
 @Directive({
-  selector: 'kzri-pointlight'
+  selector: 'ngt-pointlight'
 })
 export class PointLightDirective {
   // element parameters
