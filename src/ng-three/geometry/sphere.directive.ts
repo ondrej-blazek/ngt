@@ -2,7 +2,7 @@ import { Directive, Input } from '@angular/core';
 import * as THREE from 'three';
 
 @Directive({
-  selector: 'kzri-sphere'
+  selector: 'ngt-sphere'
 })
 export class SphereDirective {
   // element parameters

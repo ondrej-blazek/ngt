@@ -2,7 +2,7 @@ import { Directive, Input } from '@angular/core';
 import * as THREE from 'three';
 
 @Directive({
-  selector: 'kzri-box'
+  selector: 'ngt-box'
 })
 export class BoxDirective {
   // element parameters

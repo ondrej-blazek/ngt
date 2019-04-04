@@ -1,10 +1,10 @@
-import { Directive } from '@angular/core';
+import { Directive, AfterContentInit } from '@angular/core';
 import * as THREE from 'three';
 
 @Directive({
-  selector: 'kzri-ground'
+  selector: 'ngt-ground'
 })
-export class GroundDirective {
+export class GroundDirective implements AfterContentInit {
 
   public geometry: THREE.PlaneBufferGeometry;
   public material: THREE.MeshPhongMaterial;

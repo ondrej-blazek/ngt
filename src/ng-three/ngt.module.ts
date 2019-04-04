@@ -2,9 +2,11 @@ import { NgModule, Optional, SkipSelf } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { NgtRenderDirective } from '@ngt/core';
-import { SceneDirective, OrbitDirective, VrDirective } from '@ngt/scene';
+import { SceneDirective, OrbitDirective, VrDirective, EnvironmentDirective, GeometryDirective } from '@ngt/scene';
 import { CameraDirective } from '@ngt/camera';
 import { PointLightDirective, HemisphereLightDirective } from '@ngt/light';
+import { GroundDirective, DomeDirective } from '@ngt/environment/';
+import { BoxDirective, SphereDirective } from '@ngt/geometry';
 
 @NgModule({
   imports: [
@@ -15,9 +17,15 @@ import { PointLightDirective, HemisphereLightDirective } from '@ngt/light';
     SceneDirective,
     OrbitDirective,
     VrDirective,
+    EnvironmentDirective,
+    GeometryDirective,
     CameraDirective,
     PointLightDirective,
-    HemisphereLightDirective
+    HemisphereLightDirective,
+    GroundDirective,
+    DomeDirective,
+    BoxDirective,
+    SphereDirective
   ],
   providers: [],
   exports: [
@@ -25,9 +33,15 @@ import { PointLightDirective, HemisphereLightDirective } from '@ngt/light';
     SceneDirective,
     OrbitDirective,
     VrDirective,
+    EnvironmentDirective,
+    GeometryDirective,
     CameraDirective,
     PointLightDirective,
-    HemisphereLightDirective
+    HemisphereLightDirective,
+    GroundDirective,
+    DomeDirective,
+    BoxDirective,
+    SphereDirective
   ]
 })
 export class NgtModule {

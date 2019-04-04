@@ -1,10 +1,10 @@
-import { Directive } from '@angular/core';
+import { Directive, AfterContentInit } from '@angular/core';
 import * as THREE from 'three';
 
 @Directive({
-  selector: 'kzri-dome'
+  selector: 'ngt-dome'
 })
-export class DomeDirective {
+export class DomeDirective implements AfterContentInit{
 
   public geometry: THREE.SphereBufferGeometry;
   public material: THREE.ShaderMaterial;
