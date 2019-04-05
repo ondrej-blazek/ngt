@@ -9,9 +9,12 @@ export class HemisphereLightDirective {
   @Input() color: string = '#FFFF00';
   @Input() location: number[] = [0, 0, 0];    // THREE.Vector3
   
+  private parentID: string;
   public light: THREE.HemisphereLight;
 
   constructor() {
+    this.parentID = '';
+
     this.light = new THREE.HemisphereLight( 0xffffff, 0xffffff, 1.1 );
     this.light.color.setHSL( 0.6, 1, 0.6 );
     this.light.groundColor.setHSL( 0.095, 1, 0.75 );
@@ -25,6 +28,10 @@ export class HemisphereLightDirective {
     if(changes.position && changes.position.currentValue) {
       this.setPosition(this.location);
     }
+  }
+
+  renderID(passDown: string): void {
+    this.parentID = passDown;
   }
 
   setPosition(location) {

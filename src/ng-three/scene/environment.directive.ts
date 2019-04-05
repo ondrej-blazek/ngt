@@ -9,6 +9,7 @@ export class EnvironmentDirective implements AfterContentInit {
   @ContentChild(DomeDirective) domeDirective: any;          // Dome color/gradient + fog density
 
   private scene: THREE.Scene;
+  private parentID: string;
 
   get plane() {
     let returnValue:any = null;
@@ -22,7 +23,10 @@ export class EnvironmentDirective implements AfterContentInit {
     return returnValue;
   }
 
-  constructor() {}
+  constructor() {
+    this.parentID = '';
+  }
+
   ngAfterContentInit () {
     if (this.plane) {
       this.scene.add(this.plane);
@@ -30,6 +34,10 @@ export class EnvironmentDirective implements AfterContentInit {
     if (this.dome) {
       this.scene.add(this.dome);
     }
+  }
+
+  renderID(passDown: string): void {
+    this.parentID = passDown;
   }
 
   setScene (masterScene:THREE.Scene):void {

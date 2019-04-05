@@ -9,8 +9,11 @@ export class GeometryDirective {
   @ContentChildren(SphereDirective) sphereDirective: any;
 
   private scene: THREE.Scene;
+  private parentID: string;
 
-  constructor() { }
+  constructor() {
+    this.parentID = '';
+  }
   
   ngAfterContentInit() {
     let boxDirectives: BoxDirective[] = this.boxDirective.toArray();
@@ -22,6 +25,10 @@ export class GeometryDirective {
     for(let oneDirective of sphereDirectives) {
       this.scene.add(oneDirective.sphere);
     }
+  }
+
+  renderID(passDown: string): void {
+    this.parentID = passDown;
   }
 
   setScene (masterScene:THREE.Scene):void {

@@ -134,16 +134,18 @@ export class SceneDirective implements OnChanges {
 
   propagateID(passDown: string) {
     // for (const onePointLight of this.pointlightDirective) {
-    //   onePointLight.renderID(passDown);                  // TODO
+    //   onePointLight.renderID(passDown);
     // }
     // for (const oneHemispherelight of this.hemispherelightDirective) {
-    //   oneHemispherelight.renderID(passDown);             // TODO
+    //   oneHemispherelight.renderID(passDown);
     // }
 
-    // this.pointlightDirective.renderID(passDown);         // TODO
-    // this.hemispherelightDirective.renderID(passDown);    // TODO
     this.cameraDirective.renderID(passDown);
-    // this.environmentDirective.renderID(passDown);        // TODO
-    // this.geometryDirective.renderID(passDown);           // TODO
+    this.environmentDirective.renderID(passDown);
+    this.geometryDirective.renderID(passDown);
+  }
+
+  render(): void {
+    // console.log ('SceneDirective - render');
   }
 }

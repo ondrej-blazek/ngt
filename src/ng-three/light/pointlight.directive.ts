@@ -9,9 +9,12 @@ export class PointLightDirective {
   @Input() color: string = '#FFFF00';
   @Input() location: number[] = [0, 0, 0];    // THREE.Vector3
 
+  private parentID: string;
   public light: THREE.PointLight;
 
   constructor() {
+    this.parentID = '';
+
     this.light = new THREE.PointLight( 0xffffff, 1.5, 200, 2 );
     this.light.castShadow = true;
 
@@ -29,6 +32,10 @@ export class PointLightDirective {
     if(changes.position && changes.position.currentValue) {
       this.setPosition(this.location);
     }
+  }
+
+  renderID(passDown: string): void {
+    this.parentID = passDown;
   }
 
   setPosition(position) {

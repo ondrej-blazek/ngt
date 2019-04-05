@@ -121,10 +121,15 @@ export class NgtRenderDirective implements OnInit, OnDestroy, OnChanges, AfterCo
     this.orbitDirective.renderID(passDown);
     this.vrDirective.renderID(passDown);
   }
+
+  propagateRender (): void {
+    this.sceneDirective.render();
+  }
   
   render(): void {
     if (this.element !== null) {
       this.renderer.render(this.scene, this.camera);
+      this.propagateRender();
     }
   }
 }
