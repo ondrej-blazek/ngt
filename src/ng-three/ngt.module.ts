@@ -6,7 +6,7 @@ import { SceneDirective, OrbitDirective, VrDirective, EnvironmentDirective, Geom
 import { CameraDirective } from '@ngt/camera';
 import { PointLightDirective, HemisphereLightDirective } from '@ngt/light';
 import { GroundDirective, DomeDirective } from '@ngt/environment/';
-import { BoxDirective, SphereDirective } from '@ngt/geometry';
+import { BoxDirective, SphereDirective, ObjectDirective } from '@ngt/geometry';
 
 @NgModule({
   imports: [
@@ -25,7 +25,8 @@ import { BoxDirective, SphereDirective } from '@ngt/geometry';
     GroundDirective,
     DomeDirective,
     BoxDirective,
-    SphereDirective
+    SphereDirective,
+    ObjectDirective
   ],
   providers: [],
   exports: [
@@ -41,7 +42,8 @@ import { BoxDirective, SphereDirective } from '@ngt/geometry';
     GroundDirective,
     DomeDirective,
     BoxDirective,
-    SphereDirective
+    SphereDirective,
+    ObjectDirective
   ]
 })
 export class NgtModule {

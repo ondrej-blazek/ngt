@@ -31,8 +31,6 @@ export class SphereDirective {
     this.sphere = sphere;
     this.sphere.castShadow = true;
     this.sphere.receiveShadow = true;
-
-    this.animate ();
   }
 
   ngOnInit() {
@@ -41,7 +39,7 @@ export class SphereDirective {
   }
 
   animate ():void {
-    requestAnimationFrame(() => this.animate());
+    // requestAnimationFrame(() => this.animate());
 
     this.degrees ++;
     if (this.degrees === 360) {
@@ -63,5 +61,9 @@ export class SphereDirective {
 
   setDegrees (degrees:number):void {
     this.degrees = degrees;
+  }
+
+  render(): void {
+    this.animate ();
   }
 }

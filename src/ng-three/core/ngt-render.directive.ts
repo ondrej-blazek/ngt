@@ -60,7 +60,6 @@ export class NgtRenderDirective implements OnInit, OnDestroy, OnChanges, AfterCo
     this.camera.remove();
     this.render = () => {};
 
-    cancelAnimationFrame(0);
     this.renderer.clear();
     this.renderer.dispose();
     this.element = null;

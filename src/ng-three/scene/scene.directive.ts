@@ -145,7 +145,11 @@ export class SceneDirective implements OnChanges {
     this.geometryDirective.renderID(passDown);
   }
 
+  propagateRender (): void {
+    this.geometryDirective.render();
+  }
+
   render(): void {
-    // console.log ('SceneDirective - render');
+    this.propagateRender ();
   }
 }

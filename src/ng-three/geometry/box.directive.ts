@@ -26,8 +26,6 @@ export class BoxDirective {
     this.box = new THREE.Mesh( this.geometry, this.material );
     this.box.castShadow = true;
     this.box.receiveShadow = true;
-
-    this.animate ();
   }
 
   ngOnInit() {
@@ -36,8 +34,7 @@ export class BoxDirective {
   }
 
   animate ():void {
-    requestAnimationFrame(() => this.animate());
-
+    // requestAnimationFrame(() => this.animate());
     this.box.rotation.y += 0.01;
   }
 
@@ -48,5 +45,9 @@ export class BoxDirective {
 
   setRotation (rotation:number[]):void {
     this.box.rotation.set(THREE.Math.degToRad (rotation[0]), THREE.Math.degToRad (rotation[1]), THREE.Math.degToRad (rotation[2]), 'XYZ');
+  }
+
+  render(): void {
+    this.animate ();
   }
 }

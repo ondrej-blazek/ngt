@@ -18,10 +18,13 @@
             </ngt-environment>
     
             <ngt-geometry>
-              <ngt-box [location]="[0, 10, 0]" [rotation]="[30, 0, 0]"></ngt-box>
-              <ngt-box [location]="[-12, 10, 0]" [rotation]="[0, 45, 30]"></ngt-box>
-              <ngt-sphere [location]="[11, 10, 0]" [rotation]="[0, 0, 0]"></ngt-sphere>
-              <ngt-sphere [location]="[0, 10, -10]" [rotation]="[0, 0, 0]"></ngt-sphere>
+              <ngt-object [location]="[0, 50, 0]" [rotation]="[30, 0, 0]" [content]="cubeContent"></ngt-object>
+              <ngt-object [location]="[30, 30, 0]" [rotation]="[30, 0, 45]" [content]="cubiContent"></ngt-object>
+
+              <!-- <ngt-box [location]="[0, 10, 0]" [rotation]="[30, 0, 0]"></ngt-box> -->
+              <!-- <ngt-box [location]="[-12, 10, 0]" [rotation]="[0, 45, 30]"></ngt-box> -->
+              <!-- <ngt-sphere [location]="[11, 10, 0]" [rotation]="[0, 0, 0]"></ngt-sphere> -->
+              <!-- <ngt-sphere [location]="[0, 10, -10]" [rotation]="[0, 0, 0]"></ngt-sphere> -->
             </ngt-geometry>
         </ngt-scene>
       </ngt-render>

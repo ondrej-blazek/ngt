@@ -1,4 +1,4 @@
-import { Directive, ContentChildren, QueryList, AfterContentInit } from '@angular/core';
+import { Directive, ContentChildren, QueryList, OnInit, OnDestroy, AfterContentInit } from '@angular/core';
 
 import { NgtRenderDirective } from '@ngt/core';
 import { NgcRenderDirective } from '@ngc/core';
@@ -7,7 +7,7 @@ import { NgcRenderDirective } from '@ngc/core';
 @Directive({
   selector: 'ngs-chronos'     // tslint:disable-line
 })
-export class ChronosDirective implements AfterContentInit {
+export class ChronosDirective implements OnInit, OnDestroy, AfterContentInit {
   // child components / directives
   @ContentChildren(NgtRenderDirective) threeDomQuery: QueryList<NgtRenderDirective>;
   @ContentChildren(NgcRenderDirective) canvasDomQuery: QueryList<NgcRenderDirective>;
@@ -15,11 +15,19 @@ export class ChronosDirective implements AfterContentInit {
   private parentID: string;
   private threeDirectives: NgtRenderDirective[] = [];
   private canvasDirectives: NgcRenderDirective[] = [];
+  private currentFrame: number;
 
   constructor() {
     this.parentID = '';
   }
-  // ngOnInit() { }
+
+  ngOnInit() {
+    // console.log ('ChronosDirective - ngOnInit');
+  }
+
+  ngOnDestroy() {
+    cancelAnimationFrame(this.currentFrame);
+  }
 
   ngAfterContentInit() {
     // Fetch the dom elements into an array
@@ -44,7 +52,7 @@ export class ChronosDirective implements AfterContentInit {
     }
   }
 
-  propagateRender() {
+  propagateRender():void {
     for (const oneThree of this.threeDirectives) {
       oneThree.render();
     }
@@ -54,13 +62,16 @@ export class ChronosDirective implements AfterContentInit {
   }
 
   render() {
-    // This function now executes all rendering needs synchronously across all enclosed directives
-    this.propagateRender ();
+    let animFrame: number = 0;
 
     try {
-      requestAnimationFrame(() => this.render());
+      animFrame = requestAnimationFrame(() => this.render());
     } catch (evt) {
       console.error(evt);
     }
+
+    // This function now executes all rendering needs synchronously across all enclosed directives
+    this.currentFrame = animFrame;
+    this.propagateRender ();
   }
 }
