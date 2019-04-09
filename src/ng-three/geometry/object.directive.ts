@@ -5,8 +5,10 @@ import { Directive, Input, OnChanges, OnInit, AfterContentInit, OnDestroy } from
 })
 export class ObjectDirective implements OnChanges, OnInit, AfterContentInit, OnDestroy {
   // element parameters
+  @Input() uuid: string = '';
   @Input() location: number[] = [0, 0, 0];    // THREE.Vector3
   @Input() rotation: number[] = [0, 0, 0];    // THREE.Euler
+  @Input() scale: number[] = [0, 0, 0];       // THREE.Vector3
   @Input() content: any;
 
   public object: THREE.Mesh;
@@ -28,6 +30,8 @@ export class ObjectDirective implements OnChanges, OnInit, AfterContentInit, OnD
     this.object = this.content.object;
     this.content.setLocation (this.location);
     this.content.setRotation (this.rotation);
+    // TODO - Scale link to content class
+    // TODO - uuID link to content class
   }
   ngAfterContentInit():void {}
   ngOnDestroy():void {}

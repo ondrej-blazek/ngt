@@ -3,9 +3,11 @@ import * as THREE from 'three';
 // TODO - common content class that contains common transorm functions like set rotation or position
 // https://www.typescriptlang.org/docs/handbook/classes.html
 
-export class CubeContentServiceService {
+export class SphereContentServiceService {
   private location: number[];    // THREE.Vector3
   private rotation: number[];    // THREE.Euler
+  private scale: number[];       // THREE.Vector3
+  private degrees: number;
 
   public geometry: THREE.BoxBufferGeometry;
   public material: THREE.MeshPhongMaterial;
@@ -14,17 +16,20 @@ export class CubeContentServiceService {
   constructor() {
     this.location = [0, 0, 0];
     this.rotation = [0, 0, 0];
+    this.scale = [0, 0, 0];
+    this.degrees = THREE.Math.randInt(0,180);
 
-    this.geometry = new THREE.BoxBufferGeometry( 10, 10, 10 );
-    this.material = new THREE.MeshPhongMaterial({
+    let geometry = new THREE.SphereGeometry(5, 10, 10);
+    let material = new THREE.MeshPhongMaterial({
       color: 0xffffff,
       specular: 0x050505,
       shininess: 20,
       morphTargets: true,
       flatShading: true
     });
+    let sphere = new THREE.Mesh(geometry, material);
 
-    this.object = new THREE.Mesh( this.geometry, this.material );
+    this.object = sphere;
     this.object.castShadow = true;
     this.object.receiveShadow = true;
   }
@@ -40,6 +45,12 @@ export class CubeContentServiceService {
   }
 
   render(): void {
-    this.object.rotation.y += 0.01;
+    this.degrees ++;
+    if (this.degrees === 360) {
+      this.degrees = 0;
+    }
+
+    let localRadians:number = THREE.Math.degToRad (this.degrees);
+    this.object.position.y = (Math.sin(localRadians) * 15) + 20;
   }
 }

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { CubeContentServiceService } from './content';
+import { CubeContentServiceService, SphereContentServiceService } from './content';
 
 @Component({
   selector: 'app-test-setup',
@@ -13,8 +13,10 @@ export class TestSetupComponent implements OnInit {
   public helpersFlag: boolean;
   public isVRMode: boolean;
 
-  public cubeContent: CubeContentServiceService;
-  public cubiContent: CubeContentServiceService;
+  public cubeA: CubeContentServiceService;
+  public cubeB: CubeContentServiceService;
+  public sphereA: SphereContentServiceService;
+  public sphereB: SphereContentServiceService;
 
   constructor() {
     this.helpersFlag = true;
@@ -23,8 +25,10 @@ export class TestSetupComponent implements OnInit {
     this.hemPosition = [0, 0, 0];
     this.isVRMode = false;
 
-    this.cubeContent = new CubeContentServiceService();
-    this.cubiContent = new CubeContentServiceService();
+    this.cubeA = new CubeContentServiceService();
+    this.cubeB = new CubeContentServiceService();
+    this.sphereA = new SphereContentServiceService();
+    this.sphereB = new SphereContentServiceService();
   }
 
   ngOnInit() {}
