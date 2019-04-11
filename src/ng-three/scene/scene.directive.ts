@@ -5,7 +5,6 @@ import { PointLightDirective, HemisphereLightDirective } from '@ngt/light';
 import { CameraDirective } from '@ngt/camera';
 import { EnvironmentDirective } from './environment.directive';
 import { GeometryDirective } from './geometry.directive';
-// import { DynamicGeometryDirective } from './dynamic-geometry.directive';
 
 @Directive({
   selector: 'ngt-scene'
@@ -21,7 +20,6 @@ export class SceneDirective implements OnChanges {
   @ContentChild(CameraDirective) cameraDirective: any;
   @ContentChild(EnvironmentDirective) environmentDirective: any;
   @ContentChild(GeometryDirective) geometryDirective: any;
-  // @ContentChild(DynamicGeometryDirective) dynamicGeometryDirective: any;
 
   private parentID: string;
   private axesHelper: THREE.AxesHelper;
@@ -41,9 +39,6 @@ export class SceneDirective implements OnChanges {
   get geometry() {
     return this.geometryDirective;
   }
-  // get dynamicGeometry() {
-  //   return this.dynamicGeometryDirective;
-  // }
 
   constructor() {
     this.parentID = '';
@@ -53,7 +48,6 @@ export class SceneDirective implements OnChanges {
     // Pass this scene handler to geometry directive
     if (this.environmentDirective)        this.environmentDirective.setScene(this.scene);
     if (this.geometryDirective)           this.geometryDirective.setScene(this.scene);
-    // if (this.dynamicGeometryDirective)    this.dynamicGeometryDirective.setScene(this.scene);
   }
 
   ngOnDestroy():void {
