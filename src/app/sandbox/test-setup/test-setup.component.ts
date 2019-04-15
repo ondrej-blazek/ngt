@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { CubeContentServiceService, SphereContentServiceService } from './content';
+import { CubeContentServiceService, SphereContentServiceService, DynamicContentServiceService } from './content';
 
 @Component({
   selector: 'app-test-setup',
@@ -17,6 +17,7 @@ export class TestSetupComponent implements OnInit {
   public cubeB: CubeContentServiceService;
   public sphereA: SphereContentServiceService;
   public sphereB: SphereContentServiceService;
+  public dynamic: DynamicContentServiceService;
 
   constructor() {
     this.helpersFlag = true;
@@ -29,6 +30,7 @@ export class TestSetupComponent implements OnInit {
     this.cubeB = new CubeContentServiceService();
     this.sphereA = new SphereContentServiceService();
     this.sphereB = new SphereContentServiceService();
+    this.dynamic = new DynamicContentServiceService();
   }
 
   ngOnInit() {}

@@ -27,8 +27,11 @@ export class GeometryDirective implements OnInit, AfterContentInit {
     for(let oneDirective of this.objectDirectives) {
       this.scene.add(oneDirective.object);
     }
+
     for(let oneDirective of this.dynamicDirectives) {
-      // this.scene.add(oneDirective.object);
+      oneDirective.objectArray.forEach(element => {
+        this.scene.add(element.object);
+      });
     }
   }
 
@@ -45,7 +48,7 @@ export class GeometryDirective implements OnInit, AfterContentInit {
       oneDirective.render();
     }
     for(let oneDirective of this.dynamicDirectives) {
-      // this.scene.add(oneDirective.object);
+      oneDirective.render();
     }
   }
 

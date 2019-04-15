@@ -19,17 +19,17 @@ export class DynamicDirective implements OnChanges, OnInit, AfterContentInit, On
   ngOnChanges(changes) {
     if(changes.location) {
       this.location = changes.location.currentValue;
-      this.content.setLocation (this.location);
+      // this.content.setLocation (this.location);
     }
     if(changes.rotation) {
       this.rotation = changes.rotation.currentValue;
-      this.content.setRotation (this.rotation);
+      // this.content.setRotation (this.rotation);
     }
   }
   ngOnInit():void {
     this.objectArray = this.content.objectArray;
-    this.content.setLocation (this.location);
-    this.content.setRotation (this.rotation);
+    // this.content.setLocation (this.location);
+    // this.content.setRotation (this.rotation);
     // TODO - Scale link to content class
     // TODO - uuID link to content class
   }

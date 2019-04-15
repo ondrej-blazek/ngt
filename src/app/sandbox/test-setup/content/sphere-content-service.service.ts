@@ -43,6 +43,10 @@ export class SphereContentServiceService {
     this.rotation = rotation;
     this.object.rotation.set(THREE.Math.degToRad (rotation[0]), THREE.Math.degToRad (rotation[1]), THREE.Math.degToRad (rotation[2]), 'XYZ');
   }
+  
+  setDegrees (degrees:number):void {
+    this.degrees = degrees;
+  }
 
   render(): void {
     this.degrees ++;
