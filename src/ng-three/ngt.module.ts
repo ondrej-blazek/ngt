@@ -2,7 +2,7 @@ import { NgModule, Optional, SkipSelf } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { NgtRenderDirective } from '@ngt/core';
-import { SceneDirective, OrbitDirective, VrDirective, EnvironmentDirective, GeometryDirective } from '@ngt/scene';
+import { SceneDirective, OrbitDirective, VrDirective, EnvironmentDirective, GeometryDirective, LightDirective } from '@ngt/scene';
 import { CameraDirective } from '@ngt/camera';
 import { PointLightDirective, HemisphereLightDirective } from '@ngt/light';
 import { GroundDirective, DomeDirective } from '@ngt/environment/';
@@ -19,6 +19,7 @@ import { ObjectDirective, DynamicDirective } from '@ngt/geometry';
     VrDirective,
     EnvironmentDirective,
     GeometryDirective,
+    LightDirective,
     CameraDirective,
     PointLightDirective,
     HemisphereLightDirective,
@@ -35,6 +36,7 @@ import { ObjectDirective, DynamicDirective } from '@ngt/geometry';
     VrDirective,
     EnvironmentDirective,
     GeometryDirective,
+    LightDirective,
     CameraDirective,
     PointLightDirective,
     HemisphereLightDirective,

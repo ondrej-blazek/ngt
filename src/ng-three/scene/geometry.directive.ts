@@ -29,9 +29,9 @@ export class GeometryDirective implements OnInit, AfterContentInit {
     }
 
     for(let oneDirective of this.dynamicDirectives) {
-      oneDirective.objectArray.forEach(element => {
-        this.scene.add(element.object);
-      });
+      for (let element of oneDirective.objectArray) {
+        this.scene.add(element['object']);
+      }
     }
   }
 

@@ -4,7 +4,7 @@ export class DynamicContentServiceService {
   private location: number[];    // THREE.Vector3
   private rotation: number[];    // THREE.Euler
   private scale: number[];       // THREE.Vector3
-  public objectArray: SphereContentServiceService[] = [];
+  public objectArray: SphereContentServiceService[];
 
   constructor() {
     this.location = [0, 0, 0];

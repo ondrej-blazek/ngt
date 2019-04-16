@@ -11,7 +11,7 @@ export class SphereContentServiceService {
 
   public geometry: THREE.BoxBufferGeometry;
   public material: THREE.MeshPhongMaterial;
-  public object: THREE.Mesh;
+  public object: any;
 
   constructor() {
     this.location = [0, 0, 0];

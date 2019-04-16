@@ -1,10 +1,11 @@
-import { Directive, ContentChild, OnChanges, ContentChildren, Input } from '@angular/core';
+import { Directive, ContentChild, OnChanges, Input } from '@angular/core';
 import * as THREE from 'three';
 
-import { PointLightDirective, HemisphereLightDirective } from '@ngt/light';
 import { CameraDirective } from '@ngt/camera';
 import { EnvironmentDirective } from './environment.directive';
 import { GeometryDirective } from './geometry.directive';
+import { LightDirective } from './light.directive';
+
 
 @Directive({
   selector: 'ngt-scene'
@@ -13,21 +14,17 @@ export class SceneDirective implements OnChanges {
   // element parameters 
   @Input() helpers: boolean = false;
 
-  // child components / directives
-  @ContentChildren(PointLightDirective) pointlightDirective: any;
-  @ContentChildren(HemisphereLightDirective) hemispherelightDirective: any;
-  
+  // child components / directives  
   @ContentChild(CameraDirective) cameraDirective: any;
   @ContentChild(EnvironmentDirective) environmentDirective: any;
   @ContentChild(GeometryDirective) geometryDirective: any;
+  @ContentChild(LightDirective) lightDirective: any;
 
   private parentID: string;
   private axesHelper: THREE.AxesHelper;
   private gridHelper: THREE.GridHelper;
   // private cameraHelper: THREE.CameraHelper;
-  private pointLightHelperArr: THREE.PointLightHelper[] = [];
-  private hemisphereLightHelperArr: THREE.HemisphereLightHelper[] = [];
-  
+ 
   public scene: THREE.Scene = new THREE.Scene();
 
   get camera() {
@@ -39,22 +36,14 @@ export class SceneDirective implements OnChanges {
   get geometry() {
     return this.geometryDirective;
   }
+  get light() {
+    return this.lightDirective;
+  }
 
   constructor() {
     this.parentID = '';
   }
-
-  ngOnInit() {
-    // Pass this scene handler to geometry directive
-    if (this.environmentDirective)        this.environmentDirective.setScene(this.scene);
-    if (this.geometryDirective)           this.geometryDirective.setScene(this.scene);
-  }
-
-  ngOnDestroy():void {
-    // console.info ('SceneDirective - ngOnDestroy');
-    // this.scene.remove();
-  }
-
+  
   ngOnChanges(changes) {
     if(changes.helpers) {
       this.helpers = changes.helpers.currentValue;
@@ -62,19 +51,18 @@ export class SceneDirective implements OnChanges {
       if (this.axesHelper) this.axesHelper.visible = this.helpers;
       if (this.gridHelper) this.gridHelper.visible = this.helpers;
       // if (this.cameraHelper) this.cameraHelper.visible = this.helpers;
-
-      if (this.pointLightHelperArr.length > 0) {
-        for(let onePointHlp of this.pointLightHelperArr) {
-          onePointHlp.visible = this.helpers;
-        }
-      }
-      
-      if (this.hemisphereLightHelperArr.length > 0) {
-        for(let oneHemiHlp of this.hemisphereLightHelperArr) {
-          oneHemiHlp.visible = this.helpers;
-        }
-      }
     }
+  }
+
+  ngOnInit() {
+    // Pass this scene handler to geometry directive
+    if (this.environmentDirective)        this.environmentDirective.setScene(this.scene);
+    if (this.geometryDirective)           this.geometryDirective.setScene(this.scene);
+    if (this.lightDirective)              this.lightDirective.setScene(this.scene);
+  }
+
+  ngOnDestroy():void {
+    this.scene.remove();
   }
 
   ngAfterContentInit() {
@@ -98,27 +86,6 @@ export class SceneDirective implements OnChanges {
     this.gridHelper = new THREE.GridHelper(1200, 60);
     this.gridHelper.visible = this.helpers;
     this.scene.add (this.gridHelper);
-
-    // Light(s)
-    let pointlightDirectives: PointLightDirective[] = this.pointlightDirective.toArray();
-    for(let oneDirective of pointlightDirectives) {
-      this.scene.add(oneDirective.light);
-
-      let dirLightHeper = new THREE.PointLightHelper( oneDirective.light, 5 );
-      dirLightHeper.visible = this.helpers;
-      this.scene.add( dirLightHeper );
-      this.pointLightHelperArr.push( dirLightHeper );
-    }
-    
-    let hemispherelightDirectives: HemisphereLightDirective[] = this.hemispherelightDirective.toArray();
-    for(let oneDirective of hemispherelightDirectives) {
-      this.scene.add(oneDirective.light);
-
-      let dirLightHeper = new THREE.HemisphereLightHelper( oneDirective.light, 10 );
-      dirLightHeper.visible = this.helpers;
-      this.scene.add( dirLightHeper );
-      this.hemisphereLightHelperArr.push( dirLightHeper );
-    }
   }
 
   renderID(passDown: string): void {
@@ -127,20 +94,15 @@ export class SceneDirective implements OnChanges {
   }
 
   propagateID(passDown: string) {
-    // for (const onePointLight of this.pointlightDirective) {
-    //   onePointLight.renderID(passDown);
-    // }
-    // for (const oneHemispherelight of this.hemispherelightDirective) {
-    //   oneHemispherelight.renderID(passDown);
-    // }
-
     this.cameraDirective.renderID(passDown);
     this.environmentDirective.renderID(passDown);
     this.geometryDirective.renderID(passDown);
+    this.lightDirective.renderID(passDown);
   }
 
   propagateRender (): void {
     this.geometryDirective.render();
+    this.lightDirective.render();
   }
 
   render(): void {
