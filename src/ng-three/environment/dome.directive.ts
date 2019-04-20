@@ -1,6 +1,8 @@
 import { Directive, AfterContentInit } from '@angular/core';
 import * as THREE from 'three';
 
+// TODO - partially open this directive to be adjustable from a content class colour / fog density or distance
+
 @Directive({
   selector: 'ngt-dome'
 })

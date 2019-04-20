@@ -1,44 +1,60 @@
-import { Directive, Input } from '@angular/core';
+import { Directive, Input, OnInit, OnChanges, AfterContentInit, OnDestroy } from '@angular/core';
 import * as THREE from 'three';
 
 @Directive({
-  selector: 'ngt-pointlight'
+  selector: 'ngt-point-light'
 })
-export class PointLightDirective {
+export class PointLightDirective implements OnInit, OnChanges, AfterContentInit, OnDestroy {
   // element parameters
-  @Input() color: string = '#FFFF00';
-  @Input() location: number[] = [0, 0, 0];    // THREE.Vector3
+  @Input() offset: THREE.Vector3;
+  @Input() animate: boolean;
+  @Input() content: any;
 
-  private parentID: string;
+  public parentID: string;
   public light: THREE.PointLight;
+  public lightHelper: THREE.PointLightHelper;
 
   constructor() {
+    this.offset = new THREE.Vector3(0, 0, 0);
+    this.animate = false;
+    this.content = null;
     this.parentID = '';
 
-    this.light = new THREE.PointLight( 0xffffff, 1.5, 200, 2 );
-    this.light.castShadow = true;
-
-    this.light.shadow.mapSize.width = 2048;
-    this.light.shadow.mapSize.height = 2048;
-    this.light.shadow.camera.far = 3500;
-    this.light.shadow.bias = -0.0001;
-  }
-
-  ngOnInit() {
-    this.setPosition(this.location);
+    // Light + helper object
+    this.light = new THREE.PointLight();
+    this.lightHelper = new THREE.PointLightHelper(this.light, 2);
   }
 
   ngOnChanges(changes) {
-    if(changes.position && changes.position.currentValue) {
-      this.setPosition(this.location);
+    if(changes.offset && changes.offset.currentValue) {
+      this.content.setOffset (this.light, changes.offset.currentValue);
     }
+    if(changes.animate && changes.animate.currentValue) {
+      this.animate = changes.animate.currentValue;
+    }
+  }
+
+  ngOnInit() {
+    this.light = this.content.setLight(this.light);
+    this.lightHelper.update();
+  }
+
+  ngAfterContentInit():void {}
+  ngOnDestroy():void {
+    this.lightHelper.dispose();
   }
 
   renderID(passDown: string): void {
     this.parentID = passDown;
   }
 
-  setPosition(position) {
-    this.light.position.set(position[0], position[1], position[2]);
+  render(): void {
+    if (this.content && this.animate) {
+      this.light = this.content.render(this.light);
+    }
   }
 }
+
+// More reading:
+//   https://threejs.org/docs/#api/en/lights/PointLight
+//   https://threejs.org/docs/#api/en/helpers/PointLightHelper

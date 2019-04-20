@@ -13,6 +13,7 @@ export class AppComponent {
 
 
 /*
+TODO - Structure and order
 Order of elements within chronos matter!!!
 
 <ngs-chronos>

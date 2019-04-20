@@ -5,6 +5,8 @@ import { Subscription } from 'rxjs';
 import { ChronosService } from '@ngs/core/chronos.service';
 import { SceneDirective, OrbitDirective, VrDirective } from '@ngt/scene';
 
+// TODO - investigate VR mode
+
 @Directive({
   selector: 'ngt-render'     // tslint:disable-line
 })

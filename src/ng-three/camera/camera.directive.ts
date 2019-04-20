@@ -1,8 +1,11 @@
 import { Directive, Input, OnInit, OnDestroy } from '@angular/core';
-import * as THREE from 'three';
 import { Subscription } from 'rxjs';
+import * as THREE from 'three';
 
 import { ChronosService } from '@ngs/core/chronos.service';
+
+// TODO - Partially Augment camera into a content class that provides settings in 
+// TODO - Another directive to make Orthographic camera
 
 @Directive({
   selector: 'ngt-camera'

@@ -56,9 +56,9 @@ export class SceneDirective implements OnChanges {
 
   ngOnInit() {
     // Pass this scene handler to geometry directive
-    if (this.environmentDirective)        this.environmentDirective.setScene(this.scene);
-    if (this.geometryDirective)           this.geometryDirective.setScene(this.scene);
-    if (this.lightDirective)              this.lightDirective.setScene(this.scene);
+    if (this.environmentDirective) this.environmentDirective.setScene(this.scene);
+    if (this.geometryDirective) this.geometryDirective.setScene(this.scene);
+    if (this.lightDirective) this.lightDirective.setScene(this.scene);
   }
 
   ngOnDestroy():void {

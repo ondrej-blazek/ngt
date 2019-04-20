@@ -10,9 +10,9 @@
         <ngt-scene [helpers]="helpersFlag">
             <ngt-camera [location]="camPosition"></ngt-camera>
 
-            <ngt-light>
-              <ngt-pointlight [location]="ligPosition"></ngt-pointlight>
-              <ngt-hemispherelight [location]="hemPosition"></ngt-hemispherelight>
+            <ngt-light [helpers]="lightHelpers">
+              <ngt-point-light [offset]="lightPosition" [content]="pointLight" [animate]="lightAnimate"></ngt-point-light>
+              <ngt-hemisphere-light [offset]="hemPosition" [content]="hemiLight" [animate]="lightAnimate"></ngt-hemisphere-light>
             </ngt-light>
     
             <ngt-environment>
@@ -25,7 +25,7 @@
               <ngt-object [location]="[-12, 10, 0]" [rotation]="[0, 45, 30]" [content]="cubeB"></ngt-object>
               <ngt-object [location]="[11, 10, 0]" [rotation]="[0, 0, 0]" [content]="sphereA"></ngt-object>
               <ngt-object [location]="[0, 10, -10]" [rotation]="[0, 0, 0]" [content]="sphereB"></ngt-object>
-              <ngt-dynamic [location]="[0, 0, 0]" [rotation]="[0, 0, 0]" [content]="dynamic"></ngt-dynamic>
+              <!-- <ngt-dynamic [location]="[0, 0, 0]" [rotation]="[0, 0, 0]" [content]="dynamic"></ngt-dynamic> -->
             </ngt-geometry>
         </ngt-scene>
       </ngt-render>
