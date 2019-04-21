@@ -94,15 +94,15 @@ export class SceneDirective implements OnChanges {
   }
 
   propagateID(passDown: string) {
-    this.cameraDirective.renderID(passDown);
-    this.environmentDirective.renderID(passDown);
-    this.geometryDirective.renderID(passDown);
-    this.lightDirective.renderID(passDown);
+    if (this.cameraDirective) this.cameraDirective.renderID(passDown);
+    if (this.environmentDirective) this.environmentDirective.renderID(passDown);
+    if (this.geometryDirective) this.geometryDirective.renderID(passDown);
+    if (this.lightDirective) this.lightDirective.renderID(passDown);
   }
 
   propagateRender (): void {
-    this.geometryDirective.render();
-    this.lightDirective.render();
+    if (this.geometryDirective) this.geometryDirective.render();
+    if (this.lightDirective) this.lightDirective.render();
   }
 
   render(): void {

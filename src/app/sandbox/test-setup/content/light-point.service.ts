@@ -14,7 +14,7 @@ export class PointLightService {
   
   setLight (light: THREE.PointLight):THREE.PointLight {
     // next four lines are the same as this -> new THREE.PointLight( 0xffffff, 1.5, 200, 2 );
-    light.color = new THREE.Color(0xff0000);
+    light.color = new THREE.Color(0xffffff);
     light.intensity = 1.5;
     light.distance = 200;
     light.decay = 2;

@@ -4,16 +4,22 @@ import * as THREE from 'three';
 // https://www.typescriptlang.org/docs/handbook/classes.html
 
 export class CubeContentServiceService {
-  private location: number[];    // THREE.Vector3
-  private rotation: number[];    // THREE.Euler
+  private location: THREE.Vector3;
+  private position: THREE.Vector3;
+  private offset: THREE.Vector3;
+  private rotation: THREE.Euler;
+  private scale: THREE.Vector3;
 
   public geometry: THREE.BoxBufferGeometry;
   public material: THREE.MeshPhongMaterial;
   public object: THREE.Mesh;
 
   constructor() {
-    this.location = [0, 0, 0];
-    this.rotation = [0, 0, 0];
+    this.location = new THREE.Vector3(0, 0, 0);
+    this.position = new THREE.Vector3(0, 0, 0);
+    this.offset = new THREE.Vector3(0, 0, 0);
+    this.rotation = new THREE.Euler(0, 0, 0, 'XYZ');
+    this.scale = new THREE.Vector3(1, 1, 1);
 
     this.geometry = new THREE.BoxBufferGeometry( 10, 10, 10 );
     this.material = new THREE.MeshPhongMaterial({
@@ -29,14 +35,20 @@ export class CubeContentServiceService {
     this.object.receiveShadow = true;
   }
 
-  setLocation (location:number[]):void {
-    this.location = location;
-    this.object.position.set(location[0], location[1], location[2]);
+  setPosition (offset:THREE.Vector3):void {
+    this.offset = offset;
+    this.position = this.location.add(this.offset);
+    this.object.position.set(this.position.x, this.position.y, this.position.z);
   }
 
-  setRotation (rotation:number[]):void {
+  setRotation (rotation:THREE.Euler):void {
     this.rotation = rotation;
-    this.object.rotation.set(THREE.Math.degToRad (rotation[0]), THREE.Math.degToRad (rotation[1]), THREE.Math.degToRad (rotation[2]), 'XYZ');
+    this.object.rotation.set(rotation.x, rotation.y, rotation.z, rotation.order);
+  }
+  
+  setScale (scale:THREE.Vector3):void {
+    this.scale = scale;
+    this.object.scale.set(this.scale.x, this.scale.y, this.scale.z);
   }
 
   render(): void {

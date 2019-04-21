@@ -1,39 +1,41 @@
 import { SphereContentServiceService } from './sphere-content-service.service';
+import * as THREE from 'three';
 
 export class DynamicContentServiceService {
-  private location: number[];    // THREE.Vector3
-  private rotation: number[];    // THREE.Euler
-  private scale: number[];       // THREE.Vector3
+  private offset: THREE.Vector3;
+  private rotation: THREE.Euler;
+  private scale: THREE.Vector3;
   public objectArray: SphereContentServiceService[];
 
   constructor() {
-    this.location = [0, 0, 0];
-    this.rotation = [0, 0, 0];
-    this.scale = [0, 0, 0];
+    this.offset = new THREE.Vector3(0, 0, 0);
+    this.rotation = new THREE.Euler(0, 0, 0, 'XYZ');
+    this.scale = new THREE.Vector3(1, 1, 1);
     this.objectArray = [];
-
-    this.setAllObjects ();
   }
 
-  setLocation (location:number[]):void {
-    this.location = location;
-    // this.object.position.set(location[0], location[1], location[2]);
+  setPosition (offset:THREE.Vector3):void {
+    this.offset = offset;
   }
 
-  setRotation (rotation:number[]):void {
+  setRotation (rotation:THREE.Euler):void {
     this.rotation = rotation;
-    // this.object.rotation.set(THREE.Math.degToRad (rotation[0]), THREE.Math.degToRad (rotation[1]), THREE.Math.degToRad (rotation[2]), 'XYZ');
+  }
+
+  setScale (scale:THREE.Vector3):void {
+    this.scale = scale;
   }
 
   setAllObjects ():void {
     for (let x=1; x<=10; x++) {
       for (let z=1; z<=10; z++) {
         let sp:SphereContentServiceService = new SphereContentServiceService();
-        sp.setLocation([(x*15)-75,10,(z*15)-75]);
+        let newPosition:THREE.Vector3 = new THREE.Vector3((x*15)-75, 10, (z*15)-75);
+        sp.setPosition(newPosition.add(this.offset));
+        sp.setScale(this.scale);
+        sp.setRotation(this.rotation);
         sp.setDegrees(x*z*5);
 
-        // sp.id = sp.object.id;      // TODO - Add this to all important places
-        // sp.uuid = sp.object.uuid;  // TODO - Add this to all important places
         this.objectArray.push(sp);
       }
     }

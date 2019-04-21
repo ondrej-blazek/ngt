@@ -1,44 +1,53 @@
 import { Directive, Input, OnChanges, OnInit, AfterContentInit, OnDestroy } from '@angular/core';
+import * as THREE from 'three';
 
 @Directive({
   selector: 'ngt-dynamic'
 })
 export class DynamicDirective implements OnChanges, OnInit, AfterContentInit, OnDestroy {
-  // element parameters
-  @Input() uuid: string = '';
-  @Input() location: number[] = [0, 0, 0];    // THREE.Vector3
-  @Input() rotation: number[] = [0, 0, 0];    // THREE.Euler
-  @Input() scale: number[] = [0, 0, 0];       // THREE.Vector3
+  @Input() offset: THREE.Vector3;
+  @Input() rotation: THREE.Euler;
+  @Input() scale: THREE.Vector3;
+  @Input() animate: boolean;
   @Input() content: any;
 
   public objectArray: THREE.Mesh[];
 
-  constructor() {}
+  constructor() {
+    this.offset = new THREE.Vector3(0, 0, 0);
+    this.rotation = new THREE.Euler(0, 0, 0, 'XYZ');
+    this.scale = new THREE.Vector3(1, 1, 1);
+    this.animate = true;
+  }
 
-  // Life cycle hooks
   ngOnChanges(changes) {
-    if(changes.location) {
-      this.location = changes.location.currentValue;
-      // this.content.setLocation (this.location);
+    if(changes.offset && changes.offset.currentValue) {
+      this.offset = changes.offset.currentValue;
+      this.content.setPosition (changes.offset.currentValue);
     }
-    if(changes.rotation) {
+    if(changes.rotation && changes.rotation.currentValue) {
       this.rotation = changes.rotation.currentValue;
-      // this.content.setRotation (this.rotation);
+      this.content.setRotation (changes.rotation.currentValue);
+    }
+    if(changes.scale && changes.scale.currentValue) {
+      this.scale = changes.scale.currentValue;
+      this.content.setScale (changes.scale.currentValue);
+    }
+    if(changes.animate && changes.animate.currentValue) {
+      this.animate = changes.animate.currentValue;
     }
   }
+
   ngOnInit():void {
+    this.content.setAllObjects();
     this.objectArray = this.content.objectArray;
-    // this.content.setLocation (this.location);
-    // this.content.setRotation (this.rotation);
-    // TODO - Scale link to content class
-    // TODO - uuID link to content class
   }
+
   ngAfterContentInit():void {}
   ngOnDestroy():void {}
 
-  // Expose content functions through directive
   render(): void {
-    if (this.content) {
+    if (this.content && this.animate) {
       this.content.render();
     }
   }

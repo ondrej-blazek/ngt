@@ -2,6 +2,7 @@ import { Directive, AfterContentInit } from '@angular/core';
 import * as THREE from 'three';
 
 // TODO - Make this partially adjustable from content class Colour / Size
+// TODO - create default class in cas that content / partial setting is not provided.
 
 @Directive({
   selector: 'ngt-ground'
