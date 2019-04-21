@@ -27,4 +27,7 @@ More reading:
     https://free3d.com/3d-model/45-acp-smith-and-wesson-13999.html
     https://www.turbosquid.com/Search/3D-Models/free
 
+  Works by others
+    https://www.npmjs.com/package/atft
+    https://github.com/makimenko/angular-template-for-threejs/tree/master/projects/atft
 */
