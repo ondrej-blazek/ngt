@@ -1,4 +1,4 @@
-import { Directive, Input, OnInit, OnDestroy } from '@angular/core';
+import { Directive, Input, OnInit, OnDestroy, OnChanges, AfterContentInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import * as THREE from 'three';
 
@@ -10,15 +10,17 @@ import { ChronosService } from '@ngs/core/chronos.service';
 @Directive({
   selector: 'ngt-camera'
 })
-export class CameraDirective implements OnInit, OnDestroy {
+export class CameraDirective implements OnInit, OnChanges, OnDestroy, AfterContentInit {
   // element parameters 
-  @Input() location: number[];    // THREE.Vector3
-  @Input() rotation: number[];    // THREE.Euler
+  @Input() location: THREE.Vector3;
+  @Input() rotation: THREE.Euler;
 
-  private viewAngle: number = 75;
+  private scene: THREE.Scene;
+  
+  private viewAngle: number;
   private aspect: number;
-  private near: number = 0.1;
-  private far: number = 10000;
+  private near: number;
+  private far: number;
   
   private message: any;
   private parentID: string;
@@ -27,16 +29,22 @@ export class CameraDirective implements OnInit, OnDestroy {
   private height: number;
 
   public camera: THREE.PerspectiveCamera;
+  public cameraHelper: THREE.CameraHelper;
 
   constructor(
     private chronosService: ChronosService,
   ) {
     this.parentID = '';
-    this.location = [0, 0, 0];
-    this.rotation = [0, 0, 0];
+    this.location = new THREE.Vector3(0, 0, 0);
+    this.rotation = new THREE.Euler(0, 0, 0, 'XYZ');
+
+    this.viewAngle = 75;
+    this.near = 0.1;
+    this.far = 10000;
 
     this.aspect = this.width / this.height;
     this.camera = new THREE.PerspectiveCamera(this.viewAngle, this.aspect, this.near, this.far);
+    this.cameraHelper = new THREE.CameraHelper( this.camera );
 
     // subscribe to home component messages
     this.subscription = this.chronosService.getMessage().subscribe(
@@ -46,30 +54,36 @@ export class CameraDirective implements OnInit, OnDestroy {
     );
   }
 
-  ngOnInit() {
-    this.setPosition (this.location, this.rotation);
-  }
-
-  ngOnDestroy() {
-    this.subscription.unsubscribe();
-  }
-
   ngOnChanges(changes) {
     if((changes.location && changes.location.currentValue) || (changes.rotation && changes.rotation.currentValue)) {
       this.setPosition(this.location, this.rotation);
     }
   }
 
-  updateAspect(ratio) {
+  ngOnInit() {
+    this.setPosition (this.location, this.rotation);
+  }
+  
+  ngAfterContentInit():void {}
+
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
+  }
+
+  updateAspect(ratio:number):void {
     if(this.camera) {
       this.camera.aspect = ratio;
       this.camera.updateProjectionMatrix();
     }
   }
 
-  setPosition(location, rotation) {
-    this.camera.position.set(location[0], location[1], location[2]);
-    this.camera.rotation.set(THREE.Math.degToRad (rotation[0]), THREE.Math.degToRad (rotation[1]), THREE.Math.degToRad (rotation[2]), 'XYZ');
+  setPosition(location:THREE.Vector3, rotation:THREE.Euler):void {
+    this.camera.position.set(location.x, location.y, location.z);
+    this.camera.rotation.set(rotation.x, rotation.y, rotation.z, rotation.order);
+  }
+
+  setScene (masterScene:THREE.Scene):void {
+    this.scene = masterScene;
   }
 
   processMessage (message: any):void {

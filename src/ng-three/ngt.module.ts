@@ -5,7 +5,7 @@ import { NgtRenderDirective } from '@ngt/core';
 import { SceneDirective, OrbitDirective, VrDirective, EnvironmentDirective, GeometryDirective, LightDirective } from '@ngt/scene';
 import { CameraDirective } from '@ngt/camera';
 import { PointLightDirective, HemisphereLightDirective } from '@ngt/light';
-import { GroundDirective, DomeDirective } from '@ngt/environment/';
+import { AxesDirective, BackgroundDirective, DomeDirective, FogDirective, GridDirective, GroundDirective } from '@ngt/environment';
 import { ObjectDirective, DynamicDirective } from '@ngt/geometry';
 
 @NgModule({
@@ -23,10 +23,14 @@ import { ObjectDirective, DynamicDirective } from '@ngt/geometry';
     CameraDirective,
     PointLightDirective,
     HemisphereLightDirective,
-    GroundDirective,
+    AxesDirective,
+    BackgroundDirective,
     DomeDirective,
+    FogDirective,
+    GridDirective,
+    GroundDirective,
     ObjectDirective,
-    DynamicDirective
+    DynamicDirective,
   ],
   providers: [],
   exports: [
@@ -40,8 +44,12 @@ import { ObjectDirective, DynamicDirective } from '@ngt/geometry';
     CameraDirective,
     PointLightDirective,
     HemisphereLightDirective,
-    GroundDirective,
+    AxesDirective,
+    BackgroundDirective,
     DomeDirective,
+    FogDirective,
+    GridDirective,
+    GroundDirective,
     ObjectDirective,
     DynamicDirective
   ]

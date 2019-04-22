@@ -1,21 +1,18 @@
-import { Directive, AfterContentInit } from '@angular/core';
+import { Directive, AfterContentInit, OnInit } from '@angular/core';
 import * as THREE from 'three';
 
 // TODO - partially open this directive to be adjustable from a content class colour / fog density or distance
-// TODO - create default class in cas that content / partial setting is not provided.
+// TODO - create default class in cas that content / partial setting is not provided.  ???
 
 @Directive({
   selector: 'ngt-dome'
 })
-export class DomeDirective implements AfterContentInit{
-
+export class DomeDirective implements OnInit, AfterContentInit{
   public geometry: THREE.SphereBufferGeometry;
   public material: THREE.ShaderMaterial;
   public dome: THREE.Mesh;
 
-  constructor() { }
-
-  ngAfterContentInit() {
+  constructor() {
     let vertexShader =
       "varying vec3 vWorldPosition;" +
       "void main() {" +
@@ -52,4 +49,7 @@ export class DomeDirective implements AfterContentInit{
 
     this.dome = new THREE.Mesh( this.geometry, this.material );
   }
+  
+  ngOnInit () {}
+  ngAfterContentInit() {}
 }

@@ -1,4 +1,4 @@
-import { Directive, ContentChild, OnChanges, Input } from '@angular/core';
+import { HostListener, Directive, ContentChild, OnChanges, Input, OnInit, AfterContentInit, OnDestroy } from '@angular/core';
 import * as THREE from 'three';
 
 import { CameraDirective } from '@ngt/camera';
@@ -6,86 +6,52 @@ import { EnvironmentDirective } from './environment.directive';
 import { GeometryDirective } from './geometry.directive';
 import { LightDirective } from './light.directive';
 
-
 @Directive({
   selector: 'ngt-scene'
 })
-export class SceneDirective implements OnChanges {
-  // element parameters 
-  @Input() helpers: boolean = false;
-
-  // child components / directives  
+export class SceneDirective implements OnChanges, OnInit, AfterContentInit, OnDestroy {
   @ContentChild(CameraDirective) cameraDirective: any;
   @ContentChild(EnvironmentDirective) environmentDirective: any;
   @ContentChild(GeometryDirective) geometryDirective: any;
   @ContentChild(LightDirective) lightDirective: any;
 
   private parentID: string;
-  private axesHelper: THREE.AxesHelper;
-  private gridHelper: THREE.GridHelper;
-  // private cameraHelper: THREE.CameraHelper;
- 
+  private rayCaster: THREE.Raycaster;
+  private mouse: THREE.Vector2;
+
   public scene: THREE.Scene = new THREE.Scene();
 
-  get camera() {
+  get camera() {        // Called by render directive
     return this.cameraDirective.camera;
-  }
-  get environment() {
-    return this.environmentDirective;
-  }
-  get geometry() {
-    return this.geometryDirective;
-  }
-  get light() {
-    return this.lightDirective;
   }
 
   constructor() {
     this.parentID = '';
+    this.rayCaster = new THREE.Raycaster();
+    this.mouse = new THREE.Vector2();
   }
-  
-  ngOnChanges(changes) {
-    if(changes.helpers) {
-      this.helpers = changes.helpers.currentValue;
 
-      if (this.axesHelper) this.axesHelper.visible = this.helpers;
-      if (this.gridHelper) this.gridHelper.visible = this.helpers;
-      // if (this.cameraHelper) this.cameraHelper.visible = this.helpers;
-    }
-  }
+  ngOnChanges(changes) {}
 
   ngOnInit() {
-    // Pass this scene handler to geometry directive
     if (this.environmentDirective) this.environmentDirective.setScene(this.scene);
     if (this.geometryDirective) this.geometryDirective.setScene(this.scene);
     if (this.lightDirective) this.lightDirective.setScene(this.scene);
+
+    // Camera
+    if (this.cameraDirective) {
+      this.camera.lookAt(this.scene.position);
+      this.scene.add(this.camera);
+      // this.scene.add(this.cameraDirective.cameraHelper);     // TODO - investigate the errors
+    }
+  }
+
+  ngAfterContentInit() {
+    // console.log ('Scene children', this.scene.children);
   }
 
   ngOnDestroy():void {
     this.scene.remove();
-  }
-
-  ngAfterContentInit() {
-    // Scene
-    this.scene.background = new THREE.Color().setHSL( 0.6, 0, 1 );
-    this.scene.fog = new THREE.Fog( 0xffffff, 1, 1000 );
-
-    // Camera
-    this.camera.lookAt(this.scene.position);
-    this.scene.add(this.camera);
-
-    // this.cameraHelper = new THREE.CameraHelper( this.camera );
-    // this.cameraHelper.visible = this.helpers;
-    // this.scene.add( this.cameraHelper );
-
-    // ThreeJS Helper objects
-    this.axesHelper = new THREE.AxesHelper(200);
-    this.axesHelper.visible = this.helpers;
-    this.scene.add (this.axesHelper);
-
-    this.gridHelper = new THREE.GridHelper(1200, 60);
-    this.gridHelper.visible = this.helpers;
-    this.scene.add (this.gridHelper);
   }
 
   renderID(passDown: string): void {
@@ -107,5 +73,16 @@ export class SceneDirective implements OnChanges {
 
   render(): void {
     this.propagateRender ();
+
+    // // console.log (this.mouse);
+    // this.rayCaster.setFromCamera( this.mouse, this.camera );
+    // let intersects = this.rayCaster.intersectObjects( this.scene.children );
+    // // console.log ('intersects', intersects);
+  }
+
+  @HostListener('document:mousemove', ['$event'])
+  onMouseMove(e) {
+    this.mouse.x = e.clientX;
+    this.mouse.y = e.clientY;
   }
 }

@@ -11,14 +11,13 @@ export class HemiLightService {
     this.location = new THREE.Vector3(0, 0, 0);
     this.degrees = THREE.Math.randInt(0,180);
   }
-  
+
   setLight (light: THREE.HemisphereLight):THREE.HemisphereLight {
     // next three lines are the same as this -> new THREE.HemisphereLight( 0xffffff, 0xffffff, 1.1 );
     light.color = new THREE.Color(0xffffff);
     light.skyColor = new THREE.Color(0x0077ff);
     light.groundColor = new THREE.Color(0x5b3b0f);
-    light.intensity = 0.7;
-    
+    light.intensity = 0.5;
     return (light);
   }
 

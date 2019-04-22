@@ -7,7 +7,6 @@ import { ChronosDirective } from '@ngs/core/chronos.directive';
   selector: '[ngsreporter]'       // tslint:disable-line
 })
 export class ReporterDirective implements OnInit, AfterContentInit {
-  // child directives - Each reporter should only handle one chronos
   @ContentChild(ChronosDirective) ChronosDirective: ChronosDirective;
 
   get chronos() {
@@ -30,7 +29,7 @@ export class ReporterDirective implements OnInit, AfterContentInit {
     this.domID = '';
     this.domWidth = 0;
     this.domHeight = 0;
-}
+  }
 
   ngOnInit() {    // Update chronos BEFORE rendering starts
     if (this.chronos) {

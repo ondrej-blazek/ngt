@@ -8,12 +8,10 @@ import * as THREE from 'three';
   styleUrls: ['./test-setup.component.scss']
 })
 export class TestSetupComponent implements OnInit {
-  public helpersFlag: boolean;
-  public camPosition: number[];
+  public camPosition: THREE.Vector3;
   public isVRMode: boolean;
+  public backgroundColor: THREE.Color;
 
-  public lightHelpers: boolean;
-  public lightAnimate: boolean;
   public lightPosition: THREE.Vector3;
   public hemPosition: THREE.Vector3;
 
@@ -37,8 +35,7 @@ export class TestSetupComponent implements OnInit {
   public sphereBRotation: THREE.Euler;
   public sphereBScale: THREE.Vector3;
 
-  public dynamicA: DynamicContentServiceService;
-  public dynamicB: DynamicContentServiceService;
+  public dynamic: DynamicContentServiceService;
   public dynamicOffset: THREE.Vector3;
   public dynamicRotation: THREE.Euler;
   public dynamicScale: THREE.Vector3;
@@ -48,12 +45,10 @@ export class TestSetupComponent implements OnInit {
   public hemiLight: HemiLightService;
 
   constructor() {
-    this.helpersFlag = true;
-    this.camPosition = [50, 75, 100];
+    this.camPosition = new THREE.Vector3(50, 75, 100);
     this.isVRMode = false;
+    this.backgroundColor = new THREE.Color(0xffffff);
 
-    this.lightHelpers = true;
-    this.lightAnimate = false;
     this.lightPosition = new THREE.Vector3(-30, 75, 15);
     this.hemPosition = new THREE.Vector3(0, 1, 0);
 
@@ -77,8 +72,7 @@ export class TestSetupComponent implements OnInit {
     this.sphereBRotation = new THREE.Euler(0, 0, 0, 'XYZ');
     this.sphereBScale = new THREE.Vector3(0.5, 1, 1);
 
-    this.dynamicA = new DynamicContentServiceService();
-    // this.dynamicB = new DynamicContentServiceService();
+    this.dynamic = new DynamicContentServiceService();
     this.dynamicOffset = new THREE.Vector3(0, 0, 0);
     this.dynamicRotation = new THREE.Euler(0, THREE.Math.degToRad(-45), THREE.Math.degToRad(45), 'XYZ');
     this.dynamicScale = new THREE.Vector3(2.5, 0.5, 2.5);

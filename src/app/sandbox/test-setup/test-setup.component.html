@@ -6,30 +6,35 @@
       <ngt-render id="threeMaster">
         <ngt-orbit [enabled]="!isVRMode"></ngt-orbit>
         <ngt-vr [enabled]="isVRMode" [height]="height" [width]="width"></ngt-vr>
-    
-        <ngt-scene [helpers]="helpersFlag">
+
+        <ngt-scene>
           <ngt-camera [location]="camPosition"></ngt-camera>
 
-          <ngt-light [helpers]="lightHelpers">
-            <ngt-point-light [offset]="lightPosition" [content]="pointLight" [animate]="lightAnimate"></ngt-point-light>
-            <ngt-hemisphere-light [offset]="hemPosition" [content]="hemiLight" [animate]="lightAnimate"></ngt-hemisphere-light>
+          <ngt-light [helpers]="true">
+            <ngt-point-light [offset]="lightPosition" [content]="pointLight" [animate]="false"></ngt-point-light>
+            <ngt-hemisphere-light [offset]="hemPosition" [content]="hemiLight" [animate]="false"></ngt-hemisphere-light>
           </ngt-light>
-  
+
           <ngt-environment>
+            <ngt-background [color]="backgroundColor"></ngt-background>
             <ngt-ground></ngt-ground>
             <ngt-dome></ngt-dome>
+            <ngt-fog [color]="backgroundColor" [near]="1" [far]="500"></ngt-fog>
+
+            <ngt-helper-axes [side]="100"></ngt-helper-axes>
+            <ngt-helper-grid [size]="400" [divisions]="40"></ngt-helper-grid>
           </ngt-environment>
-  
+
           <ngt-geometry>
-            <!-- <ngt-object [offset]="cubeAOffset" [rotation]="cubeARotation" [scale]="cubeAScale" [content]="cubeA"></ngt-object> -->
-            <!-- <ngt-object [offset]="cubeBOffset" [rotation]="cubeBRotation" [scale]="cubeBScale" [content]="cubeB"></ngt-object> -->
-            <!-- <ngt-object [offset]="sphereAOffset" [rotation]="sphereARotation" [scale]="sphereAScale" [content]="sphereA"></ngt-object> -->
-            <!-- <ngt-object [offset]="sphereBOffset" [rotation]="sphereBRotation" [scale]="sphereBScale" [content]="sphereB"></ngt-object> -->
-            <ngt-dynamic [offset]="dynamicOffset" [rotation]="dynamicRotation" [scale]="dynamicScale" [animate]="dynamicAnimate" [content]="dynamicA"></ngt-dynamic>
+            <ngt-object [offset]="cubeAOffset" [rotation]="cubeARotation" [scale]="cubeAScale" [content]="cubeA"></ngt-object>
+            <ngt-object [offset]="cubeBOffset" [rotation]="cubeBRotation" [scale]="cubeBScale" [content]="cubeB"></ngt-object>
+            <ngt-object [offset]="sphereAOffset" [rotation]="sphereARotation" [scale]="sphereAScale" [content]="sphereA"></ngt-object>
+            <ngt-object [offset]="sphereBOffset" [rotation]="sphereBRotation" [scale]="sphereBScale" [content]="sphereB"></ngt-object>
+            <!-- <ngt-dynamic [offset]="dynamicOffset" [rotation]="dynamicRotation" [scale]="dynamicScale" [animate]="dynamicAnimate" [content]="dynamic"></ngt-dynamic> -->
           </ngt-geometry>
         </ngt-scene>
       </ngt-render>
-    
+
     </ngs-chronos>
   </div>
 </div>
