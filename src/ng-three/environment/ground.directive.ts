@@ -14,7 +14,7 @@ export class GroundDirective implements OnInit, AfterContentInit {
   public plane: THREE.Mesh;
 
   constructor() {
-    this.geometry = new THREE.PlaneBufferGeometry ( 10000, 10000 );
+    this.geometry = new THREE.PlaneBufferGeometry ( 100, 100 );  // 10000
     this.material = new THREE.MeshPhongMaterial({
       color: 0xffffff,
       specular: 0x050505,

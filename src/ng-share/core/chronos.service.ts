@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
+import * as THREE from 'three';
 
 @Injectable({
   providedIn: 'root'
@@ -33,6 +34,15 @@ export class ChronosService {
     this.subject.next({
       type: 'screenIsActive',
       status: active
+    });
+  }
+
+  // mouse movement
+  mouseIsMoving(id: string, mouse: THREE.Vector2) {
+    this.subject.next({
+      type: 'mouseMove',
+      id: id,
+      mouse: mouse
     });
   }
 
