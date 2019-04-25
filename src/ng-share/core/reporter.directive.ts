@@ -17,6 +17,7 @@ export class ReporterDirective implements OnInit, AfterContentInit {
   private windowWidth: number;
   private windowHeight: number;
   private mouse: THREE.Vector2;
+  private mouseIsActive: boolean;
 
   private domID: string;
   private domWidth: number;
@@ -30,6 +31,7 @@ export class ReporterDirective implements OnInit, AfterContentInit {
     this.windowWidth = 0;
     this.windowHeight = 0;
     this.mouse = new THREE.Vector2();
+    this.mouseIsActive = false;
 
     this.domID = '';
     this.domWidth = 0;
@@ -67,9 +69,19 @@ export class ReporterDirective implements OnInit, AfterContentInit {
     let localMouse = new THREE.Vector2();
 
     if(localX > 0 && localX <= this.domWidth && localY > 0 && localY <= this.domHeight) {
-      localMouse.x = localX;
-      localMouse.y = localY;
+      localMouse.x = ( localX / this.domWidth ) * 2 - 1;
+      localMouse.y = -( localY / this.domHeight ) * 2 + 1;
+
       this.chronosService.mouseIsMoving(this.domID, localMouse);
+      if (this.mouseIsActive !== true) {
+        this.mouseIsActive = true;
+        this.chronosService.mouseIsActive(this.domID, this.mouseIsActive);
+      }
+    } else {
+      if (this.mouseIsActive !== false) {
+        this.mouseIsActive = false;
+        this.chronosService.mouseIsActive(this.domID, this.mouseIsActive);
+      }  
     }
   }
 

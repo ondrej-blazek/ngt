@@ -20,7 +20,8 @@ export class SceneDirective implements OnChanges, OnInit, AfterContentInit, OnDe
   private subscription: Subscription;
   private parentID: string;
   private rayCaster: THREE.Raycaster;
-  // private mouse: THREE.Vector2;
+  private mouse: THREE.Vector2;
+  private mouseIsActive: boolean;
 
   public scene: THREE.Scene = new THREE.Scene();
 
@@ -33,12 +34,14 @@ export class SceneDirective implements OnChanges, OnInit, AfterContentInit, OnDe
   ) {
     this.parentID = '';
     this.rayCaster = new THREE.Raycaster();
-    // this.mouse = new THREE.Vector2();
+    this.mouse = new THREE.Vector2();
+    this.mouseIsActive = false;
 
     // subscribe to home component messages
     this.subscription = this.chronosService.getMessage().subscribe(
       message => {
-        if (message.type === 'mouseMove') this.rayCast(message.mouse);
+        if (message.type === 'mouseMove') this.mouse = message.mouse;
+        if (message.type === 'mouseActive') this.mouseIsActive = message.active;
       }
     );
   }
@@ -66,15 +69,6 @@ export class SceneDirective implements OnChanges, OnInit, AfterContentInit, OnDe
     this.scene.remove();
   }
 
-  rayCast (mouse:THREE.Vector2):void {
-    // console.log (mouse.x, mouse.y);
-
-    // console.log (this.mouse);
-    this.rayCaster.setFromCamera( mouse, this.camera );
-    let intersects = this.rayCaster.intersectObjects( this.scene.children );
-    console.log ('intersects', intersects);
-  }
-
   renderID(passDown: string): void {
     this.parentID = passDown;
     this.propagateID (passDown);
@@ -94,5 +88,22 @@ export class SceneDirective implements OnChanges, OnInit, AfterContentInit, OnDe
 
   render(): void {
     this.propagateRender ();
+
+    // Raycasting features
+    if (this.mouseIsActive) {
+      this.rayCaster.setFromCamera( this.mouse, this.camera );
+      let intersects: Array<any> = this.rayCaster.intersectObjects( this.scene.children );
+
+      try {
+        if (intersects.length > 0) {
+          for(let element of intersects) {
+            if ( element.object.name !== 'ground' && element.object.type === 'Mesh') element.object.material.color.set(0xff0000);
+          }
+        }
+      } catch (e) {
+        // TODO - better handling of failures.
+      }
+
+    }
   }
 }

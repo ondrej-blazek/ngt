@@ -45,6 +45,13 @@ export class ChronosService {
       mouse: mouse
     });
   }
+  mouseIsActive(id: string, active: boolean) {
+    this.subject.next({
+      type: 'mouseActive',
+      id: id,
+      active: active
+    });
+  }
 
   // This one is not needed!!
   sendMessage(message: string) {
