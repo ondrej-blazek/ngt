@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { NgtRenderDirective } from '@ngt/core';
 import { SceneDirective, OrbitDirective, VrDirective, EnvironmentDirective, GeometryDirective, LightDirective } from '@ngt/scene';
-import { CameraDirective } from '@ngt/camera';
+import { CameraDirective, RaycasterDirective } from '@ngt/camera';
 import { PointLightDirective, HemisphereLightDirective } from '@ngt/light';
 import { AxesDirective, BackgroundDirective, DomeDirective, FogDirective, GridDirective, GroundDirective } from '@ngt/environment';
 import { ObjectDirective, DynamicDirective } from '@ngt/geometry';
@@ -21,6 +21,7 @@ import { ObjectDirective, DynamicDirective } from '@ngt/geometry';
     GeometryDirective,
     LightDirective,
     CameraDirective,
+    RaycasterDirective,
     PointLightDirective,
     HemisphereLightDirective,
     AxesDirective,
@@ -30,7 +31,7 @@ import { ObjectDirective, DynamicDirective } from '@ngt/geometry';
     GridDirective,
     GroundDirective,
     ObjectDirective,
-    DynamicDirective,
+    DynamicDirective
   ],
   providers: [],
   exports: [
@@ -42,6 +43,7 @@ import { ObjectDirective, DynamicDirective } from '@ngt/geometry';
     GeometryDirective,
     LightDirective,
     CameraDirective,
+    RaycasterDirective,
     PointLightDirective,
     HemisphereLightDirective,
     AxesDirective,
