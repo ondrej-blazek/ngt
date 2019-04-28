@@ -48,6 +48,7 @@ export class DomeDirective implements OnInit, AfterContentInit{
     });
 
     this.dome = new THREE.Mesh( this.geometry, this.material );
+    this.dome.name = 'dome';
   }
   
   ngOnInit () {}

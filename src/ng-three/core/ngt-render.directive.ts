@@ -6,6 +6,7 @@ import { ChronosService } from '@ngs/core/chronos.service';
 import { SceneDirective, OrbitDirective, VrDirective } from '@ngt/scene';
 
 // TODO - investigate VR mode
+// TODO - investigate OrbitCamera using latest code, Create class -> import orbit controls -> export class -> Use this as internal class
 
 @Directive({
   selector: 'ngt-render'     // tslint:disable-line

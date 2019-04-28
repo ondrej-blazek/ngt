@@ -1,6 +1,5 @@
 import * as THREE from 'three';
 
-// TODO - common content class that contains common transorm functions like set rotation or position
 // https://www.typescriptlang.org/docs/handbook/classes.html
 
 export class SphereContentServiceService {

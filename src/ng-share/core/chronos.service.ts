@@ -7,8 +7,11 @@ import * as THREE from 'three';
 })
 export class ChronosService {
   private subject = new Subject<any>();
+  private interactionArray: Array<string>;
 
-  constructor() { }
+  constructor() {
+    this.interactionArray = [];
+  }
 
   // Watch for speciffic Dom element to change
   elementSize(id: string, width: number, height: number) {
@@ -51,6 +54,21 @@ export class ChronosService {
       id: id,
       active: active
     });
+  }
+
+  // Interractive obaject tracking
+  // TODO - Propagate change to this array to Raycaster dynamically. If objects are added or removed dynamically.
+  getInteraction ():Array<string> {
+    return (this.interactionArray);
+  }
+  addToInteraction (uuid:string):void {
+    this.interactionArray.push(uuid);
+    let unique = this.interactionArray.filter((item, i, ar) => ( ar.indexOf(item) === i ));
+    this.interactionArray = unique;
+  }
+  removeFromInteraction (uuid:string):void {
+    let filtered = this.interactionArray.filter((item, i, ar) => ( item !== uuid ));
+    this.interactionArray = filtered;
   }
 
   // This one is not needed!!

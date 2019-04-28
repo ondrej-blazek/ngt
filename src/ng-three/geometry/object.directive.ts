@@ -1,6 +1,8 @@
 import { Directive, Input, OnChanges, OnInit, AfterContentInit, OnDestroy } from '@angular/core';
 import * as THREE from 'three';
 
+import { ChronosService } from '@ngs/core/chronos.service';
+
 @Directive({
   selector: 'ngt-object'
 })
@@ -9,15 +11,19 @@ export class ObjectDirective implements OnChanges, OnInit, AfterContentInit, OnD
   @Input() rotation: THREE.Euler;
   @Input() scale: THREE.Vector3;
   @Input() animate: boolean;
+  @Input() interact: boolean;
   @Input() content: any;
 
   public object: THREE.Mesh;
 
-  constructor() {
+  constructor(
+    private chronosService: ChronosService
+  ) {
     this.offset = new THREE.Vector3(0, 0, 0);
     this.rotation = new THREE.Euler(0, 0, 0, 'XYZ');
     this.scale = new THREE.Vector3(1, 1, 1);
     this.animate = true;
+    this.interact = false;
   }
 
   ngOnChanges(changes) {
@@ -36,10 +42,16 @@ export class ObjectDirective implements OnChanges, OnInit, AfterContentInit, OnD
     if(changes.animate && changes.animate.currentValue) {
       this.animate = changes.animate.currentValue;
     }
+    if(changes.interact && changes.interact.currentValue) {
+      this.interact = changes.interact.currentValue;
+    }
   }
 
   ngOnInit():void {
     this.object = this.content.object;
+    if (this.interact) {
+      this.chronosService.addToInteraction(this.object.uuid);
+    }
   }
 
   ngAfterContentInit():void {}
