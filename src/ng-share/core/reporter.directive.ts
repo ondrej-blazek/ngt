@@ -10,6 +10,51 @@ import { ChronosDirective } from '@ngs/core/chronos.directive';
 export class ReporterDirective implements OnInit, AfterContentInit {
   @ContentChild(ChronosDirective) ChronosDirective: ChronosDirective;
 
+  // Browser events / resize
+  @HostListener('window:resize')
+  @HostListener('window:vrdisplaypresentchange')
+  resetWidthHeight(): void {
+    this.sizeReportFunction();
+  }
+
+  @HostListener('window:focus')
+  windowFocus(): void {
+    this.chronosService.screenIsActive(true);
+  }
+
+  @HostListener('window:blur')
+  windowBlur(): void {
+    this.chronosService.screenIsActive(false);
+  }
+
+  @HostListener('window:scroll')
+  windowScroll(): void {
+    this.domScrollTop = window.scrollY;
+    this.localMousePosition();
+  }
+
+  @HostListener('document:mousemove', ['$event'])
+  onMouseMove(e) {
+    this.mouse.x = e.clientX;
+    this.mouse.y = e.clientY;
+    this.localMousePosition();
+  }
+
+  @HostListener('document:mousedown', ['$event'])
+  onMouseDown(e) {
+    this.mouseEvents('mousedown', e);
+  }
+
+  @HostListener('document:mouseup', ['$event'])
+  onMouseUp(e) {
+    this.mouseEvents('mouseup', e);
+  }
+
+  @HostListener('document:click', ['$event'])
+  onMouseClick(e) {
+    this.mouseEvents('click', e);
+  }
+
   get chronos() {
     return this.ChronosDirective;
   }
@@ -50,7 +95,7 @@ export class ReporterDirective implements OnInit, AfterContentInit {
     this.sizeReportFunction();
   }
 
-  sizeReportFunction(): void {
+  sizeReportFunction():void {
     // Window
     this.windowWidth = window.innerWidth;
     this.windowHeight = window.innerHeight;
@@ -63,7 +108,7 @@ export class ReporterDirective implements OnInit, AfterContentInit {
     this.chronosService.elementSize(this.domID, this.domWidth, this.domHeight);
   }
 
-  localMousePosition () {
+  localMousePosition ():void {
     let localX = (this.mouse.x - this.el.nativeElement.offsetLeft);
     let localY = (this.mouse.y - (this.el.nativeElement.offsetTop - this.domScrollTop));
     let localMouse = new THREE.Vector2();
@@ -81,37 +126,25 @@ export class ReporterDirective implements OnInit, AfterContentInit {
       if (this.mouseIsActive !== false) {
         this.mouseIsActive = false;
         this.chronosService.mouseIsActive(this.domID, this.mouseIsActive);
-      }  
+      }
     }
   }
 
-  // Browser events / resize
-  @HostListener('window:resize')
-  @HostListener('window:vrdisplaypresentchange')
-  resetWidthHeight(): void {
-    this.sizeReportFunction();
+  mouseEvents (type:string, event:MouseEvent):void {
+    switch (type) {
+      case 'mousedown': {
+        this.chronosService.mouseIsDown (this.domID, true);
+        break;
+      }
+      case 'mouseup': {
+        this.chronosService.mouseIsDown (this.domID, false);
+        break;
+      }
+      case 'click': {
+        this.chronosService.mouseClick (this.domID);
+        break;
+      }
+    }
   }
 
-  @HostListener('window:focus')
-  windowFocus(): void {
-    this.chronosService.screenIsActive(true);
-  }
-
-  @HostListener('window:blur')
-  windowBlur(): void {
-    this.chronosService.screenIsActive(false);
-  }
-
-  @HostListener('window:scroll')
-  windowScroll(): void {
-    this.domScrollTop = window.scrollY;
-    this.localMousePosition();
-  }
-
-  @HostListener('document:mousemove', ['$event'])
-  onMouseMove(e) {
-    this.mouse.x = e.clientX;
-    this.mouse.y = e.clientY;
-    this.localMousePosition();
-  }
 }
