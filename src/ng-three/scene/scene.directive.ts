@@ -15,9 +15,8 @@ export class SceneDirective implements OnChanges, OnInit, AfterContentInit, OnDe
   @ContentChild(CameraDirective) cameraDirective: any;
   @ContentChild(RaycasterDirective) raycasterDirective: any;
   @ContentChild(ProjectorDirective) projectorDirective: any;
-
   @ContentChild(EnvironmentDirective) environmentDirective: any;
-  @ContentChild(GeometryDirective) geometryDirective: any;
+  @ContentChild(GeometryDirective) geometryDirective: any;            // TODO - children use this to group objects into layers.
   @ContentChild(LightDirective) lightDirective: any;
 
   // private subscription: Subscription;
@@ -25,8 +24,7 @@ export class SceneDirective implements OnChanges, OnInit, AfterContentInit, OnDe
 
   public scene: THREE.Scene = new THREE.Scene();
 
-  get camera() {
-    // Called by render directive
+  get camera() {     // Called by render directive
     return this.cameraDirective.camera;
   }
 
@@ -87,7 +85,6 @@ export class SceneDirective implements OnChanges, OnInit, AfterContentInit, OnDe
     if (this.cameraDirective) this.cameraDirective.renderID(passDown);
     if (this.raycasterDirective) this.raycasterDirective.renderID(passDown);
     if (this.projectorDirective) this.projectorDirective.renderID(passDown);
-
     if (this.environmentDirective) this.environmentDirective.renderID(passDown);
     if (this.geometryDirective) this.geometryDirective.renderID(passDown);
     if (this.lightDirective) this.lightDirective.renderID(passDown);
@@ -100,7 +97,6 @@ export class SceneDirective implements OnChanges, OnInit, AfterContentInit, OnDe
   propagateRender (): void {
     if (this.raycasterDirective) this.raycasterDirective.render();
     if (this.projectorDirective) this.projectorDirective.render();
-
     if (this.geometryDirective) this.geometryDirective.render();
     if (this.lightDirective) this.lightDirective.render();
   }

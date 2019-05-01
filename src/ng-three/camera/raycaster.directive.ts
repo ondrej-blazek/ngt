@@ -88,7 +88,7 @@ export class RaycasterDirective implements OnChanges, OnInit, AfterContentInit, 
     if (!oneObject.currentHex || oneObject.currentHex === null) oneObject.currentHex = oneObject.material.color.getHex();
     oneObject.material.color.setHex( 0xff0000 );
 
-    this.chronosService.setActiveObject ();
+    this.chronosService.setActiveObject (oneObject);
   }
 
   clearActiveObject (oneObject:any):void {

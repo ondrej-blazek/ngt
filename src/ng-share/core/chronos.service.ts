@@ -8,9 +8,11 @@ import * as THREE from 'three';
 export class ChronosService {
   private subject = new Subject<any>();
   private interactionArray: Array<string>;
+  private activeObject: any;
 
   constructor() {
     this.interactionArray = [];
+    this.activeObject = null;
   }
 
 /*
@@ -97,11 +99,13 @@ export class ChronosService {
   getActiveObject ():void {
     console.log ('ChronosService - getActiveObject');
   }
-  setActiveObject ():void {
+  setActiveObject (oneObject:any):void {
     console.log ('ChronosService - setActiveObject');
+    this.activeObject = oneObject;
   }
   clearActiveObject ():void {
     console.log ('ChronosService - clearActiveObject');
+    this.activeObject = null;
   }
 
 
