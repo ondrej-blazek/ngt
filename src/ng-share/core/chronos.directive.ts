@@ -52,7 +52,7 @@ export class ChronosDirective implements OnInit, OnDestroy, AfterContentInit {
     }
   }
 
-  propagateRender():void {
+  propagateRender(): void {
     for (const oneThree of this.threeDirectives) {
       oneThree.render();
     }
@@ -62,7 +62,7 @@ export class ChronosDirective implements OnInit, OnDestroy, AfterContentInit {
   }
 
   render() {
-    let animFrame: number = 0;
+    let animFrame = 0;
 
     try {
       animFrame = requestAnimationFrame(() => this.render());

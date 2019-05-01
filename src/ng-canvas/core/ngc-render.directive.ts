@@ -55,7 +55,7 @@ export class NgcRenderDirective implements OnInit, AfterViewInit, AfterContentIn
     this.content = null;
   }
 
-  processMessage (message: any):void {
+  processMessage (message: any): void {
     this.message = message;
     if (this.message.type === 'elementSize' && this.message.id === this.parentID ) {
       this.canvasRef.width = this.message.width;

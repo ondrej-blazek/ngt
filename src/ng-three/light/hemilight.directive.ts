@@ -2,7 +2,7 @@ import { Directive, Input, OnInit, OnChanges, AfterContentInit, OnDestroy } from
 import * as THREE from 'three';
 
 @Directive({
-  selector: 'ngt-hemisphere-light'
+  selector: 'ngt-hemisphere-light'     // tslint:disable-line
 })
 export class HemisphereLightDirective implements OnInit, OnChanges, AfterContentInit, OnDestroy {
   // element parameters

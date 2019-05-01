@@ -4,24 +4,24 @@ import * as THREE from 'three';
 
 import { ChronosService } from '@ngs/core/chronos.service';
 
-// TODO - Partially Augment camera into a content class that provides settings in 
+// TODO - Partially Augment camera into a content class that provides settings in
 // TODO - Another directive to make Orthographic camera
 
 @Directive({
-  selector: 'ngt-camera'
+  selector: 'ngt-camera'     // tslint:disable-line
 })
 export class CameraDirective implements OnInit, OnChanges, OnDestroy, AfterContentInit {
-  // element parameters 
+  // element parameters
   @Input() location: THREE.Vector3;
   @Input() rotation: THREE.Euler;
 
   private scene: THREE.Scene;
-  
+
   private viewAngle: number;
   private aspect: number;
   private near: number;
   private far: number;
-  
+
   private message: any;
   private parentID: string;
   private subscription: Subscription;
@@ -31,7 +31,7 @@ export class CameraDirective implements OnInit, OnChanges, OnDestroy, AfterConte
   public camera: THREE.PerspectiveCamera;
   public cameraHelper: THREE.CameraHelper;
 
-  constructor(
+  constructor (
     private chronosService: ChronosService,
   ) {
     this.parentID = '';
@@ -54,39 +54,39 @@ export class CameraDirective implements OnInit, OnChanges, OnDestroy, AfterConte
     );
   }
 
-  ngOnChanges(changes) {
-    if((changes.location && changes.location.currentValue) || (changes.rotation && changes.rotation.currentValue)) {
+  ngOnChanges (changes) {
+    if ((changes.location && changes.location.currentValue) || (changes.rotation && changes.rotation.currentValue)) {
       this.setPosition(this.location, this.rotation);
     }
   }
 
-  ngOnInit() {
+  ngOnInit () {
     this.setPosition (this.location, this.rotation);
   }
-  
-  ngAfterContentInit():void {}
 
-  ngOnDestroy() {
+  ngAfterContentInit (): void {}
+
+  ngOnDestroy () {
     this.subscription.unsubscribe();
   }
 
-  updateAspect(ratio:number):void {
-    if(this.camera) {
+  updateAspect (ratio: number): void {
+    if (this.camera) {
       this.camera.aspect = ratio;
       this.camera.updateProjectionMatrix();
     }
   }
 
-  setPosition(location:THREE.Vector3, rotation:THREE.Euler):void {
+  setPosition (location: THREE.Vector3, rotation: THREE.Euler): void {
     this.camera.position.set(location.x, location.y, location.z);
     this.camera.rotation.set(rotation.x, rotation.y, rotation.z, rotation.order);
   }
 
-  setScene (masterScene:THREE.Scene):void {
+  setScene (masterScene: THREE.Scene): void {
     this.scene = masterScene;
   }
 
-  processMessage (message: any):void {
+  processMessage (message: any): void {
     this.message = message;
     if (this.message.type === 'elementSize' && this.message.id === this.parentID ) {
       this.width = this.message.width;

@@ -1,5 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { CubeContentServiceService, SphereContentServiceService, DynamicContentServiceService, PointLightService, HemiLightService } from './content';
+import {
+  CubeContentServiceService,
+  SphereContentServiceService,
+  DynamicContentServiceService,
+  PointLightService,
+  HemiLightService
+} from './content';
 import * as THREE from 'three';
 
 @Component({

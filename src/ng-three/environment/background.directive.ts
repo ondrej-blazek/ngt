@@ -2,7 +2,7 @@ import { Directive, Input, OnInit, OnChanges, AfterContentInit } from '@angular/
 import * as THREE from 'three';
 
 @Directive({
-  selector: 'ngt-background'
+  selector: 'ngt-background'     // tslint:disable-line
 })
 export class BackgroundDirective implements OnInit, OnChanges, AfterContentInit {
   @Input() color: THREE.Color;
@@ -14,7 +14,7 @@ export class BackgroundDirective implements OnInit, OnChanges, AfterContentInit 
   }
 
   ngOnChanges(changes) {
-    if(changes.color) {
+    if (changes.color) {
       this.color = changes.color.currentValue;
       this.updateScene(this.color);
     }
@@ -25,10 +25,10 @@ export class BackgroundDirective implements OnInit, OnChanges, AfterContentInit 
   }
   ngAfterContentInit() {}
 
-  setScene (masterScene:THREE.Scene):void {
+  setScene (masterScene: THREE.Scene): void {
     this.scene = masterScene;
   }
-  updateScene (color:THREE.Color):void {
+  updateScene (color: THREE.Color): void {
     this.scene.background = new THREE.Color(this.color);
   }
 }

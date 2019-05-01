@@ -34,18 +34,18 @@ export class CubeContentServiceService {
     this.object.receiveShadow = true;
   }
 
-  setPosition (offset:THREE.Vector3):void {
+  setPosition (offset: THREE.Vector3): void {
     this.offset = offset;
     this.position = this.location.add(this.offset);
     this.object.position.set(this.position.x, this.position.y, this.position.z);
   }
 
-  setRotation (rotation:THREE.Euler):void {
+  setRotation (rotation: THREE.Euler): void {
     this.rotation = rotation;
     this.object.rotation.set(rotation.x, rotation.y, rotation.z, rotation.order);
   }
-  
-  setScale (scale:THREE.Vector3):void {
+
+  setScale (scale: THREE.Vector3): void {
     this.scale = scale;
     this.object.scale.set(this.scale.x, this.scale.y, this.scale.z);
   }

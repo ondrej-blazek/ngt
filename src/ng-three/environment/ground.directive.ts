@@ -5,10 +5,9 @@ import * as THREE from 'three';
 // TODO - create default class in cas that content / partial setting is not provided.  ???
 
 @Directive({
-  selector: 'ngt-ground'
+  selector: 'ngt-ground'     // tslint:disable-line
 })
 export class GroundDirective implements OnInit, AfterContentInit {
-
   public geometry: THREE.PlaneBufferGeometry;
   public material: THREE.MeshPhongMaterial;
   public plane: THREE.Mesh;
@@ -26,7 +25,7 @@ export class GroundDirective implements OnInit, AfterContentInit {
     this.plane.rotation.x = - Math.PI / 2;
     this.plane.receiveShadow = true;
   }
-  
+
   ngOnInit () {}
   ngAfterContentInit() {}
 }

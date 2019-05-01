@@ -17,7 +17,7 @@ More reading:
     https://threejs.org/examples/webgl_animation_skinning_blending.html
     https://www.youtube.com/watch?v=TxKeR8DjJhI   <<<--- ???
     https://medium.com/@agm1984/how-to-rig-a-character-model-for-three-js-in-blender-846e258a9d9d
-    
+
   Custom web components
     https://medium.com/@tomsu/building-web-components-with-angular-elements-746cd2a38d5b
     https://blog.bitsrc.io/using-angular-elements-why-and-how-part-1-35f7fd4f0457

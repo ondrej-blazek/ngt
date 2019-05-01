@@ -7,7 +7,7 @@ import { ChronosService } from '@ngs/core/chronos.service';
 // TODO - link this to 2D canvas layer through shared services.
 
 @Directive({
-  selector: 'ngt-projector'
+  selector: 'ngt-projector'     // tslint:disable-line
 })
 export class ProjectorDirective implements OnChanges, OnInit, AfterContentInit, OnDestroy {
 
@@ -36,7 +36,7 @@ export class ProjectorDirective implements OnChanges, OnInit, AfterContentInit, 
 
     this.currentObject = null;
     this.currentObjectID = '';
-    
+
     this.objectPosition = new THREE.Vector3();
     this.objectProjection = new THREE.Vector2();
     this.elemWidth = 0;
@@ -58,13 +58,13 @@ export class ProjectorDirective implements OnChanges, OnInit, AfterContentInit, 
   ngOnChanges(changes) {}
   ngOnInit() {}
   ngAfterContentInit() {}
-  ngOnDestroy():void {}
+  ngOnDestroy(): void {}
 
-  setScene (masterScene:THREE.Scene):void {
+  setScene (masterScene: THREE.Scene): void {
     this.scene = masterScene;
   }
 
-  setCamera (masterCamera:THREE.PerspectiveCamera):void {
+  setCamera (masterCamera: THREE.PerspectiveCamera): void {
     this.camera = masterCamera;
   }
 
@@ -73,8 +73,6 @@ export class ProjectorDirective implements OnChanges, OnInit, AfterContentInit, 
   }
 
   render(): void {
-
-
     // Raycast projection
     if (this.currentObject !== null) {
       // Object THREE.Vector3 position + Camera
@@ -88,7 +86,5 @@ export class ProjectorDirective implements OnChanges, OnInit, AfterContentInit, 
 
       console.log ('object', this.currentObject.position, this.objectProjection);
     }
-
   }
-
 }

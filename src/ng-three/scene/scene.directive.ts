@@ -9,7 +9,7 @@ import { GeometryDirective } from './geometry.directive';
 import { LightDirective } from './light.directive';
 
 @Directive({
-  selector: 'ngt-scene'
+  selector: 'ngt-scene'     // tslint:disable-line
 })
 export class SceneDirective implements OnChanges, OnInit, AfterContentInit, OnDestroy {
   @ContentChild(CameraDirective) cameraDirective: any;

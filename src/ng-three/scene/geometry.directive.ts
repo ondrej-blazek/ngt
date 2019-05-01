@@ -2,7 +2,7 @@ import { OnInit, Directive, ContentChildren, QueryList, AfterContentInit } from 
 import { ObjectDirective, DynamicDirective } from '@ngt/geometry';
 
 @Directive({
-  selector: 'ngt-geometry'
+  selector: 'ngt-geometry'     // tslint:disable-line
 })
 export class GeometryDirective implements OnInit, AfterContentInit {
   @ContentChildren(ObjectDirective) objectDomQuery: QueryList<ObjectDirective>;

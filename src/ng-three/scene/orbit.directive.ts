@@ -2,7 +2,7 @@ import { Directive, Input } from '@angular/core';
 import * as OrbitControls from 'three-orbitcontrols';
 
 @Directive({
-  selector: 'ngt-orbit'
+  selector: 'ngt-orbit'     // tslint:disable-line
 })
 export class OrbitDirective {
   // element parameters

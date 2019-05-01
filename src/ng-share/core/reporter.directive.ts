@@ -10,6 +10,98 @@ import { ChronosDirective } from '@ngs/core/chronos.directive';
 export class ReporterDirective implements OnInit, AfterContentInit {
   @ContentChild(ChronosDirective) ChronosDirective: ChronosDirective;
 
+  get chronos() {
+    return this.ChronosDirective;
+  }
+
+  private windowWidth: number;
+  private windowHeight: number;
+  private mouse: THREE.Vector2;
+  private mouseIsActive: boolean;
+
+  private domID: string;
+  private domWidth: number;
+  private domHeight: number;
+  private domScrollTop: number;
+
+  constructor(
+    private el: ElementRef,
+    private chronosService: ChronosService
+  ) {
+    this.windowWidth = 0;
+    this.windowHeight = 0;
+    this.mouse = new THREE.Vector2();
+    this.mouseIsActive = false;
+
+    this.domID = '';
+    this.domWidth = 0;
+    this.domHeight = 0;
+    this.domScrollTop = 0;
+  }
+
+  ngOnInit() {    // Update chronos BEFORE rendering starts
+    if (this.chronos) {
+      this.chronos.idUpdate(this.el.nativeElement.id);
+      this.sizeReportFunction();
+    }
+  }
+
+  ngAfterContentInit() {
+    this.sizeReportFunction();
+  }
+
+  sizeReportFunction(): void {
+    // Window
+    this.windowWidth = window.innerWidth;
+    this.windowHeight = window.innerHeight;
+    this.chronosService.screenSize(this.windowWidth, this.windowHeight);
+
+    // DOM Element
+    this.domID = this.el.nativeElement.id;
+    this.domWidth = this.el.nativeElement.clientWidth;
+    this.domHeight = this.el.nativeElement.clientHeight;
+    this.chronosService.elementSize(this.domID, this.domWidth, this.domHeight);
+  }
+
+  localMousePosition (): void {
+    const localX = (this.mouse.x - this.el.nativeElement.offsetLeft);
+    const localY = (this.mouse.y - (this.el.nativeElement.offsetTop - this.domScrollTop));
+    const localMouse = new THREE.Vector2();
+
+    if (localX > 0 && localX <= this.domWidth && localY > 0 && localY <= this.domHeight) {
+      localMouse.x = ( localX / this.domWidth ) * 2 - 1;
+      localMouse.y = -( localY / this.domHeight ) * 2 + 1;
+
+      this.chronosService.mouseIsMoving(this.domID, localMouse);
+      if (this.mouseIsActive !== true) {
+        this.mouseIsActive = true;
+        this.chronosService.mouseIsActive(this.domID, this.mouseIsActive);
+      }
+    } else {
+      if (this.mouseIsActive !== false) {
+        this.mouseIsActive = false;
+        this.chronosService.mouseIsActive(this.domID, this.mouseIsActive);
+      }
+    }
+  }
+
+  mouseEvents (type: string, event: MouseEvent): void {
+    switch (type) {
+      case 'mousedown': {
+        this.chronosService.mouseIsDown (this.domID, true);
+        break;
+      }
+      case 'mouseup': {
+        this.chronosService.mouseIsDown (this.domID, false);
+        break;
+      }
+      case 'click': {
+        this.chronosService.mouseClick (this.domID);
+        break;
+      }
+    }
+  }
+
   // Browser events / resize
   @HostListener('window:resize')
   @HostListener('window:vrdisplaypresentchange')
@@ -54,97 +146,4 @@ export class ReporterDirective implements OnInit, AfterContentInit {
   onMouseClick(e) {
     this.mouseEvents('click', e);
   }
-
-  get chronos() {
-    return this.ChronosDirective;
-  }
-
-  private windowWidth: number;
-  private windowHeight: number;
-  private mouse: THREE.Vector2;
-  private mouseIsActive: boolean;
-
-  private domID: string;
-  private domWidth: number;
-  private domHeight: number;
-  private domScrollTop: number;
-
-  constructor(
-    private el: ElementRef,
-    private chronosService: ChronosService
-  ) {
-    this.windowWidth = 0;
-    this.windowHeight = 0;
-    this.mouse = new THREE.Vector2();
-    this.mouseIsActive = false;
-
-    this.domID = '';
-    this.domWidth = 0;
-    this.domHeight = 0;
-    this.domScrollTop = 0;
-  }
-
-  ngOnInit() {    // Update chronos BEFORE rendering starts
-    if (this.chronos) {
-      this.chronos.idUpdate(this.el.nativeElement.id);
-      this.sizeReportFunction();
-    }
-  }
-
-  ngAfterContentInit() {
-    this.sizeReportFunction();
-  }
-
-  sizeReportFunction():void {
-    // Window
-    this.windowWidth = window.innerWidth;
-    this.windowHeight = window.innerHeight;
-    this.chronosService.screenSize(this.windowWidth, this.windowHeight);
-
-    // DOM Element
-    this.domID = this.el.nativeElement.id;
-    this.domWidth = this.el.nativeElement.clientWidth;
-    this.domHeight = this.el.nativeElement.clientHeight;
-    this.chronosService.elementSize(this.domID, this.domWidth, this.domHeight);
-  }
-
-  localMousePosition ():void {
-    let localX = (this.mouse.x - this.el.nativeElement.offsetLeft);
-    let localY = (this.mouse.y - (this.el.nativeElement.offsetTop - this.domScrollTop));
-    let localMouse = new THREE.Vector2();
-
-    if(localX > 0 && localX <= this.domWidth && localY > 0 && localY <= this.domHeight) {
-      localMouse.x = ( localX / this.domWidth ) * 2 - 1;
-      localMouse.y = -( localY / this.domHeight ) * 2 + 1;
-
-      this.chronosService.mouseIsMoving(this.domID, localMouse);
-      if (this.mouseIsActive !== true) {
-        this.mouseIsActive = true;
-        this.chronosService.mouseIsActive(this.domID, this.mouseIsActive);
-      }
-    } else {
-      if (this.mouseIsActive !== false) {
-        this.mouseIsActive = false;
-        this.chronosService.mouseIsActive(this.domID, this.mouseIsActive);
-      }
-    }
-  }
-
-  mouseEvents (type:string, event:MouseEvent):void {
-    switch (type) {
-      case 'mousedown': {
-        this.chronosService.mouseIsDown (this.domID, true);
-        break;
-      }
-      case 'mouseup': {
-        this.chronosService.mouseIsDown (this.domID, false);
-        break;
-      }
-      case 'click': {
-        this.chronosService.mouseClick (this.domID);
-        break;
-      }
-    }
-  }
-
 }

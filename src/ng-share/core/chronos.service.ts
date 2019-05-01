@@ -80,30 +80,30 @@ export class ChronosService {
 
   // Interactive object tracking
   // TODO - Propagate change to this array to Raycaster dynamically. If objects are added or removed dynamically.
-  getInteraction ():Array<string> {
+  getInteraction (): Array<string> {
     return (this.interactionArray);
   }
 
-  addToInteraction (uuid:string):void {
+  addToInteraction (uuid: string): void {
     this.interactionArray.push(uuid);
-    let unique = this.interactionArray.filter((item, i, ar) => ( ar.indexOf(item) === i ));
+    const unique = this.interactionArray.filter((item, i, ar) => ( ar.indexOf(item) === i ));
     this.interactionArray = unique;
   }
 
-  removeFromInteraction (uuid:string):void {
-    let filtered = this.interactionArray.filter((item, i, ar) => ( item !== uuid ));
+  removeFromInteraction (uuid: string): void {
+    const filtered = this.interactionArray.filter((item, i, ar) => ( item !== uuid ));
     this.interactionArray = filtered;
   }
 
   // Raycaster active object
-  getActiveObject ():void {
+  getActiveObject (): void {
     console.log ('ChronosService - getActiveObject');
   }
-  setActiveObject (oneObject:any):void {
+  setActiveObject (oneObject: any): void {
     console.log ('ChronosService - setActiveObject');
     this.activeObject = oneObject;
   }
-  clearActiveObject ():void {
+  clearActiveObject (): void {
     console.log ('ChronosService - clearActiveObject');
     this.activeObject = null;
   }

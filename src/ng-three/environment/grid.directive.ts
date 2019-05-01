@@ -2,7 +2,7 @@ import { Directive, Input, OnInit, OnChanges, AfterContentInit } from '@angular/
 import * as THREE from 'three';
 
 @Directive({
-  selector: 'ngt-helper-grid'
+  selector: 'ngt-helper-grid'     // tslint:disable-line
 })
 export class GridDirective implements OnInit, OnChanges, AfterContentInit {
   @Input() size: number;
@@ -18,15 +18,15 @@ export class GridDirective implements OnInit, OnChanges, AfterContentInit {
   }
 
   ngOnChanges(changes) {
-    if(changes.size) {
+    if (changes.size) {
       this.size = changes.size.currentValue;
     }
 
-    if(changes.divisions) {
+    if (changes.divisions) {
       this.divisions = changes.divisions.currentValue;
     }
 
-    if(changes.visible) {
+    if (changes.visible) {
       this.visible = changes.visible.currentValue;
       this.gridHelper.visible = this.visible;
     }

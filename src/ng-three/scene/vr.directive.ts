@@ -5,13 +5,13 @@ import * as THREE from 'three';
 // import 'three/examples/js/effects/VREffect.js';
 
 @Directive({
-  selector: 'ngt-vr'
+  selector: 'ngt-vr'     // tslint:disable-line
 })
 export class VrDirective {
   // element parameters
   @Input() height: number;
   @Input() width: number;
-  @Input() enabled: boolean = true;
+  @Input() enabled: boolean;
 
   private parentID: string;
   public controls: any;
@@ -19,6 +19,7 @@ export class VrDirective {
 
   constructor() {
     this.parentID = '';
+    this.enabled = true;
   }
 
   renderID(passDown: string): void {
@@ -28,7 +29,7 @@ export class VrDirective {
   // ngOnChanges(changes) {
   //   const widthChng = changes.width && changes.width.currentValue;
   //   const heightChng = changes.height && changes.height.currentValue;
-    
+
   //   if(widthChng || heightChng) {
   //     this.setEffectSize(this.width, this.height);
   //   }

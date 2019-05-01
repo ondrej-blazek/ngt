@@ -82,7 +82,7 @@ export class NgtRenderDirective implements OnInit, OnDestroy, OnChanges, AfterCo
 
     const widthChng = changes.width && changes.width.currentValue;
     const heightChng = changes.height && changes.height.currentValue;
-    if(widthChng || heightChng) {
+    if (widthChng || heightChng) {
       this.renderer.setSize(this.width, this.height);
     }
   }
@@ -92,7 +92,7 @@ export class NgtRenderDirective implements OnInit, OnDestroy, OnChanges, AfterCo
     this.renderer.setPixelRatio(Math.floor(window.devicePixelRatio));
     this.renderer.shadowMap.enabled = true;
 
-    if(this.orbitDirective) {
+    if (this.orbitDirective) {
       this.orbitDirective.setupControls(this.camera, this.renderer);
     }
     // if(this.vrDirective) {
@@ -104,7 +104,7 @@ export class NgtRenderDirective implements OnInit, OnDestroy, OnChanges, AfterCo
     elCatch.setAttribute('class', 'webgl');
   }
 
-  processMessage (message: any):void {
+  processMessage (message: any): void {
     this.message = message;
     if (this.message.type === 'elementSize' && this.message.id === this.parentID ) {
       this.width = this.message.width;
@@ -127,7 +127,7 @@ export class NgtRenderDirective implements OnInit, OnDestroy, OnChanges, AfterCo
   propagateRender (): void {
     this.sceneDirective.render();
   }
-  
+
   render(): void {
     if (this.element !== null) {
       this.renderer.render(this.scene, this.camera);

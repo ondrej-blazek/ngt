@@ -10,7 +10,7 @@ import { PointLightDirective, HemisphereLightDirective } from '@ngt/light';
 //      SpotLight
 
 @Directive({
-  selector: 'ngt-light'
+  selector: 'ngt-light'     // tslint:disable-line
 })
 export class LightDirective implements OnChanges, OnInit, AfterContentInit {
   // element parameters 

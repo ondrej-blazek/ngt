@@ -3,7 +3,7 @@ import { AxesDirective, BackgroundDirective, DomeDirective, FogDirective, GridDi
 import * as THREE from 'three';
 
 @Directive({
-  selector: 'ngt-environment'
+  selector: 'ngt-environment'     // tslint:disable-line
 })
 export class EnvironmentDirective implements OnInit, AfterContentInit, OnDestroy {
   @ContentChild(AxesDirective) axesDirective: any;

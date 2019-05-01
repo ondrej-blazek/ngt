@@ -2,7 +2,7 @@ import { Directive, Input, OnInit, OnChanges, AfterContentInit, OnDestroy } from
 import * as THREE from 'three';
 
 @Directive({
-  selector: 'ngt-point-light'
+  selector: 'ngt-point-light'     // tslint:disable-line
 })
 export class PointLightDirective implements OnInit, OnChanges, AfterContentInit, OnDestroy {
   // element parameters

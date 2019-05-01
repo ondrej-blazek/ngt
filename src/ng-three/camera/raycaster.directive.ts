@@ -8,7 +8,7 @@ import { ChronosService } from '@ngs/core/chronos.service';
 // TODO - Objects also have the ability to react to raycaster - investigate some more.
 
 @Directive({
-  selector: 'ngt-raycaster'
+  selector: 'ngt-raycaster'     // tslint:disable-line
 })
 export class RaycasterDirective implements OnChanges, OnInit, AfterContentInit, OnDestroy {
 
@@ -54,8 +54,12 @@ export class RaycasterDirective implements OnChanges, OnInit, AfterContentInit, 
     // subscribe to home component messages
     this.subscription = this.chronosService.getMessage().subscribe(
       message => {
-        if (message.type === 'mouseMove' && message.id === this.parentID) this.mouse = message.mouse;
-        if (message.type === 'mouseActive' && message.id === this.parentID) this.mouseIsActive = message.active;
+        if (message.type === 'mouseMove' && message.id === this.parentID) {
+          this.mouse = message.mouse;
+        }
+        if (message.type === 'mouseActive' && message.id === this.parentID) {
+          this.mouseIsActive = message.active;
+        }
         // if (message.type === 'elementSize' && message.id === this.parentID) {
         //   this.elemWidth = message.width;
         //   this.elemHeight = message.height;
@@ -70,13 +74,13 @@ export class RaycasterDirective implements OnChanges, OnInit, AfterContentInit, 
     // TODO - this.interactionArray has to be able to update on runtime to reflect dynamic changes to the array.
     this.interactionArray = this.chronosService.getInteraction ();
   }
-  ngOnDestroy():void {}
+  ngOnDestroy(): void {}
 
-  setScene (masterScene:THREE.Scene):void {
+  setScene (masterScene: THREE.Scene): void {
     this.scene = masterScene;
   }
 
-  setCamera (masterCamera:THREE.PerspectiveCamera):void {
+  setCamera (masterCamera: THREE.PerspectiveCamera): void {
     this.camera = masterCamera;
   }
 
@@ -84,14 +88,16 @@ export class RaycasterDirective implements OnChanges, OnInit, AfterContentInit, 
     this.parentID = passDown;
   }
 
-  setActiveObject (oneObject:any):void {
-    if (!oneObject.currentHex || oneObject.currentHex === null) oneObject.currentHex = oneObject.material.color.getHex();
+  setActiveObject (oneObject: any): void {
+    if (!oneObject.currentHex || oneObject.currentHex === null) {
+      oneObject.currentHex = oneObject.material.color.getHex();
+    }
     oneObject.material.color.setHex( 0xff0000 );
 
     this.chronosService.setActiveObject (oneObject);
   }
 
-  clearActiveObject (oneObject:any):void {
+  clearActiveObject (oneObject: any): void {
     oneObject.material.color.setHex( oneObject.currentHex );
     oneObject.currentHex = null;
 
@@ -104,13 +110,13 @@ export class RaycasterDirective implements OnChanges, OnInit, AfterContentInit, 
   render(): void {
     if (this.mouseIsActive) {
       this.rayCaster.setFromCamera( this.mouse, this.camera );
-      let intersects: Array<any> = this.rayCaster.intersectObjects( this.scene.children );
+      const intersects: Array<any> = this.rayCaster.intersectObjects( this.scene.children );
 
       try {
         if (intersects.length > 0) {
           // for(let element of intersects) {}
-          let firstIntersect = intersects[0].object;
-          let interactionCheck:Array<string> = this.interactionArray.filter((item, i, ar) => ( item === firstIntersect.uuid ));
+          const firstIntersect = intersects[0].object;
+          const interactionCheck: Array<string> = this.interactionArray.filter((item, i, ar) => ( item === firstIntersect.uuid ));
 
           // Continuous (every frame) check
           if (interactionCheck.length === 0) {
@@ -135,7 +141,7 @@ export class RaycasterDirective implements OnChanges, OnInit, AfterContentInit, 
               this.setActiveObject (this.currentObject);
             }
           } else {
-            if (this.previousObjectID !== '' && this.previousObjectID !== this.currentObjectID){
+            if (this.previousObjectID !== '' && this.previousObjectID !== this.currentObjectID) {
               this.clearActiveObject (this.previousObject);
             }
           }

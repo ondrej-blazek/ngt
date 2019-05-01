@@ -4,7 +4,7 @@ import * as THREE from 'three';
 import { ChronosService } from '@ngs/core/chronos.service';
 
 @Directive({
-  selector: 'ngt-object'
+  selector: 'ngt-object'     // tslint:disable-line
 })
 export class ObjectDirective implements OnChanges, OnInit, AfterContentInit, OnDestroy {
   @Input() offset: THREE.Vector3;
@@ -27,35 +27,35 @@ export class ObjectDirective implements OnChanges, OnInit, AfterContentInit, OnD
   }
 
   ngOnChanges(changes) {
-    if(changes.offset && changes.offset.currentValue) {
+    if (changes.offset && changes.offset.currentValue) {
       this.offset = changes.offset.currentValue;
       this.content.setPosition (changes.offset.currentValue);
     }
-    if(changes.rotation && changes.rotation.currentValue) {
+    if (changes.rotation && changes.rotation.currentValue) {
       this.rotation = changes.rotation.currentValue;
       this.content.setRotation (changes.rotation.currentValue);
     }
-    if(changes.scale && changes.scale.currentValue) {
+    if (changes.scale && changes.scale.currentValue) {
       this.scale = changes.scale.currentValue;
       this.content.setScale (changes.scale.currentValue);
     }
-    if(changes.animate && changes.animate.currentValue) {
+    if (changes.animate && changes.animate.currentValue) {
       this.animate = changes.animate.currentValue;
     }
-    if(changes.interact && changes.interact.currentValue) {
+    if (changes.interact && changes.interact.currentValue) {
       this.interact = changes.interact.currentValue;
     }
   }
 
-  ngOnInit():void {
+  ngOnInit(): void {
     this.object = this.content.object;
     if (this.interact) {
       this.chronosService.addToInteraction(this.object.uuid);
     }
   }
 
-  ngAfterContentInit():void {}
-  ngOnDestroy():void {}
+  ngAfterContentInit(): void {}
+  ngOnDestroy(): void {}
 
   render(): void {
     if (this.content && this.animate) {

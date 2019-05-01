@@ -4,7 +4,7 @@ import * as THREE from 'three';
 import { ChronosService } from '@ngs/core/chronos.service';
 
 @Directive({
-  selector: 'ngt-dynamic'
+  selector: 'ngt-dynamic'     // tslint:disable-line
 })
 export class DynamicDirective implements OnChanges, OnInit, AfterContentInit, OnDestroy {
   @Input() offset: THREE.Vector3;
@@ -27,39 +27,39 @@ export class DynamicDirective implements OnChanges, OnInit, AfterContentInit, On
   }
 
   ngOnChanges(changes) {
-    if(changes.offset && changes.offset.currentValue) {
+    if (changes.offset && changes.offset.currentValue) {
       this.offset = changes.offset.currentValue;
       this.content.setPosition (changes.offset.currentValue);
     }
-    if(changes.rotation && changes.rotation.currentValue) {
+    if (changes.rotation && changes.rotation.currentValue) {
       this.rotation = changes.rotation.currentValue;
       this.content.setRotation (changes.rotation.currentValue);
     }
-    if(changes.scale && changes.scale.currentValue) {
+    if (changes.scale && changes.scale.currentValue) {
       this.scale = changes.scale.currentValue;
       this.content.setScale (changes.scale.currentValue);
     }
-    if(changes.animate && changes.animate.currentValue) {
+    if (changes.animate && changes.animate.currentValue) {
       this.animate = changes.animate.currentValue;
     }
-    if(changes.interact && changes.interact.currentValue) {
+    if (changes.interact && changes.interact.currentValue) {
       this.interact = changes.interact.currentValue;
     }
   }
 
-  ngOnInit():void {
+  ngOnInit(): void {
     this.content.setAllObjects();
     this.objectArray = this.content.objectArray;
 
     if (this.interact) {
-      for(let element of this.objectArray) {
+      for (const element of this.objectArray) {
         this.chronosService.addToInteraction(element['object'].uuid);
       }
     }
   }
 
-  ngAfterContentInit():void {}
-  ngOnDestroy():void {}
+  ngAfterContentInit(): void {}
+  ngOnDestroy(): void {}
 
   render(): void {
     if (this.content && this.animate) {

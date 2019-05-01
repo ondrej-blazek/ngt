@@ -2,7 +2,7 @@ import { Directive, Input, OnInit, OnChanges, AfterContentInit } from '@angular/
 import * as THREE from 'three';
 
 @Directive({
-  selector: 'ngt-helper-axes'
+  selector: 'ngt-helper-axes'     // tslint:disable-line
 })
 export class AxesDirective implements OnInit, OnChanges, AfterContentInit {
   @Input() side: number;
@@ -16,7 +16,7 @@ export class AxesDirective implements OnInit, OnChanges, AfterContentInit {
   }
 
   ngOnChanges(changes) {
-    if(changes.side) {
+    if (changes.side) {
       this.side = changes.side.currentValue;
     }
   }
