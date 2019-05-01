@@ -3,9 +3,9 @@ import { Subscription } from 'rxjs';
 import * as THREE from 'three';
 
 import { ChronosService } from '@ngs/core/chronos.service';
-import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 
 // TODO - Look into all 'any' objects and definitions to see if they can be made more specific.
+// TODO - Objects also have the ability to react to raycaster - investigate some more.
 
 @Directive({
   selector: 'ngt-raycaster'
@@ -27,10 +27,10 @@ export class RaycasterDirective implements OnChanges, OnInit, AfterContentInit, 
   private previousObjectID: string;
   private interactionArray: Array<string>;
 
-  private objectPosition: THREE.Vector3;
-  private objectProjection: THREE.Vector2;
-  private elemWidth: number;
-  private elemHeight: number;
+  // private objectPosition: THREE.Vector3;
+  // private objectProjection: THREE.Vector2;
+  // private elemWidth: number;
+  // private elemHeight: number;
 
   constructor(
     private chronosService: ChronosService
@@ -46,20 +46,20 @@ export class RaycasterDirective implements OnChanges, OnInit, AfterContentInit, 
     this.previousObjectID = '';
     this.interactionArray = [];
 
-    this.objectPosition = new THREE.Vector3();
-    this.objectProjection = new THREE.Vector2();
-    this.elemWidth = 0;
-    this.elemHeight = 0;
+    // this.objectPosition = new THREE.Vector3();
+    // this.objectProjection = new THREE.Vector2();
+    // this.elemWidth = 0;
+    // this.elemHeight = 0;
 
     // subscribe to home component messages
     this.subscription = this.chronosService.getMessage().subscribe(
       message => {
         if (message.type === 'mouseMove' && message.id === this.parentID) this.mouse = message.mouse;
         if (message.type === 'mouseActive' && message.id === this.parentID) this.mouseIsActive = message.active;
-        if (message.type === 'elementSize' && message.id === this.parentID) {
-          this.elemWidth = message.width;
-          this.elemHeight = message.height;
-        }
+        // if (message.type === 'elementSize' && message.id === this.parentID) {
+        //   this.elemWidth = message.width;
+        //   this.elemHeight = message.height;
+        // }
       }
     );
   }
@@ -87,6 +87,8 @@ export class RaycasterDirective implements OnChanges, OnInit, AfterContentInit, 
   setActiveObject (oneObject:any):void {
     if (!oneObject.currentHex || oneObject.currentHex === null) oneObject.currentHex = oneObject.material.color.getHex();
     oneObject.material.color.setHex( 0xff0000 );
+
+    this.chronosService.setActiveObject ();
   }
 
   clearActiveObject (oneObject:any):void {
@@ -95,6 +97,8 @@ export class RaycasterDirective implements OnChanges, OnInit, AfterContentInit, 
 
     this.previousObject = null;
     this.previousObjectID = '';
+
+    this.chronosService.clearActiveObject ();
   }
 
   render(): void {
@@ -143,19 +147,19 @@ export class RaycasterDirective implements OnChanges, OnInit, AfterContentInit, 
       }
 
 
-      // Raycast projection
-      if (this.currentObject !== null) {
-        // Object THREE.Vector3 position + Camera
-        this.currentObject.updateMatrixWorld();
-        this.objectPosition.setFromMatrixPosition(this.currentObject.matrixWorld);
-        this.objectPosition.project(this.camera);
+      // // Raycast projection
+      // if (this.currentObject !== null) {
+      //   // Object THREE.Vector3 position + Camera
+      //   this.currentObject.updateMatrixWorld();
+      //   this.objectPosition.setFromMatrixPosition(this.currentObject.matrixWorld);
+      //   this.objectPosition.project(this.camera);
 
-        // Screen projection THREE.Vector2
-        this.objectProjection.x = ( this.objectPosition.x * (this.elemWidth / 2)) + (this.elemWidth / 2);
-        this.objectProjection.y = - ( this.objectPosition.y * (this.elemHeight / 2)) + (this.elemHeight / 2);
+      //   // Screen projection THREE.Vector2
+      //   this.objectProjection.x = ( this.objectPosition.x * (this.elemWidth / 2)) + (this.elemWidth / 2);
+      //   this.objectProjection.y = - ( this.objectPosition.y * (this.elemHeight / 2)) + (this.elemHeight / 2);
 
-        console.log ('object', this.currentObject.position, this.objectProjection);
-      }
+      //   console.log ('object', this.currentObject.position, this.objectProjection);
+      // }
 
     }
   }

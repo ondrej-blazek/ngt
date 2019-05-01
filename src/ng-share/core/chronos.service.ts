@@ -93,6 +93,18 @@ export class ChronosService {
     this.interactionArray = filtered;
   }
 
+  // Raycaster active object
+  getActiveObject ():void {
+    console.log ('ChronosService - getActiveObject');
+  }
+  setActiveObject ():void {
+    console.log ('ChronosService - setActiveObject');
+  }
+  clearActiveObject ():void {
+    console.log ('ChronosService - clearActiveObject');
+  }
+
+
   // This one is not needed!!
   // sendMessage(message: string) {
   //   this.subject.next({
