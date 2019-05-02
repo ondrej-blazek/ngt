@@ -26,10 +26,10 @@ export class PointLightDirective implements OnInit, OnChanges, AfterContentInit,
   }
 
   ngOnChanges(changes) {
-    if(changes.offset && changes.offset.currentValue) {
+    if (changes.offset && changes.offset.currentValue) {
       this.content.setOffset (this.light, changes.offset.currentValue);
     }
-    if(changes.animate && changes.animate.currentValue) {
+    if (changes.animate && changes.animate.currentValue) {
       this.animate = changes.animate.currentValue;
     }
   }
@@ -39,8 +39,8 @@ export class PointLightDirective implements OnInit, OnChanges, AfterContentInit,
     this.lightHelper.update();
   }
 
-  ngAfterContentInit():void {}
-  ngOnDestroy():void {
+  ngAfterContentInit(): void {}
+  ngOnDestroy(): void {
     this.lightHelper.dispose();
   }
 

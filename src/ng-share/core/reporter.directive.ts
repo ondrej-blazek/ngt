@@ -10,7 +10,7 @@ import { ChronosDirective } from '@ngs/core/chronos.directive';
 export class ReporterDirective implements OnInit, AfterContentInit {
   @ContentChild(ChronosDirective) ChronosDirective: ChronosDirective;
 
-  get chronos() {
+  get chronos () {
     return this.ChronosDirective;
   }
 
@@ -24,7 +24,7 @@ export class ReporterDirective implements OnInit, AfterContentInit {
   private domHeight: number;
   private domScrollTop: number;
 
-  constructor(
+  constructor (
     private el: ElementRef,
     private chronosService: ChronosService
   ) {
@@ -39,18 +39,18 @@ export class ReporterDirective implements OnInit, AfterContentInit {
     this.domScrollTop = 0;
   }
 
-  ngOnInit() {    // Update chronos BEFORE rendering starts
+  ngOnInit () {    // Update chronos BEFORE rendering starts
     if (this.chronos) {
       this.chronos.idUpdate(this.el.nativeElement.id);
       this.sizeReportFunction();
     }
   }
 
-  ngAfterContentInit() {
+  ngAfterContentInit () {
     this.sizeReportFunction();
   }
 
-  sizeReportFunction(): void {
+  sizeReportFunction (): void {
     // Window
     this.windowWidth = window.innerWidth;
     this.windowHeight = window.innerHeight;
@@ -103,47 +103,47 @@ export class ReporterDirective implements OnInit, AfterContentInit {
   }
 
   // Browser events / resize
-  @HostListener('window:resize')
-  @HostListener('window:vrdisplaypresentchange')
-  resetWidthHeight(): void {
+  @HostListener ('window:resize')
+  @HostListener ('window:vrdisplaypresentchange')
+  resetWidthHeight (): void {
     this.sizeReportFunction();
   }
 
-  @HostListener('window:focus')
-  windowFocus(): void {
+  @HostListener ('window:focus')
+  windowFocus (): void {
     this.chronosService.screenIsActive(true);
   }
 
-  @HostListener('window:blur')
-  windowBlur(): void {
+  @HostListener ('window:blur')
+  windowBlur (): void {
     this.chronosService.screenIsActive(false);
   }
 
-  @HostListener('window:scroll')
-  windowScroll(): void {
+  @HostListener ('window:scroll')
+  windowScroll (): void {
     this.domScrollTop = window.scrollY;
     this.localMousePosition();
   }
 
-  @HostListener('document:mousemove', ['$event'])
-  onMouseMove(e) {
+  @HostListener ('document:mousemove', ['$event'])
+  onMouseMove (e) {
     this.mouse.x = e.clientX;
     this.mouse.y = e.clientY;
     this.localMousePosition();
   }
 
-  @HostListener('document:mousedown', ['$event'])
-  onMouseDown(e) {
+  @HostListener ('document:mousedown', ['$event'])
+  onMouseDown (e) {
     this.mouseEvents('mousedown', e);
   }
 
-  @HostListener('document:mouseup', ['$event'])
-  onMouseUp(e) {
+  @HostListener ('document:mouseup', ['$event'])
+  onMouseUp (e) {
     this.mouseEvents('mouseup', e);
   }
 
-  @HostListener('document:click', ['$event'])
-  onMouseClick(e) {
+  @HostListener ('document:click', ['$event'])
+  onMouseClick (e) {
     this.mouseEvents('click', e);
   }
 }

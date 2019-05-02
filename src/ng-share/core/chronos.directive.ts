@@ -17,19 +17,19 @@ export class ChronosDirective implements OnInit, OnDestroy, AfterContentInit {
   private canvasDirectives: NgcRenderDirective[] = [];
   private currentFrame: number;
 
-  constructor() {
+  constructor () {
     this.parentID = '';
   }
 
-  ngOnInit() {
+  ngOnInit () {
     // console.log ('ChronosDirective - ngOnInit');
   }
 
-  ngOnDestroy() {
+  ngOnDestroy () {
     cancelAnimationFrame(this.currentFrame);
   }
 
-  ngAfterContentInit() {
+  ngAfterContentInit () {
     // Fetch the dom elements into an array
     this.threeDirectives = this.threeDomQuery.toArray();
     this.canvasDirectives = this.canvasDomQuery.toArray();
@@ -43,7 +43,7 @@ export class ChronosDirective implements OnInit, OnDestroy, AfterContentInit {
     this.parentID = passDown;
   }
 
-  propagateID(passDown: string) {
+  propagateID (passDown: string) {
     for (const oneThree of this.threeDirectives) {
       oneThree.renderID(passDown);
     }
@@ -52,7 +52,7 @@ export class ChronosDirective implements OnInit, OnDestroy, AfterContentInit {
     }
   }
 
-  propagateRender(): void {
+  propagateRender (): void {
     for (const oneThree of this.threeDirectives) {
       oneThree.render();
     }
@@ -61,7 +61,7 @@ export class ChronosDirective implements OnInit, OnDestroy, AfterContentInit {
     }
   }
 
-  render() {
+  render (): void {
     let animFrame = 0;
 
     try {

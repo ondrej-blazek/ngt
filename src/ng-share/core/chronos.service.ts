@@ -10,7 +10,7 @@ export class ChronosService {
   private interactionArray: Array<string>;
   private activeObject: any;
 
-  constructor() {
+  constructor () {
     this.interactionArray = [];
     this.activeObject = null;
   }
@@ -20,7 +20,7 @@ export class ChronosService {
  */
 
   // Watch for specific Dom element to change
-  elementSize(id: string, width: number, height: number) {
+  elementSize (id: string, width: number, height: number) {
     this.subject.next({
       type: 'elementSize',
       id: id,
@@ -30,7 +30,7 @@ export class ChronosService {
   }
 
   // Window size
-  screenSize(width: number, height: number) {
+  screenSize (width: number, height: number) {
     this.subject.next({
       type: 'screenSize',
       width: width,
@@ -39,7 +39,7 @@ export class ChronosService {
   }
 
   // Screen is active / in focus
-  screenIsActive(active: boolean) {
+  screenIsActive (active: boolean) {
     this.subject.next({
       type: 'screenIsActive',
       status: active
@@ -47,7 +47,7 @@ export class ChronosService {
   }
 
   // mouse movement / events
-  mouseIsMoving(id: string, mouse: THREE.Vector2) {
+  mouseIsMoving (id: string, mouse: THREE.Vector2) {
     this.subject.next({
       type: 'mouseMove',
       id: id,
@@ -55,7 +55,7 @@ export class ChronosService {
     });
   }
 
-  mouseIsActive(id: string, active: boolean) {
+  mouseIsActive (id: string, active: boolean) {
     this.subject.next({
       type: 'mouseActive',
       id: id,
@@ -63,7 +63,7 @@ export class ChronosService {
     });
   }
 
-  mouseIsDown(id: string, down: boolean) {
+  mouseIsDown (id: string, down: boolean) {
     this.subject.next({
       type: 'mouseDown',
       id: id,
@@ -71,7 +71,7 @@ export class ChronosService {
     });
   }
 
-  mouseClick(id: string) {
+  mouseClick (id: string) {
     this.subject.next({
       type: 'mouseClick',
       id: id
@@ -116,11 +116,11 @@ export class ChronosService {
   //   });
   // }
 
-  clearMessage() {
+  clearMessage (): void {
     this.subject.next();
   }
 
-  getMessage(): Observable<any> {
+  getMessage (): Observable<any> {
     return this.subject.asObservable();
   }
 }

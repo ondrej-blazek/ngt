@@ -32,7 +32,7 @@ export class RaycasterDirective implements OnChanges, OnInit, AfterContentInit, 
   // private elemWidth: number;
   // private elemHeight: number;
 
-  constructor(
+  constructor (
     private chronosService: ChronosService
   ) {
     this.parentID = '';
@@ -68,13 +68,13 @@ export class RaycasterDirective implements OnChanges, OnInit, AfterContentInit, 
     );
   }
 
-  ngOnChanges(changes) {}
-  ngOnInit() {}
-  ngAfterContentInit() {
+  ngOnChanges (changes) {}
+  ngOnInit () {}
+  ngAfterContentInit () {
     // TODO - this.interactionArray has to be able to update on runtime to reflect dynamic changes to the array.
     this.interactionArray = this.chronosService.getInteraction ();
   }
-  ngOnDestroy(): void {}
+  ngOnDestroy (): void {}
 
   setScene (masterScene: THREE.Scene): void {
     this.scene = masterScene;
@@ -84,7 +84,7 @@ export class RaycasterDirective implements OnChanges, OnInit, AfterContentInit, 
     this.camera = masterCamera;
   }
 
-  renderID(passDown: string): void {
+  renderID (passDown: string): void {
     this.parentID = passDown;
   }
 
@@ -107,7 +107,7 @@ export class RaycasterDirective implements OnChanges, OnInit, AfterContentInit, 
     this.chronosService.clearActiveObject ();
   }
 
-  render(): void {
+  render (): void {
     if (this.mouseIsActive) {
       this.rayCaster.setFromCamera( this.mouse, this.camera );
       const intersects: Array<any> = this.rayCaster.intersectObjects( this.scene.children );

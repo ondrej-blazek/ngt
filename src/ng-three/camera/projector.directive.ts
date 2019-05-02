@@ -27,7 +27,7 @@ export class ProjectorDirective implements OnChanges, OnInit, AfterContentInit, 
   private elemWidth: number;
   private elemHeight: number;
 
-  constructor(
+  constructor (
     private chronosService: ChronosService
   ) {
     this.parentID = '';
@@ -55,10 +55,10 @@ export class ProjectorDirective implements OnChanges, OnInit, AfterContentInit, 
     );
   }
 
-  ngOnChanges(changes) {}
-  ngOnInit() {}
-  ngAfterContentInit() {}
-  ngOnDestroy(): void {}
+  ngOnChanges (changes) {}
+  ngOnInit () {}
+  ngAfterContentInit () {}
+  ngOnDestroy (): void {}
 
   setScene (masterScene: THREE.Scene): void {
     this.scene = masterScene;
@@ -68,11 +68,11 @@ export class ProjectorDirective implements OnChanges, OnInit, AfterContentInit, 
     this.camera = masterCamera;
   }
 
-  renderID(passDown: string): void {
+  renderID (passDown: string): void {
     this.parentID = passDown;
   }
 
-  render(): void {
+  render (): void {
     // Raycast projection
     if (this.currentObject !== null) {
       // Object THREE.Vector3 position + Camera

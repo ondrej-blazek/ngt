@@ -14,45 +14,45 @@ export class GeometryDirective implements OnInit, AfterContentInit {
   private objectDirectives: ObjectDirective[] = [];
   private dynamicDirectives: DynamicDirective[] = [];
 
-  constructor() {
+  constructor () {
     this.parentID = '';
   }
 
-  ngOnInit() {}
-  
-  ngAfterContentInit() {
+  ngOnInit () {}
+
+  ngAfterContentInit () {
     this.objectDirectives = this.objectDomQuery.toArray();
     this.dynamicDirectives = this.dynamicDomQuery.toArray();
 
-    for(let oneDirective of this.objectDirectives) {
+    for (const oneDirective of this.objectDirectives) {
       this.scene.add(oneDirective.object);
     }
 
-    for(let oneDirective of this.dynamicDirectives) {
-      for (let element of oneDirective.objectArray) {
+    for (const oneDirective of this.dynamicDirectives) {
+      for (const element of oneDirective.objectArray) {
         this.scene.add(element['object']);
       }
     }
   }
 
-  renderID(passDown: string): void {
+  renderID (passDown: string): void {
     this.parentID = passDown;
   }
 
-  setScene (masterScene:THREE.Scene):void {
+  setScene (masterScene: THREE.Scene): void {
     this.scene = masterScene;
   }
 
   propagateRender (): void {
-    for(let oneDirective of this.objectDirectives) {
+    for (const oneDirective of this.objectDirectives) {
       oneDirective.render();
     }
-    for(let oneDirective of this.dynamicDirectives) {
+    for (const oneDirective of this.dynamicDirectives) {
       oneDirective.render();
     }
   }
 
-  render(): void {
+  render (): void {
     this.propagateRender();
   }
 }

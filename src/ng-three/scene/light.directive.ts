@@ -13,7 +13,7 @@ import { PointLightDirective, HemisphereLightDirective } from '@ngt/light';
   selector: 'ngt-light'     // tslint:disable-line
 })
 export class LightDirective implements OnChanges, OnInit, AfterContentInit {
-  // element parameters 
+  // element parameters
   @Input() helpers: boolean;
 
   // child components / directives
@@ -34,28 +34,34 @@ export class LightDirective implements OnChanges, OnInit, AfterContentInit {
   }
 
   ngOnChanges(changes) {
-    if(changes.helpers) this.helpers = changes.helpers.currentValue;
+    if (changes.helpers) {
+      this.helpers = changes.helpers.currentValue;
+    }
   }
 
   ngOnInit() {}
-  
+
   ngAfterContentInit() {
     // Collect handlers into Array
     this.pointLightDirectives = this.pointLightDomQuery.toArray();
     this.hemiLightDirectives = this.hemiLightDomQuery.toArray();
 
     // Add lights and their helper objects into the scene
-    for(let oneDirective of this.pointLightDirectives) {
+    for (const oneDirective of this.pointLightDirectives) {
       this.scene.add(oneDirective.light);
-      if (this.helpers === true) this.scene.add(oneDirective.lightHelper);
+      if (this.helpers === true) {
+        this.scene.add(oneDirective.lightHelper);
+      }
     }
-    for(let oneDirective of this.hemiLightDirectives) {
+    for (const oneDirective of this.hemiLightDirectives) {
       this.scene.add(oneDirective.light);
-      if (this.helpers === true) this.scene.add(oneDirective.lightHelper);
+      if (this.helpers === true) {
+        this.scene.add(oneDirective.lightHelper);
+      }
     }
   }
 
-  setScene (masterScene:THREE.Scene):void {
+  setScene (masterScene: THREE.Scene): void {
     this.scene = masterScene;
   }
 
@@ -64,14 +70,22 @@ export class LightDirective implements OnChanges, OnInit, AfterContentInit {
     this.propagateID (passDown);
   }
 
-  propagateID(passDown: string) {
-    for(let oneDirective of this.pointLightDirectives) oneDirective.renderID(passDown);
-    for(let oneDirective of this.hemiLightDirectives) oneDirective.renderID(passDown);
+  propagateID(passDown: string): void {
+    for (const oneDirective of this.pointLightDirectives) {
+      oneDirective.renderID(passDown);
+    }
+    for (const oneDirective of this.hemiLightDirectives) {
+      oneDirective.renderID(passDown);
+    }
   }
 
   propagateRender (): void {
-    for(let oneDirective of this.pointLightDirectives) oneDirective.render();
-    for(let oneDirective of this.hemiLightDirectives) oneDirective.render();
+    for (const oneDirective of this.pointLightDirectives) {
+      oneDirective.render();
+    }
+    for (const oneDirective of this.hemiLightDirectives) {
+      oneDirective.render();
+    }
   }
 
   render(): void {

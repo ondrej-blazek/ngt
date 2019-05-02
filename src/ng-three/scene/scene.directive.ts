@@ -41,12 +41,18 @@ export class SceneDirective implements OnChanges, OnInit, AfterContentInit, OnDe
     // );
   }
 
-  ngOnChanges(changes) {}
+  ngOnChanges (changes) {}
 
-  ngOnInit() {
-    if (this.environmentDirective) this.environmentDirective.setScene(this.scene);
-    if (this.geometryDirective) this.geometryDirective.setScene(this.scene);
-    if (this.lightDirective) this.lightDirective.setScene(this.scene);
+  ngOnInit () {
+    if (this.environmentDirective) {
+      this.environmentDirective.setScene(this.scene);
+    }
+    if (this.geometryDirective) {
+      this.geometryDirective.setScene(this.scene);
+    }
+    if (this.lightDirective) {
+      this.lightDirective.setScene(this.scene);
+    }
 
     // Camera
     if (this.cameraDirective) {
@@ -68,36 +74,56 @@ export class SceneDirective implements OnChanges, OnInit, AfterContentInit, OnDe
     }
   }
 
-  ngAfterContentInit() {
+  ngAfterContentInit () {
     // console.log ('Scene children', this.scene.children);
   }
 
-  ngOnDestroy():void {
+  ngOnDestroy (): void {
     this.scene.remove();
   }
 
-  renderID(passDown: string): void {
+  renderID (passDown: string): void {
     this.parentID = passDown;
     this.propagateID (passDown);
   }
 
-  propagateID(passDown: string) {
-    if (this.cameraDirective) this.cameraDirective.renderID(passDown);
-    if (this.raycasterDirective) this.raycasterDirective.renderID(passDown);
-    if (this.projectorDirective) this.projectorDirective.renderID(passDown);
-    if (this.environmentDirective) this.environmentDirective.renderID(passDown);
-    if (this.geometryDirective) this.geometryDirective.renderID(passDown);
-    if (this.lightDirective) this.lightDirective.renderID(passDown);
+  propagateID (passDown: string): void {
+    if (this.cameraDirective) {
+      this.cameraDirective.renderID(passDown);
+    }
+    if (this.raycasterDirective) {
+      this.raycasterDirective.renderID(passDown);
+    }
+    if (this.projectorDirective) {
+      this.projectorDirective.renderID(passDown);
+    }
+    if (this.environmentDirective) {
+      this.environmentDirective.renderID(passDown);
+    }
+    if (this.geometryDirective) {
+      this.geometryDirective.renderID(passDown);
+    }
+    if (this.lightDirective) {
+      this.lightDirective.renderID(passDown);
+    }
   }
 
-  render(): void {
+  render (): void {
     this.propagateRender ();
   }
 
   propagateRender (): void {
-    if (this.raycasterDirective) this.raycasterDirective.render();
-    if (this.projectorDirective) this.projectorDirective.render();
-    if (this.geometryDirective) this.geometryDirective.render();
-    if (this.lightDirective) this.lightDirective.render();
+    if (this.raycasterDirective) {
+      this.raycasterDirective.render();
+    }
+    if (this.projectorDirective) {
+      this.projectorDirective.render();
+    }
+    if (this.geometryDirective) {
+      this.geometryDirective.render();
+    }
+    if (this.lightDirective) {
+      this.lightDirective.render();
+    }
   }
 }

@@ -22,18 +22,30 @@ export class EnvironmentDirective implements OnInit, AfterContentInit, OnDestroy
 
   ngOnInit () {
     // Add to the scene
-    if (this.domeDirective) this.scene.add(this.domeDirective.dome);
-    if (this.groundDirective) this.scene.add(this.groundDirective.plane);
+    if (this.domeDirective) {
+      this.scene.add(this.domeDirective.dome);
+    }
+    if (this.groundDirective) {
+      this.scene.add(this.groundDirective.plane);
+    }
 
     // Pass scene for additional changes
-    if (this.backgroundDirective) this.backgroundDirective.setScene(this.scene);
-    if (this.fogDirective) this.fogDirective.setScene(this.scene);
+    if (this.backgroundDirective) {
+      this.backgroundDirective.setScene(this.scene);
+    }
+    if (this.fogDirective) {
+      this.fogDirective.setScene(this.scene);
+    }
   }
 
   ngAfterContentInit() {
     // Helpers objects
-    if (this.axesDirective) this.scene.add(this.axesDirective.axesHelper);
-    if (this.gridDirective) this.scene.add(this.gridDirective.gridHelper);
+    if (this.axesDirective) {
+      this.scene.add(this.axesDirective.axesHelper);
+    }
+    if (this.gridDirective) {
+      this.scene.add(this.gridDirective.gridHelper);
+    }
   }
 
   ngOnDestroy () {}
@@ -42,7 +54,7 @@ export class EnvironmentDirective implements OnInit, AfterContentInit, OnDestroy
     this.parentID = passDown;
   }
 
-  setScene (masterScene:THREE.Scene):void {
+  setScene (masterScene: THREE.Scene): void {
     this.scene = masterScene;
   }
 }

@@ -9,7 +9,7 @@ export class HemisphereLightDirective implements OnInit, OnChanges, AfterContent
   @Input() offset: THREE.Vector3;
   @Input() animate: boolean;
   @Input() content: any;
-  
+
   public parentID: string;
   public light: THREE.HemisphereLight;
   public lightHelper: THREE.HemisphereLightHelper;
@@ -26,10 +26,10 @@ export class HemisphereLightDirective implements OnInit, OnChanges, AfterContent
   }
 
   ngOnChanges(changes) {
-    if(changes.offset && changes.offset.currentValue) {
+    if (changes.offset && changes.offset.currentValue) {
       this.content.setOffset (this.light, changes.offset.currentValue);
     }
-    if(changes.animate && changes.animate.currentValue) {
+    if (changes.animate && changes.animate.currentValue) {
       this.animate = changes.animate.currentValue;
     }
   }
@@ -39,8 +39,8 @@ export class HemisphereLightDirective implements OnInit, OnChanges, AfterContent
     this.lightHelper.update();
   }
 
-  ngAfterContentInit():void {}
-  ngOnDestroy():void {
+  ngAfterContentInit(): void {}
+  ngOnDestroy(): void {
     this.lightHelper.dispose();
   }
 
