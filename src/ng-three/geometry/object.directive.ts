@@ -16,7 +16,7 @@ export class ObjectDirective implements OnChanges, OnInit, AfterContentInit, OnD
 
   public object: THREE.Mesh;
 
-  constructor(
+  constructor (
     private chronosService: ChronosService
   ) {
     this.offset = new THREE.Vector3(0, 0, 0);
@@ -26,7 +26,7 @@ export class ObjectDirective implements OnChanges, OnInit, AfterContentInit, OnD
     this.interact = false;
   }
 
-  ngOnChanges(changes) {
+  ngOnChanges (changes) {
     if (changes.offset && changes.offset.currentValue) {
       this.offset = changes.offset.currentValue;
       this.content.setPosition (changes.offset.currentValue);
@@ -47,17 +47,17 @@ export class ObjectDirective implements OnChanges, OnInit, AfterContentInit, OnD
     }
   }
 
-  ngOnInit(): void {
+  ngOnInit (): void {
     this.object = this.content.object;
     if (this.interact) {
       this.chronosService.addToInteraction(this.object.uuid);
     }
   }
 
-  ngAfterContentInit(): void {}
-  ngOnDestroy(): void {}
+  ngAfterContentInit (): void {}
+  ngOnDestroy (): void {}
 
-  render(): void {
+  render (): void {
     if (this.content && this.animate) {
       this.content.render();
     }

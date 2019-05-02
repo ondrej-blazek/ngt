@@ -13,7 +13,7 @@ export class CubeContentServiceService {
   public material: THREE.MeshPhongMaterial;
   public object: THREE.Mesh;
 
-  constructor() {
+  constructor () {
     this.location = new THREE.Vector3(0, 0, 0);
     this.position = new THREE.Vector3(0, 0, 0);
     this.offset = new THREE.Vector3(0, 0, 0);
@@ -50,7 +50,7 @@ export class CubeContentServiceService {
     this.object.scale.set(this.scale.x, this.scale.y, this.scale.z);
   }
 
-  render(): void {
+  render (): void {
     this.object.rotation.y += 0.01;
   }
 }

@@ -16,7 +16,7 @@ export class DynamicDirective implements OnChanges, OnInit, AfterContentInit, On
 
   public objectArray: THREE.Mesh[];
 
-  constructor(
+  constructor (
     private chronosService: ChronosService
   ) {
     this.offset = new THREE.Vector3(0, 0, 0);
@@ -26,7 +26,7 @@ export class DynamicDirective implements OnChanges, OnInit, AfterContentInit, On
     this.interact = false;
   }
 
-  ngOnChanges(changes) {
+  ngOnChanges (changes) {
     if (changes.offset && changes.offset.currentValue) {
       this.offset = changes.offset.currentValue;
       this.content.setPosition (changes.offset.currentValue);
@@ -47,7 +47,7 @@ export class DynamicDirective implements OnChanges, OnInit, AfterContentInit, On
     }
   }
 
-  ngOnInit(): void {
+  ngOnInit (): void {
     this.content.setAllObjects();
     this.objectArray = this.content.objectArray;
 
@@ -58,10 +58,10 @@ export class DynamicDirective implements OnChanges, OnInit, AfterContentInit, On
     }
   }
 
-  ngAfterContentInit(): void {}
-  ngOnDestroy(): void {}
+  ngAfterContentInit (): void {}
+  ngOnDestroy (): void {}
 
-  render(): void {
+  render (): void {
     if (this.content && this.animate) {
       this.content.render();
     }

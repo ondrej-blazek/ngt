@@ -17,12 +17,12 @@ export class VrDirective {
   public controls: any;
   public effect: any;
 
-  constructor() {
+  constructor () {
     this.parentID = '';
     this.enabled = true;
   }
 
-  renderID(passDown: string): void {
+  renderID (passDown: string): void {
     this.parentID = passDown;
   }
 

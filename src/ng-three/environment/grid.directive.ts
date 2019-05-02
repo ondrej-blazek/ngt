@@ -11,13 +11,13 @@ export class GridDirective implements OnInit, OnChanges, AfterContentInit {
 
   public gridHelper: THREE.GridHelper;
 
-  constructor() {
+  constructor () {
     this.size = 100;
     this.divisions = 10;
     this.visible = true;
   }
 
-  ngOnChanges(changes) {
+  ngOnChanges (changes) {
     if (changes.size) {
       this.size = changes.size.currentValue;
     }
@@ -36,5 +36,5 @@ export class GridDirective implements OnInit, OnChanges, AfterContentInit {
     this.gridHelper = new THREE.GridHelper(this.size, this.divisions);
     this.gridHelper.visible = this.visible;
   }
-  ngAfterContentInit() {}
+  ngAfterContentInit () {}
 }

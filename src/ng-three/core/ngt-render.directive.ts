@@ -39,7 +39,7 @@ export class NgtRenderDirective implements OnInit, OnDestroy, OnChanges, AfterCo
   private width: number;
   private height: number;
 
-  constructor(
+  constructor (
     private chronosService: ChronosService,
     private element: ElementRef
   ) {
@@ -53,11 +53,9 @@ export class NgtRenderDirective implements OnInit, OnDestroy, OnChanges, AfterCo
     );
   }
 
-  ngOnInit() {
-    // console.log ('NgtRenderDirective - ngOnInit', this.width, this.height);
-  }
+  ngOnInit () {}
 
-  ngOnDestroy() {
+  ngOnDestroy () {
     this.subscription.unsubscribe();
 
     this.camera.remove();
@@ -69,7 +67,7 @@ export class NgtRenderDirective implements OnInit, OnDestroy, OnChanges, AfterCo
   }
 
 
-  ngOnChanges(changes) {
+  ngOnChanges (changes) {
     // if(changes.isVRMode && changes.isVRMode.currentValue) {
     //   if(this.vrDirective) {
     //     if(!this.vrDirective.controls) {
@@ -87,7 +85,7 @@ export class NgtRenderDirective implements OnInit, OnDestroy, OnChanges, AfterCo
     }
   }
 
-  ngAfterContentInit() {
+  ngAfterContentInit () {
     this.renderer.setSize(this.width, this.height);
     this.renderer.setPixelRatio(Math.floor(window.devicePixelRatio));
     this.renderer.shadowMap.enabled = true;
@@ -113,12 +111,12 @@ export class NgtRenderDirective implements OnInit, OnDestroy, OnChanges, AfterCo
     }
   }
 
-  renderID(passDown: string): void {
+  renderID (passDown: string): void {
     this.parentID = passDown;
     this.propagateID(passDown);
   }
 
-  propagateID(passDown: string) {
+  propagateID (passDown: string) {
     this.sceneDirective.renderID(passDown);
     this.orbitDirective.renderID(passDown);
     this.vrDirective.renderID(passDown);
@@ -128,7 +126,7 @@ export class NgtRenderDirective implements OnInit, OnDestroy, OnChanges, AfterCo
     this.sceneDirective.render();
   }
 
-  render(): void {
+  render (): void {
     if (this.element !== null) {
       this.renderer.render(this.scene, this.camera);
       this.propagateRender();

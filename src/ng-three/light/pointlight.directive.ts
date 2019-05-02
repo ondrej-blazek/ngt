@@ -14,7 +14,7 @@ export class PointLightDirective implements OnInit, OnChanges, AfterContentInit,
   public light: THREE.PointLight;
   public lightHelper: THREE.PointLightHelper;
 
-  constructor() {
+  constructor () {
     this.offset = new THREE.Vector3(0, 0, 0);
     this.animate = false;
     this.content = null;
@@ -25,7 +25,7 @@ export class PointLightDirective implements OnInit, OnChanges, AfterContentInit,
     this.lightHelper = new THREE.PointLightHelper(this.light, 2);
   }
 
-  ngOnChanges(changes) {
+  ngOnChanges (changes) {
     if (changes.offset && changes.offset.currentValue) {
       this.content.setOffset (this.light, changes.offset.currentValue);
     }
@@ -34,21 +34,21 @@ export class PointLightDirective implements OnInit, OnChanges, AfterContentInit,
     }
   }
 
-  ngOnInit() {
+  ngOnInit () {
     this.light = this.content.setLight(this.light);
     this.lightHelper.update();
   }
 
-  ngAfterContentInit(): void {}
-  ngOnDestroy(): void {
+  ngAfterContentInit (): void {}
+  ngOnDestroy (): void {
     this.lightHelper.dispose();
   }
 
-  renderID(passDown: string): void {
+  renderID (passDown: string): void {
     this.parentID = passDown;
   }
 
-  render(): void {
+  render (): void {
     if (this.content && this.animate) {
       this.light = this.content.render(this.light);
     }

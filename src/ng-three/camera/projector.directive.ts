@@ -53,7 +53,6 @@ export class ProjectorDirective implements OnChanges, OnInit, AfterContentInit, 
         }
         if (message.type === 'activeObjectUpdate' && message.id === this.parentID) {
           this.currentObject = this.chronosService.getActiveObject();
-          console.log ('serviceActive', this.currentObject);
         }
       }
     );
@@ -87,8 +86,6 @@ export class ProjectorDirective implements OnChanges, OnInit, AfterContentInit, 
       // Screen projection THREE.Vector2
       this.objectProjection.x = ( this.objectPosition.x * (this.elemWidth / 2)) + (this.elemWidth / 2);
       this.objectProjection.y = - ( this.objectPosition.y * (this.elemHeight / 2)) + (this.elemHeight / 2);
-
-      console.log ('object', this.currentObject.position, this.objectProjection);
     }
   }
 }

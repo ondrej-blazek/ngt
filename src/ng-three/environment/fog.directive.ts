@@ -11,13 +11,13 @@ export class FogDirective implements OnInit, OnChanges, AfterContentInit {
 
   private scene: THREE.Scene;
 
-  constructor() {
+  constructor () {
     this.color = 0xffffff;
     this.near = 1;
     this.far = 1000;
   }
 
-  ngOnChanges(changes) {
+  ngOnChanges (changes) {
     if (changes.color) {
       this.color = changes.color.currentValue;
     }
@@ -36,7 +36,7 @@ export class FogDirective implements OnInit, OnChanges, AfterContentInit {
   ngOnInit () {
     this.updateScene(this.color, this.near, this.far);
   }
-  ngAfterContentInit() {}
+  ngAfterContentInit () {}
 
   setScene (masterScene: THREE.Scene): void {
     this.scene = masterScene;

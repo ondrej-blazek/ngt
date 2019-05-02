@@ -7,7 +7,7 @@ export class DynamicContentServiceService {
   private scale: THREE.Vector3;
   public objectArray: SphereContentServiceService[];
 
-  constructor() {
+  constructor () {
     this.offset = new THREE.Vector3(0, 0, 0);
     this.rotation = new THREE.Euler(0, 0, 0, 'XYZ');
     this.scale = new THREE.Vector3(1, 1, 1);
@@ -41,7 +41,7 @@ export class DynamicContentServiceService {
     }
   }
 
-  render(): void {
+  render (): void {
     this.objectArray.forEach(element => {
       element.render();
     });

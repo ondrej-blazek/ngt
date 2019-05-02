@@ -9,11 +9,11 @@ export class BackgroundDirective implements OnInit, OnChanges, AfterContentInit 
 
   private scene: THREE.Scene;
 
-  constructor() {
+  constructor () {
     this.color = new THREE.Color(0xffffff);
   }
 
-  ngOnChanges(changes) {
+  ngOnChanges (changes) {
     if (changes.color) {
       this.color = changes.color.currentValue;
       this.updateScene(this.color);
@@ -23,7 +23,7 @@ export class BackgroundDirective implements OnInit, OnChanges, AfterContentInit 
   ngOnInit () {
     this.updateScene(this.color);
   }
-  ngAfterContentInit() {}
+  ngAfterContentInit () {}
 
   setScene (masterScene: THREE.Scene): void {
     this.scene = masterScene;

@@ -2,8 +2,7 @@ export class TestContentServiceService {
   private rectShape: any;
   private counter: number;
 
-  constructor() {
-    // console.log('TestContentServiceService - constructor');
+  constructor () {
     this.counter = 0;
 
     this.rectShape = {
@@ -15,7 +14,7 @@ export class TestContentServiceService {
     };
   }
 
-  cloud(ctx: any): void {
+  cloud (ctx: any): void {
     // begin custom shape
     ctx.beginPath();
     ctx.moveTo(170, 80);
@@ -33,7 +32,7 @@ export class TestContentServiceService {
     ctx.stroke();
   }
 
-  drawRectangle(myRectangle, ctx): void {
+  drawRectangle (myRectangle, ctx): void {
     ctx.beginPath();
     ctx.rect(myRectangle.x, myRectangle.y, myRectangle.width, myRectangle.height);
     ctx.fillStyle = '#8ED6FF';
@@ -43,7 +42,7 @@ export class TestContentServiceService {
     ctx.stroke();
   }
 
-  animate(canvas, ctx): void {
+  animate (canvas, ctx): void {
     // update
     this.counter++;
     this.counter = (this.counter === 360) ? 0 : this.counter;

@@ -12,7 +12,7 @@ export class DomeDirective implements OnInit, AfterContentInit {
   public material: THREE.ShaderMaterial;
   public dome: THREE.Mesh;
 
-  constructor() {
+  constructor () {
     const vertexShader =
       'varying vec3 vWorldPosition;' +
       'void main() {' +

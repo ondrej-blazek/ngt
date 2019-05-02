@@ -26,22 +26,22 @@ export class LightDirective implements OnChanges, OnInit, AfterContentInit {
   private pointLightDirectives: PointLightDirective[];
   private hemiLightDirectives: HemisphereLightDirective[];
 
-  constructor() {
+  constructor () {
     this.helpers = false;
     this.parentID = '';
     this.pointLightDirectives = [];
     this.hemiLightDirectives = [];
   }
 
-  ngOnChanges(changes) {
+  ngOnChanges (changes) {
     if (changes.helpers) {
       this.helpers = changes.helpers.currentValue;
     }
   }
 
-  ngOnInit() {}
+  ngOnInit () {}
 
-  ngAfterContentInit() {
+  ngAfterContentInit () {
     // Collect handlers into Array
     this.pointLightDirectives = this.pointLightDomQuery.toArray();
     this.hemiLightDirectives = this.hemiLightDomQuery.toArray();
@@ -65,12 +65,12 @@ export class LightDirective implements OnChanges, OnInit, AfterContentInit {
     this.scene = masterScene;
   }
 
-  renderID(passDown: string): void {
+  renderID (passDown: string): void {
     this.parentID = passDown;
     this.propagateID (passDown);
   }
 
-  propagateID(passDown: string): void {
+  propagateID (passDown: string): void {
     for (const oneDirective of this.pointLightDirectives) {
       oneDirective.renderID(passDown);
     }
@@ -88,7 +88,7 @@ export class LightDirective implements OnChanges, OnInit, AfterContentInit {
     }
   }
 
-  render(): void {
+  render (): void {
     this.propagateRender();
   }
 }

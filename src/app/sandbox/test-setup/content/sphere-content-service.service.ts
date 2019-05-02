@@ -14,7 +14,7 @@ export class SphereContentServiceService {
   public material: THREE.MeshPhongMaterial;
   public object: any;
 
-  constructor() {
+  constructor () {
     this.location = new THREE.Vector3(0, 0, 0);
     this.position = new THREE.Vector3(0, 0, 0);
     this.offset = new THREE.Vector3(0, 0, 0);
@@ -57,7 +57,7 @@ export class SphereContentServiceService {
     this.degrees = degrees;
   }
 
-  render(): void {
+  render (): void {
     this.degrees ++;
     if (this.degrees === 360) {
       this.degrees = 0;

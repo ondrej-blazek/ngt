@@ -16,7 +16,7 @@ export class EnvironmentDirective implements OnInit, AfterContentInit, OnDestroy
   private scene: THREE.Scene;
   private parentID: string;
 
-  constructor() {
+  constructor () {
     this.parentID = '';
   }
 
@@ -38,7 +38,7 @@ export class EnvironmentDirective implements OnInit, AfterContentInit, OnDestroy
     }
   }
 
-  ngAfterContentInit() {
+  ngAfterContentInit () {
     // Helpers objects
     if (this.axesDirective) {
       this.scene.add(this.axesDirective.axesHelper);
@@ -50,7 +50,7 @@ export class EnvironmentDirective implements OnInit, AfterContentInit, OnDestroy
 
   ngOnDestroy () {}
 
-  renderID(passDown: string): void {
+  renderID (passDown: string): void {
     this.parentID = passDown;
   }
 

@@ -21,7 +21,7 @@ export class NgcRenderDirective implements OnInit, AfterViewInit, AfterContentIn
   private parentID: string;
   private subscription: Subscription;
 
-  constructor(
+  constructor (
     private chronosService: ChronosService,
     private renderer: Renderer2,
     private element: ElementRef
@@ -36,21 +36,21 @@ export class NgcRenderDirective implements OnInit, AfterViewInit, AfterContentIn
     );
   }
 
-  ngOnInit() {
+  ngOnInit () {
     this.canvas = this.renderer.createElement('canvas');
     this.canvasRef = this.element.nativeElement.appendChild(this.canvas);
     this.canvasRef.setAttribute('class', 'overlay');
     this.canvasContext = this.canvas.getContext('2d');
   }
 
-  ngAfterViewInit() {
+  ngAfterViewInit () {
     this.canvasRef.width = 600;
     this.canvasRef.height = 400;
   }
 
-  ngAfterContentInit() {}
+  ngAfterContentInit () {}
 
-  ngOnDestroy() {
+  ngOnDestroy () {
     this.subscription.unsubscribe();
     this.content = null;
   }
@@ -63,10 +63,10 @@ export class NgcRenderDirective implements OnInit, AfterViewInit, AfterContentIn
     }
   }
 
-  renderID(passDown: string): void {
+  renderID (passDown: string): void {
     this.parentID = passDown;
   }
-  render(): void {
+  render (): void {
     if (this.content !== null) {
       this.content.render(this.canvasRef, this.canvasContext);
     }

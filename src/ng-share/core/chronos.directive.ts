@@ -21,9 +21,7 @@ export class ChronosDirective implements OnInit, OnDestroy, AfterContentInit {
     this.parentID = '';
   }
 
-  ngOnInit () {
-    // console.log ('ChronosDirective - ngOnInit');
-  }
+  ngOnInit () {}
 
   ngOnDestroy () {
     cancelAnimationFrame(this.currentFrame);

@@ -12,7 +12,7 @@ export class GroundDirective implements OnInit, AfterContentInit {
   public material: THREE.MeshPhongMaterial;
   public plane: THREE.Mesh;
 
-  constructor() {
+  constructor () {
     this.geometry = new THREE.PlaneBufferGeometry ( 10000, 10000 );
     this.material = new THREE.MeshPhongMaterial({
       color: 0xffffff,
@@ -27,5 +27,5 @@ export class GroundDirective implements OnInit, AfterContentInit {
   }
 
   ngOnInit () {}
-  ngAfterContentInit() {}
+  ngAfterContentInit () {}
 }

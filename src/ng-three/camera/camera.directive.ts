@@ -95,7 +95,7 @@ export class CameraDirective implements OnInit, OnChanges, OnDestroy, AfterConte
     }
   }
 
-  renderID(passDown: string): void {
+  renderID (passDown: string): void {
     this.parentID = passDown;
   }
 }

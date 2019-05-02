@@ -10,12 +10,12 @@ export class AxesDirective implements OnInit, OnChanges, AfterContentInit {
 
   public axesHelper: THREE.AxesHelper;
 
-  constructor() {
+  constructor () {
     this.side = 100;
     this.visible = true;
   }
 
-  ngOnChanges(changes) {
+  ngOnChanges (changes) {
     if (changes.side) {
       this.side = changes.side.currentValue;
     }
@@ -26,5 +26,5 @@ export class AxesDirective implements OnInit, OnChanges, AfterContentInit {
     this.axesHelper.visible = this.visible;
   }
 
-  ngAfterContentInit() {}
+  ngAfterContentInit () {}
 }

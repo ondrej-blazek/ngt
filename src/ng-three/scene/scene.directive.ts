@@ -10,12 +10,12 @@ import { LightDirective } from './light.directive';
   selector: 'ngt-scene'     // tslint:disable-line
 })
 export class SceneDirective implements OnChanges, OnInit, AfterContentInit, OnDestroy {
-  @ContentChild (CameraDirective) cameraDirective: any;
-  @ContentChild (RaycasterDirective) raycasterDirective: any;
-  @ContentChild (ProjectorDirective) projectorDirective: any;
-  @ContentChild (EnvironmentDirective) environmentDirective: any;
-  @ContentChild (GeometryDirective) geometryDirective: any;            // TODO - children use this to group objects into layers.
-  @ContentChild (LightDirective) lightDirective: any;
+  @ContentChild(CameraDirective) cameraDirective: any;
+  @ContentChild(RaycasterDirective) raycasterDirective: any;
+  @ContentChild(ProjectorDirective) projectorDirective: any;
+  @ContentChild(EnvironmentDirective) environmentDirective: any;
+  @ContentChild(GeometryDirective) geometryDirective: any;            // TODO - children use this to group objects into layers.
+  @ContentChild(LightDirective) lightDirective: any;
 
   // private subscription: Subscription;
   private parentID: string;

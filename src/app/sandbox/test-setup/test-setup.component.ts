@@ -50,7 +50,7 @@ export class TestSetupComponent implements OnInit {
   public pointLight: PointLightService;
   public hemiLight: HemiLightService;
 
-  constructor() {
+  constructor () {
     this.camPosition = new THREE.Vector3(50, 75, 100);
     this.isVRMode = false;
     this.backgroundColor = new THREE.Color(0xffffff);

@@ -11,21 +11,21 @@ export class OrbitDirective {
   private parentID: string;
   public controls: OrbitControls;
 
-  constructor() {
+  constructor () {
     this.parentID = '';
     this.enabled = true;
   }
 
-  setupControls(camera, renderer): void {
+  setupControls (camera, renderer): void {
     this.controls = new OrbitControls(camera, renderer.domElement);
     this.controls.enabled = this.enabled;
   }
 
-  updateControls(scene, camera): void {
+  updateControls (scene, camera): void {
     this.controls.update();
   }
 
-  renderID(passDown: string): void {
+  renderID (passDown: string): void {
     this.parentID = passDown;
   }
 }
