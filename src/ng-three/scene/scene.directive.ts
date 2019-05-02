@@ -1,8 +1,6 @@
 import { Directive, ContentChild, OnChanges, OnInit, AfterContentInit, OnDestroy } from '@angular/core';
 import * as THREE from 'three';
-// import { Subscription } from 'rxjs';
 
-// import { ChronosService } from '@ngs/core/chronos.service';
 import { CameraDirective, RaycasterDirective, ProjectorDirective } from '@ngt/camera';
 import { EnvironmentDirective } from './environment.directive';
 import { GeometryDirective } from './geometry.directive';
@@ -12,33 +10,24 @@ import { LightDirective } from './light.directive';
   selector: 'ngt-scene'     // tslint:disable-line
 })
 export class SceneDirective implements OnChanges, OnInit, AfterContentInit, OnDestroy {
-  @ContentChild(CameraDirective) cameraDirective: any;
-  @ContentChild(RaycasterDirective) raycasterDirective: any;
-  @ContentChild(ProjectorDirective) projectorDirective: any;
-  @ContentChild(EnvironmentDirective) environmentDirective: any;
-  @ContentChild(GeometryDirective) geometryDirective: any;            // TODO - children use this to group objects into layers.
-  @ContentChild(LightDirective) lightDirective: any;
+  @ContentChild (CameraDirective) cameraDirective: any;
+  @ContentChild (RaycasterDirective) raycasterDirective: any;
+  @ContentChild (ProjectorDirective) projectorDirective: any;
+  @ContentChild (EnvironmentDirective) environmentDirective: any;
+  @ContentChild (GeometryDirective) geometryDirective: any;            // TODO - children use this to group objects into layers.
+  @ContentChild (LightDirective) lightDirective: any;
 
   // private subscription: Subscription;
   private parentID: string;
 
-  public scene: THREE.Scene = new THREE.Scene();
+  public scene: THREE.Scene = new THREE.Scene ();
 
-  get camera() {     // Called by render directive
+  get camera () {     // Called by render directive
     return this.cameraDirective.camera;
   }
 
-  constructor(
-    // private chronosService: ChronosService,
-  ) {
+  constructor () {
     this.parentID = '';
-
-    // subscribe to home component messages
-    // this.subscription = this.chronosService.getMessage().subscribe(
-    //   message => {
-    //     // Call function or event
-    //   }
-    // );
   }
 
   ngOnChanges (changes) {}
@@ -74,9 +63,7 @@ export class SceneDirective implements OnChanges, OnInit, AfterContentInit, OnDe
     }
   }
 
-  ngAfterContentInit () {
-    // console.log ('Scene children', this.scene.children);
-  }
+  ngAfterContentInit () {}
 
   ngOnDestroy (): void {
     this.scene.remove();

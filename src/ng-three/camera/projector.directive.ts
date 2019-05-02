@@ -51,6 +51,10 @@ export class ProjectorDirective implements OnChanges, OnInit, AfterContentInit, 
           this.elemWidth = message.width;
           this.elemHeight = message.height;
         }
+        if (message.type === 'activeObjectUpdate' && message.id === this.parentID) {
+          this.currentObject = this.chronosService.getActiveObject();
+          console.log ('serviceActive', this.currentObject);
+        }
       }
     );
   }

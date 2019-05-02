@@ -96,18 +96,26 @@ export class ChronosService {
   }
 
   // Raycaster active object
-  getActiveObject (): void {
-    console.log ('ChronosService - getActiveObject');
-  }
-  setActiveObject (oneObject: any): void {
-    console.log ('ChronosService - setActiveObject');
-    this.activeObject = oneObject;
-  }
-  clearActiveObject (): void {
-    console.log ('ChronosService - clearActiveObject');
-    this.activeObject = null;
+  getActiveObject (): any {
+    return (this.activeObject);
   }
 
+  setActiveObject (id: string, oneObject: any): void {
+    this.activeObject = oneObject;
+    this.broadcastActiveObject (id);
+  }
+
+  clearActiveObject (id: string): void {
+    this.activeObject = null;
+    this.broadcastActiveObject (id);
+  }
+
+  broadcastActiveObject (id: string): void {
+    this.subject.next({
+      type: 'activeObjectUpdate',
+      id: id
+    });
+  }
 
   // This one is not needed!!
   // sendMessage(message: string) {
