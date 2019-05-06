@@ -25,7 +25,9 @@ export class RaycasterDirective implements OnChanges, OnInit, AfterContentInit, 
   private currentObjectID: string;
   private previousObject: any;
   private previousObjectID: string;
+
   private interactionArray: Array<string>;
+  private intersects: Array<any>;
 
   constructor (
     private chronosService: ChronosService
@@ -39,7 +41,9 @@ export class RaycasterDirective implements OnChanges, OnInit, AfterContentInit, 
     this.currentObjectID = '';
     this.previousObject = null;
     this.previousObjectID = '';
+
     this.interactionArray = [];
+    this.intersects = [];
 
     // subscribe to home component messages
     this.subscription = this.chronosService.getMessage().subscribe(
@@ -50,17 +54,22 @@ export class RaycasterDirective implements OnChanges, OnInit, AfterContentInit, 
         if (message.type === 'mouseActive' && message.id === this.parentID) {
           this.mouseIsActive = message.active;
         }
+        if (message.type === 'mouseClick' && message.id === this.parentID) {
+          this.rayClick ();
+        }
       }
     );
   }
 
-  ngOnChanges (changes) {}
-  ngOnInit () {}
-  ngAfterContentInit () {
+  ngOnChanges (changes): void {}
+  ngOnInit (): void {}
+  ngAfterContentInit (): void {
     // TODO - this.interactionArray has to be able to update on runtime to reflect dynamic changes to the array.
     this.interactionArray = this.chronosService.getInteraction ();
   }
-  ngOnDestroy (): void {}
+  ngOnDestroy (): void {
+    this.subscription.unsubscribe();
+  }
 
   setScene (masterScene: THREE.Scene): void {
     this.scene = masterScene;
@@ -74,71 +83,79 @@ export class RaycasterDirective implements OnChanges, OnInit, AfterContentInit, 
     this.parentID = passDown;
   }
 
-  setActiveObject (oneObject: any): void {
-    if (!oneObject.currentHex || oneObject.currentHex === null) {
-      oneObject.currentHex = oneObject.material.color.getHex();
+  render (): void {
+    if (this.mouseIsActive) {
+      const interaction = this.rayFilter ();
+      this.rayThrough (interaction);
     }
-    oneObject.material.color.setHex( 0xff0000 );
+  }
 
-    // Broadcast change to other listeners
+  // Only some objects are allowed
+  rayFilter (): any {
+    // Raycaster with array of results
+    this.rayCaster.setFromCamera( this.mouse, this.camera );
+    this.intersects = this.rayCaster.intersectObjects( this.scene.children );
+
+    // Only objects that you should interact with
+    const firstIntersect = this.intersects[0].object;
+    const interactionCheck: Array<string> = this.interactionArray.filter((item, i, ar) => ( item === firstIntersect.uuid ));
+
+    let interaction: any = null;
+    if (interactionCheck.length !== 0) {
+      interaction = firstIntersect;
+    }
+
+    return interaction;
+  }
+
+  // Ray through / mouse over
+  setActiveObject (oneObject: any): void {
     this.chronosService.setActiveObject (this.parentID, oneObject);
   }
 
   clearActiveObject (oneObject: any): void {
-    oneObject.material.color.setHex( oneObject.currentHex );
-    oneObject.currentHex = null;
+    this.chronosService.clearActiveObject (this.parentID, oneObject);
 
     this.previousObject = null;
     this.previousObjectID = '';
-
-    // Broadcast change to other listeners
-    this.chronosService.clearActiveObject (this.parentID);
   }
 
-  render (): void {
-    if (this.mouseIsActive) {
-      this.rayCaster.setFromCamera( this.mouse, this.camera );
-      const intersects: Array<any> = this.rayCaster.intersectObjects( this.scene.children );
+  rayThrough (interaction: any): void {
+    // Continuous (every frame) check
+    if (interaction === null) {
+      this.currentObject = null;
+      this.currentObjectID = '';
+    } else {
+      this.previousObject = this.currentObject;
+      this.previousObjectID = this.currentObjectID;
+      this.currentObject = interaction;
+      this.currentObjectID = interaction.uuid;
+    }
 
-      try {
-        if (intersects.length > 0) {
-          // for(let element of intersects) {}
-          const firstIntersect = intersects[0].object;
-          const interactionCheck: Array<string> = this.interactionArray.filter((item, i, ar) => ( item === firstIntersect.uuid ));
-
-          // Continuous (every frame) check
-          if (interactionCheck.length === 0) {
-            // Excluded objects
-            this.currentObject = null;
-            this.currentObjectID = '';
-          } else {
-            // Objects are allowed
-            this.previousObject = this.currentObject;
-            this.previousObjectID = this.currentObjectID;
-
-            this.currentObject = firstIntersect;
-            this.currentObjectID = firstIntersect.uuid;
-          }
-
-          // One time even reactions
-          if (this.currentObjectID !== '' && this.previousObjectID !== this.currentObjectID) {
-            if (this.previousObjectID !== '') {
-              this.clearActiveObject (this.previousObject);
-              this.setActiveObject (this.currentObject);
-            } else {
-              this.setActiveObject (this.currentObject);
-            }
-          } else {
-            if (this.previousObjectID !== '' && this.previousObjectID !== this.currentObjectID) {
-              this.clearActiveObject (this.previousObject);
-            }
-          }
-        } else {
-          // No intersects (array is empty, now what....)
-        }
-      } catch (e) {
-        // TODO - better handling of failures.
+    // One time event reactions
+    if (this.currentObjectID !== '' && this.previousObjectID !== this.currentObjectID) {
+      if (this.previousObjectID !== '') {
+        this.clearActiveObject (this.previousObject);
+        this.setActiveObject (this.currentObject);
+      } else {
+        this.setActiveObject (this.currentObject);
       }
+    } else {
+      if (this.previousObjectID !== '' && this.previousObjectID !== this.currentObjectID) {
+        this.clearActiveObject (this.previousObject);
+      }
+    }
+  }
+
+  // Ray through / mouse click
+  rayClick (): void {
+    const interaction = this.rayFilter ();
+    this.rayThroughClick (interaction);
+  }
+
+  rayThroughClick (interaction: any): void {
+    if (interaction !== null) {
+      this.chronosService.updateClickedObject (this.parentID, interaction);
     }
   }
 }

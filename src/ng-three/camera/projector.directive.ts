@@ -45,14 +45,15 @@ export class ProjectorDirective implements OnChanges, OnInit, AfterContentInit, 
     // subscribe to home component messages
     this.subscription = this.chronosService.getMessage().subscribe(
       message => {
-        // if (message.type === 'mouseMove' && message.id === this.parentID) this.mouse = message.mouse;
-        // if (message.type === 'mouseActive' && message.id === this.parentID) this.mouseIsActive = message.active;
         if (message.type === 'elementSize' && message.id === this.parentID) {
           this.elemWidth = message.width;
           this.elemHeight = message.height;
         }
-        if (message.type === 'activeObjectUpdate' && message.id === this.parentID) {
+        if (message.type === 'setActiveObject' && message.id === this.parentID) {
           this.currentObject = this.chronosService.getActiveObject();
+        }
+        if (message.type === 'clearActiveObject' && message.id === this.parentID) {
+          this.currentObject = null;
         }
       }
     );
@@ -61,7 +62,9 @@ export class ProjectorDirective implements OnChanges, OnInit, AfterContentInit, 
   ngOnChanges (changes) {}
   ngOnInit () {}
   ngAfterContentInit () {}
-  ngOnDestroy (): void {}
+  ngOnDestroy () {
+    this.subscription.unsubscribe();
+  }
 
   setScene (masterScene: THREE.Scene): void {
     this.scene = masterScene;
@@ -76,7 +79,10 @@ export class ProjectorDirective implements OnChanges, OnInit, AfterContentInit, 
   }
 
   render (): void {
-    // Raycast projection
+    this.raycastProjection ();
+  }
+
+  raycastProjection (): void {
     if (this.currentObject !== null) {
       // Object THREE.Vector3 position + Camera
       this.currentObject.updateMatrixWorld();

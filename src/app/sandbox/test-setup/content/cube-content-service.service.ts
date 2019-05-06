@@ -11,7 +11,7 @@ export class CubeContentServiceService {
 
   public geometry: THREE.BoxBufferGeometry;
   public material: THREE.MeshPhongMaterial;
-  public object: THREE.Mesh;
+  public object: any;   // THREE.Mesh;
 
   constructor () {
     this.location = new THREE.Vector3(0, 0, 0);
@@ -52,5 +52,26 @@ export class CubeContentServiceService {
 
   render (): void {
     this.object.rotation.y += 0.01;
+  }
+
+  // User interaction
+  userSetActiveObject(): void {
+    if (!this.object.currentHex || this.object.currentHex === null) {
+      this.object.currentHex = this.object.material.color.getHex();
+    }
+    this.object.material.color.setHex(0x0000ff);
+  }
+
+  userClearActiveObject(): void {
+    this.object.material.color.setHex(this.object.currentHex);
+    this.object.currentHex = null;
+  }
+
+  userSetClickedObject(): void {
+    console.log('CubeContentServiceService - setClickedObject');
+  }
+
+  userClearClickedObject(): void {
+    console.log('CubeContentServiceService - clearClickedObject');
   }
 }

@@ -31,8 +31,14 @@ More reading:
     https://www.npmjs.com/package/atft
     https://github.com/makimenko/angular-template-for-threejs/tree/master/projects/atft
 
-  // Project 3D object on camera plane
+  Project 3D object on camera plane
     https://stackoverflow.com/questions/27409074/converting-3d-position-to-2d-screen-position-r69
     http://jsfiddle.net/9osj207n/1/
     https://threejs.org/docs/index.html#api/en/math/Vector3.project
+
+  // Realtime services
+    https://colyseus.io/
+    https://heroiclabs.com/
+    https://gamedev.stackexchange.com/questions/60207/how-to-develop-a-real-time-game-server-for-html5-web-app
+
 */

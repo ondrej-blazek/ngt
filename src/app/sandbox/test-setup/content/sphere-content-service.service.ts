@@ -12,7 +12,7 @@ export class SphereContentServiceService {
 
   public geometry: THREE.BoxBufferGeometry;
   public material: THREE.MeshPhongMaterial;
-  public object: any;
+  public object: any;   // THREE.Mesh;
 
   constructor () {
     this.location = new THREE.Vector3(0, 0, 0);
@@ -65,5 +65,26 @@ export class SphereContentServiceService {
 
     const localRadians: number = THREE.Math.degToRad (this.degrees);
     this.object.position.y = (Math.sin(localRadians) * 15) + 20;
+  }
+
+  // User interaction
+  userSetActiveObject(): void {
+    if (!this.object.currentHex || this.object.currentHex === null) {
+      this.object.currentHex = this.object.material.color.getHex();
+    }
+    this.object.material.color.setHex(0xff0000);
+  }
+
+  userClearActiveObject(): void {
+    this.object.material.color.setHex(this.object.currentHex);
+    this.object.currentHex = null;
+  }
+
+  userSetClickedObject(): void {
+    console.log('SphereContentServiceService - setClickedObject');
+  }
+
+  userClearClickedObject(): void {
+    console.log('SphereContentServiceService - clearClickedObject');
   }
 }

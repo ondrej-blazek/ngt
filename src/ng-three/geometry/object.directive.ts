@@ -1,4 +1,5 @@
 import { Directive, Input, OnChanges, OnInit, AfterContentInit, OnDestroy } from '@angular/core';
+import { Subscription } from 'rxjs';
 import * as THREE from 'three';
 
 import { ChronosService } from '@ngs/core/chronos.service';
@@ -14,6 +15,7 @@ export class ObjectDirective implements OnChanges, OnInit, AfterContentInit, OnD
   @Input() interact: boolean;
   @Input() content: any;
 
+  private subscription: Subscription;
   public object: THREE.Mesh;
 
   constructor (
@@ -24,6 +26,24 @@ export class ObjectDirective implements OnChanges, OnInit, AfterContentInit, OnD
     this.scale = new THREE.Vector3(1, 1, 1);
     this.animate = true;
     this.interact = false;
+
+    // subscribe to home component messages
+    this.subscription = this.chronosService.getMessage().subscribe(
+      message => {
+        if (message.type === 'setActiveObject') {
+          this.userSetActiveObject(message.activeID);
+        }
+        if (message.type === 'clearActiveObject') {
+          this.userClearActiveObject (message.activeID);
+        }
+        if (message.type === 'setClickedObject') {
+          this.userSetClickedObject (message.clickedID);
+        }
+        if (message.type === 'clearClickedObject') {
+          this.userClearClickedObject (message.clickedID);
+        }
+      }
+    );
   }
 
   ngOnChanges (changes) {
@@ -44,6 +64,7 @@ export class ObjectDirective implements OnChanges, OnInit, AfterContentInit, OnD
     }
     if (changes.interact && changes.interact.currentValue) {
       this.interact = changes.interact.currentValue;
+      // TODO - convert to function that can add / remove object from interaction array
     }
   }
 
@@ -55,11 +76,38 @@ export class ObjectDirective implements OnChanges, OnInit, AfterContentInit, OnD
   }
 
   ngAfterContentInit (): void {}
-  ngOnDestroy (): void {}
+  ngOnDestroy (): void {
+    this.subscription.unsubscribe();
+  }
 
   render (): void {
     if (this.content && this.animate) {
       this.content.render();
+    }
+  }
+
+  // User interaction
+  userSetActiveObject (id: string): void {
+    if (this.object.uuid === id && this.interact) {
+      this.content.userSetActiveObject();
+    }
+  }
+
+  userClearActiveObject (id: string): void {
+    if (this.object.uuid === id && this.interact) {
+      this.content.userClearActiveObject();
+    }
+  }
+
+  userSetClickedObject (id: string): void {
+    if (this.object.uuid === id && this.interact) {
+      this.content.userSetClickedObject();
+    }
+  }
+
+  userClearClickedObject (id: string): void {
+    if (this.object.uuid === id && this.interact) {
+      this.content.userClearClickedObject();
     }
   }
 }

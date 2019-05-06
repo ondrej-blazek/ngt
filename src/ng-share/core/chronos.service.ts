@@ -9,10 +9,20 @@ export class ChronosService {
   private subject = new Subject<any>();
   private interactionArray: Array<string>;
   private activeObject: any;
+  private clickedObject: any;
 
   constructor () {
     this.interactionArray = [];
     this.activeObject = null;
+    this.clickedObject = null;
+  }
+
+  // Main
+  getMessage (): Observable<any> {
+    return this.subject.asObservable();
+  }
+  clearMessage (): void {
+    this.subject.next();
   }
 
 /*
@@ -102,33 +112,56 @@ export class ChronosService {
 
   setActiveObject (id: string, oneObject: any): void {
     this.activeObject = oneObject;
-    this.broadcastActiveObject (id);
-  }
-
-  clearActiveObject (id: string): void {
-    this.activeObject = null;
-    this.broadcastActiveObject (id);
-  }
-
-  broadcastActiveObject (id: string): void {
     this.subject.next({
-      type: 'activeObjectUpdate',
-      id: id
+      type: 'setActiveObject',
+      id: id,
+      activeID: oneObject.uuid
     });
   }
 
-  // This one is not needed!!
-  // sendMessage(message: string) {
-  //   this.subject.next({
-  //     text: message
-  //   });
-  // }
-
-  clearMessage (): void {
-    this.subject.next();
+  clearActiveObject (id: string, oneObject: any): void {
+    this.activeObject = null;
+    this.subject.next({
+      type: 'clearActiveObject',
+      id: id,
+      activeID: oneObject.uuid
+    });
   }
 
-  getMessage (): Observable<any> {
-    return this.subject.asObservable();
+  // Raycaster clicked object
+  getClickedObject (): any {
+    return (this.clickedObject);
+  }
+
+  setClickedObject (id: string, oneObject: any): void {
+    this.subject.next({
+      type: 'setClickedObject',
+      id: id,
+      clickedID: oneObject.uuid
+    });
+  }
+
+  clearClickedObject (id: string, oneObject: any): void {
+    this.subject.next({
+      type: 'clearClickedObject',
+      id: id,
+      clickedID: oneObject.uuid
+    });
+  }
+
+  updateClickedObject (id: string, oneObject: any): void {
+    if (this.clickedObject === null) {
+      this.clickedObject = oneObject;
+      this.setClickedObject (id, oneObject);
+    } else {
+      if (this.clickedObject.uuid === oneObject.uuid ) {
+        this.clickedObject = null;
+        this.clearClickedObject (id, oneObject);
+      } else {
+        this.clearClickedObject (id, this.clickedObject);
+        this.clickedObject = oneObject;
+        this.setClickedObject (id, oneObject);
+      }
+    }
   }
 }
