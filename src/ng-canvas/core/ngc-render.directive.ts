@@ -1,4 +1,5 @@
-import { OnInit, AfterViewInit, AfterContentInit, OnDestroy, Directive, Input, Renderer2, ElementRef } from '@angular/core';
+import { OnInit, AfterViewInit, AfterContentInit, OnDestroy, Directive, Input, Renderer2, ElementRef, ContentChildren, QueryList } from '@angular/core';
+import { ShapeDirective } from '@ngc/format';
 import { Subscription } from 'rxjs';
 
 import { ChronosService } from '@ngs/core/chronos.service';
@@ -7,19 +8,19 @@ import { ChronosService } from '@ngs/core/chronos.service';
   selector: 'ngc-render'     // tslint:disable-line
 })
 export class NgcRenderDirective implements OnInit, AfterViewInit, AfterContentInit, OnDestroy {
-  // element parameters
+  @ContentChildren(ShapeDirective) shapeDomQuery: QueryList<ShapeDirective>;
+
   @Input() id: string;
-  @Input() content: any;
-  @Input() data: any;
+  @Input() class: string;
 
   // Canvas HTML element
+  private shapeDirectives: ShapeDirective[];
+  private parentID: string;
+  private subscription: Subscription;
+
   private canvas: HTMLCanvasElement;
   private canvasRef: HTMLCanvasElement;
   private canvasContext: any;
-
-  private message: any;
-  private parentID: string;
-  private subscription: Subscription;
 
   constructor (
     private chronosService: ChronosService,
@@ -28,47 +29,53 @@ export class NgcRenderDirective implements OnInit, AfterViewInit, AfterContentIn
   ) {
     this.parentID = '';
 
-    // subscribe to Global environment messages
     this.subscription = this.chronosService.getMessage().subscribe(
       message => {
-        this.processMessage (message);
+        if (message.type === 'elementSize' && message.id === this.parentID ) {
+          this.updateCanvasSize (message.width, message.height);
+        }
       }
     );
   }
 
   ngOnInit () {
+    // Canvas
     this.canvas = this.renderer.createElement('canvas');
     this.canvasRef = this.element.nativeElement.appendChild(this.canvas);
-    this.canvasRef.setAttribute('class', 'overlay');
+    this.canvasRef.setAttribute('class', this.class);
     this.canvasContext = this.canvas.getContext('2d');
-  }
 
-  ngAfterViewInit () {
+    // Canvas props
     this.canvasRef.width = 600;
     this.canvasRef.height = 400;
   }
+  
+  ngAfterViewInit () {}
 
-  ngAfterContentInit () {}
+  ngAfterContentInit () {
+    this.shapeDirectives = this.shapeDomQuery.toArray();
+  }
 
   ngOnDestroy () {
     this.subscription.unsubscribe();
-    this.content = null;
   }
 
-  processMessage (message: any): void {
-    this.message = message;
-    if (this.message.type === 'elementSize' && this.message.id === this.parentID ) {
-      this.canvasRef.width = this.message.width;
-      this.canvasRef.height = this.message.height;
-    }
+  updateCanvasSize (width:number, height: number): void {
+    this.canvasRef.width = width;
+    this.canvasRef.height = height;
   }
 
   renderID (passDown: string): void {
     this.parentID = passDown;
   }
+  
   render (): void {
-    if (this.content !== null) {
-      this.content.render(this.canvasRef, this.canvasContext);
+    // clear
+    this.canvasContext.clearRect(0, 0, this.canvasRef.width, this.canvasRef.height);
+
+    // add to render
+    for (const oneShape of this.shapeDirectives) {
+      oneShape.render(this.canvasRef, this.canvasContext);
     }
   }
 }

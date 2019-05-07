@@ -6,6 +6,7 @@ import { ChronosService } from '@ngs/core/chronos.service';
 
 // TODO - Look into all 'any' objects and definitions to see if they can be made more specific.
 // TODO - Objects also have the ability to react to raycaster - investigate some more.
+// TODO - detect front and back 
 
 @Directive({
   selector: 'ngt-raycaster'     // tslint:disable-line
@@ -104,7 +105,6 @@ export class RaycasterDirective implements OnChanges, OnInit, AfterContentInit, 
     if (interactionCheck.length !== 0) {
       interaction = firstIntersect;
     }
-
     return interaction;
   }
 

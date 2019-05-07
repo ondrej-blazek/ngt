@@ -1,18 +1,21 @@
 import { NgModule, Optional, SkipSelf } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { NgcRenderDirective } from './core/ngc-render.directive';
+import { NgcRenderDirective } from '@ngc/core';
+import { ShapeDirective } from '@ngc/format';
 
 @NgModule({
   imports: [
     CommonModule
   ],
   declarations: [
-    NgcRenderDirective
+    NgcRenderDirective,
+    ShapeDirective
   ],
   providers: [],
   exports: [
-    NgcRenderDirective
+    NgcRenderDirective,
+    ShapeDirective
   ]
 })
 export class NgcModule {

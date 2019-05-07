@@ -3,7 +3,11 @@
     <ngs-chronos>
 
       <!-- 2D canvas overlay(s) -->
-      <ngc-render id="baseUI" [content]=testContService></ngc-render>
+      <ngc-render id="baseUI" class="overlay">
+        <ngc-shape [content]="rectangle"></ngc-shape>
+        <ngc-shape [content]="dot"></ngc-shape>
+        <ngc-shape [content]="cloud"></ngc-shape>
+      </ngc-render>
       
     </ngs-chronos>
   </div>

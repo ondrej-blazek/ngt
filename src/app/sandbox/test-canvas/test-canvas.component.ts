@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
-import { TestContentServiceService } from './content';
+import { RectangleService, DotService, CloudService } from './content';
 
 @Component({
   selector: 'app-test-canvas',
@@ -8,7 +8,9 @@ import { TestContentServiceService } from './content';
   styleUrls: ['./test-canvas.component.scss']
 })
 export class TestCanvasComponent implements OnInit {
-  public testContService: TestContentServiceService = new TestContentServiceService;
+  public rectangle: RectangleService = new RectangleService ();
+  public dot: DotService = new DotService ();
+  public cloud: CloudService = new CloudService ();
 
   constructor() { }
   ngOnInit() {}

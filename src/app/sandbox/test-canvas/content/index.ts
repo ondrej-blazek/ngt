@@ -1,1 +1,3 @@
-export * from './test-content-service.service';
+export * from './cloud.service';
+export * from './dot.service';
+export * from './rectangle.service';
