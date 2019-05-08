@@ -8,13 +8,21 @@ import * as THREE from 'three';
 export class ChronosService {
   private subject = new Subject<any>();
   private interactionArray: Array<string>;
+
   private activeObject: any;
   private clickedObject: any;
+
+  public activeObjectProjection: THREE.Vector2;
+  public clickedObjectProjection: THREE.Vector2;
+
 
   constructor () {
     this.interactionArray = [];
     this.activeObject = null;
     this.clickedObject = null;
+
+    this.activeObjectProjection = new THREE.Vector2();
+    this.clickedObjectProjection = new THREE.Vector2();
   }
 
   // Main
