@@ -14,6 +14,7 @@ import { SceneDirective, OrbitDirective, VrDirective } from '@ngt/scene';
 export class NgtRenderDirective implements OnInit, OnDestroy, OnChanges, AfterContentInit {
   // element parameters
   @Input() id: string;
+  @Input() class: string;
 
   // child components / directives
   @ContentChild(SceneDirective) sceneDirective: SceneDirective;
@@ -99,7 +100,7 @@ export class NgtRenderDirective implements OnInit, OnDestroy, OnChanges, AfterCo
 
     // This bit will append <canvas> into the directive
     const elCatch = this.element.nativeElement.appendChild(this.renderer.domElement);
-    elCatch.setAttribute('class', 'webgl');
+    elCatch.setAttribute('class', this.class);
   }
 
   processMessage (message: any): void {

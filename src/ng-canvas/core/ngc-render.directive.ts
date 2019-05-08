@@ -1,5 +1,5 @@
 import { OnInit, AfterViewInit, AfterContentInit, OnDestroy, Directive, Input, Renderer2, ElementRef, ContentChildren, QueryList } from '@angular/core';
-import { ShapeDirective } from '@ngc/format';
+import { ShapeDirective, ProjectorDirective } from '@ngc/format';
 import { Subscription } from 'rxjs';
 
 import { ChronosService } from '@ngs/core/chronos.service';
@@ -9,12 +9,15 @@ import { ChronosService } from '@ngs/core/chronos.service';
 })
 export class NgcRenderDirective implements OnInit, AfterViewInit, AfterContentInit, OnDestroy {
   @ContentChildren(ShapeDirective) shapeDomQuery: QueryList<ShapeDirective>;
+  @ContentChildren(ProjectorDirective) projectorDomQuery: QueryList<ProjectorDirective>;
 
   @Input() id: string;
   @Input() class: string;
 
   // Canvas HTML element
   private shapeDirectives: ShapeDirective[];
+  private projectorDirectives: ProjectorDirective[];
+
   private parentID: string;
   private subscription: Subscription;
 
@@ -54,6 +57,7 @@ export class NgcRenderDirective implements OnInit, AfterViewInit, AfterContentIn
 
   ngAfterContentInit () {
     this.shapeDirectives = this.shapeDomQuery.toArray();
+    this.projectorDirectives = this.projectorDomQuery.toArray();
   }
 
   ngOnDestroy () {
@@ -67,6 +71,16 @@ export class NgcRenderDirective implements OnInit, AfterViewInit, AfterContentIn
 
   renderID (passDown: string): void {
     this.parentID = passDown;
+    this.propagateID (passDown);
+  }
+  
+  propagateID (passDown: string): void {
+    for (const oneShape of this.shapeDirectives) {
+      oneShape.renderID(passDown);
+    }
+    for (const oneProjector of this.projectorDirectives) {
+      oneProjector.renderID(passDown);
+    }
   }
   
   render (): void {
@@ -76,6 +90,9 @@ export class NgcRenderDirective implements OnInit, AfterViewInit, AfterContentIn
     // add to render
     for (const oneShape of this.shapeDirectives) {
       oneShape.render(this.canvasRef, this.canvasContext);
+    }
+    for (const oneProjector of this.projectorDirectives) {
+      oneProjector.render(this.canvasRef, this.canvasContext);
     }
   }
 }

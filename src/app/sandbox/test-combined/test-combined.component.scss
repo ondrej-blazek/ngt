@@ -1,0 +1,35 @@
+.randomWrapper {
+  padding: 0 50px;
+  position: relative;
+}
+
+.random {
+  width: 100%;
+  height: 600px;
+  display: block;
+  position: relative;
+}
+
+.mainScene {
+  position: absolute;
+  z-index: 10;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+}
+
+.overlay {
+  position: absolute;
+  z-index: 20;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  
+  overflow: visible;
+  pointer-events: none;
+  background: none !important;
+}
