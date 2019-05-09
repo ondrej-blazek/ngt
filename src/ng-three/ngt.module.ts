@@ -7,6 +7,7 @@ import { CameraDirective, RaycasterDirective, ProjectorDirective } from '@ngt/ca
 import { PointLightDirective, HemisphereLightDirective } from '@ngt/light';
 import { AxesDirective, BackgroundDirective, DomeDirective, FogDirective, GridDirective, GroundDirective } from '@ngt/environment';
 import { ObjectDirective, DynamicDirective } from '@ngt/geometry';
+// import { ObjectService } from '@ngt/service';
 
 @NgModule({
   imports: [

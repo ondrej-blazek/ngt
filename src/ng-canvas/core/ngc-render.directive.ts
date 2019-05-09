@@ -1,4 +1,15 @@
-import { OnInit, AfterViewInit, AfterContentInit, OnDestroy, Directive, Input, Renderer2, ElementRef, ContentChildren, QueryList } from '@angular/core';
+import {
+  OnInit,
+  AfterViewInit,
+  AfterContentInit,
+  OnDestroy,
+  Directive,
+  Input,
+  Renderer2,
+  ElementRef,
+  ContentChildren,
+  QueryList
+} from '@angular/core';
 import { ShapeDirective, ProjectorDirective } from '@ngc/format';
 import { Subscription } from 'rxjs';
 
@@ -52,7 +63,7 @@ export class NgcRenderDirective implements OnInit, AfterViewInit, AfterContentIn
     this.canvasRef.width = 600;
     this.canvasRef.height = 400;
   }
-  
+
   ngAfterViewInit () {}
 
   ngAfterContentInit () {
@@ -64,7 +75,7 @@ export class NgcRenderDirective implements OnInit, AfterViewInit, AfterContentIn
     this.subscription.unsubscribe();
   }
 
-  updateCanvasSize (width:number, height: number): void {
+  updateCanvasSize (width: number, height: number): void {
     this.canvasRef.width = width;
     this.canvasRef.height = height;
   }
@@ -73,7 +84,7 @@ export class NgcRenderDirective implements OnInit, AfterViewInit, AfterContentIn
     this.parentID = passDown;
     this.propagateID (passDown);
   }
-  
+
   propagateID (passDown: string): void {
     for (const oneShape of this.shapeDirectives) {
       oneShape.renderID(passDown);
@@ -82,7 +93,7 @@ export class NgcRenderDirective implements OnInit, AfterViewInit, AfterContentIn
       oneProjector.renderID(passDown);
     }
   }
-  
+
   render (): void {
     // clear
     this.canvasContext.clearRect(0, 0, this.canvasRef.width, this.canvasRef.height);

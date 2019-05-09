@@ -23,7 +23,7 @@ export class ProjectorDirective implements OnChanges, OnInit, AfterContentInit, 
   private activeObjectID: string;
   private activeObjectPosition: THREE.Vector3;
   private activeObjectProjection: THREE.Vector2;
-  
+
   private clickedObject: any;
   private clickedObjectID: string;
   private clickedObjectPosition: THREE.Vector3;
@@ -107,7 +107,7 @@ export class ProjectorDirective implements OnChanges, OnInit, AfterContentInit, 
     objectPosition.project(this.camera);
 
     // Screen projection THREE.Vector2
-    let projectionPosition: THREE.Vector2 = new THREE.Vector2();
+    const projectionPosition: THREE.Vector2 = new THREE.Vector2();
     projectionPosition.x = ( objectPosition.x * (this.elemWidth / 2)) + (this.elemWidth / 2);
     projectionPosition.y = - ( objectPosition.y * (this.elemHeight / 2)) + (this.elemHeight / 2);
     return (projectionPosition);

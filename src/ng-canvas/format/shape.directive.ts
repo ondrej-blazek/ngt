@@ -8,7 +8,9 @@ export class ShapeDirective implements OnInit, AfterViewInit, AfterContentInit, 
 
   private parentID: string;
 
-  constructor() {}
+  constructor() {
+    this.parentID = '';
+  }
 
   ngOnInit () {}
   ngAfterViewInit () {}

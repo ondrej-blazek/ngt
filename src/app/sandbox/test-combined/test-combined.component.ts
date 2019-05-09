@@ -11,7 +11,8 @@ import {
 import {
   RectangleService,
   DotService,
-  CloudService
+  CloudService,
+  ProjectorService
 } from './2d_content';
 
 @Component({
@@ -24,6 +25,7 @@ export class TestCombinedComponent implements OnInit {
   public rectangle: RectangleService = new RectangleService ();
   public dot: DotService = new DotService ();
   public cloud: CloudService = new CloudService ();
+  public projector: ProjectorService = new ProjectorService ();
 
   // 3D
   public camPosition: THREE.Vector3;

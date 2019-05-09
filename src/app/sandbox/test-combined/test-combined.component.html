@@ -27,12 +27,14 @@
             <ngt-helper-grid [size]="400" [divisions]="40"></ngt-helper-grid>
           </ngt-environment>
 
-          <!-- TODO - add layer support for each group of objects, link that to layer number -->
           <ngt-geometry>
+            <!-- TODO - add layer support for each group of objects, link that to layer number -->
+
             <ngt-object [offset]="cubeAOffset" [rotation]="cubeARotation" [scale]="cubeAScale" [content]="cubeA"></ngt-object>
             <ngt-object [offset]="cubeBOffset" [rotation]="cubeBRotation" [scale]="cubeBScale" [content]="cubeB" [interact]="true"></ngt-object>
             <ngt-object [offset]="sphereAOffset" [rotation]="sphereARotation" [scale]="sphereAScale" [content]="sphereA"></ngt-object>
             <ngt-object [offset]="sphereBOffset" [rotation]="sphereBRotation" [scale]="sphereBScale" [content]="sphereB" [interact]="true"></ngt-object>
+
             <!-- <ngt-dynamic [offset]="dynamicOffset" [rotation]="dynamicRotation" [scale]="dynamicScale" [animate]="dynamicAnimate" [content]="dynamic" [interact]="true"></ngt-dynamic> -->
           </ngt-geometry>
         </ngt-scene>
@@ -40,9 +42,10 @@
 
       <!-- 2D canvas overlay(s) -->
       <ngc-render id="baseUI" class="overlay">
-        <ngc-shape [content]="rectangle"></ngc-shape>
+        <!-- <ngc-shape [content]="rectangle"></ngc-shape> -->
+        <!-- <ngc-shape [content]="cloud"></ngc-shape> -->
         <ngc-shape [content]="dot"></ngc-shape>
-        <ngc-shape [content]="cloud"></ngc-shape>
+        <ngc-projector [content]="projector"></ngc-projector>
       </ngc-render>
 
     </ngs-chronos>

@@ -14,10 +14,9 @@ export class SceneDirective implements OnChanges, OnInit, AfterContentInit, OnDe
   @ContentChild(RaycasterDirective) raycasterDirective: any;
   @ContentChild(ProjectorDirective) projectorDirective: any;
   @ContentChild(EnvironmentDirective) environmentDirective: any;
-  @ContentChild(GeometryDirective) geometryDirective: any;            // TODO - children use this to group objects into layers.
+  @ContentChild(GeometryDirective) geometryDirective: any;
   @ContentChild(LightDirective) lightDirective: any;
 
-  // private subscription: Subscription;
   private parentID: string;
 
   public scene: THREE.Scene = new THREE.Scene ();
