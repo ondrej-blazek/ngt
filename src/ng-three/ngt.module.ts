@@ -6,8 +6,7 @@ import { SceneDirective, OrbitDirective, VrDirective, EnvironmentDirective, Geom
 import { CameraDirective, RaycasterDirective, ProjectorDirective } from '@ngt/camera';
 import { PointLightDirective, HemisphereLightDirective } from '@ngt/light';
 import { AxesDirective, BackgroundDirective, DomeDirective, FogDirective, GridDirective, GroundDirective } from '@ngt/environment';
-import { ObjectDirective, DynamicDirective } from '@ngt/geometry';
-// import { ObjectService } from '@ngt/service';
+import { ObjectDirective, DynamicDirective, LayerDirective } from '@ngt/geometry';
 
 @NgModule({
   imports: [
@@ -33,7 +32,8 @@ import { ObjectDirective, DynamicDirective } from '@ngt/geometry';
     GridDirective,
     GroundDirective,
     ObjectDirective,
-    DynamicDirective
+    DynamicDirective,
+    LayerDirective
   ],
   providers: [],
   exports: [
@@ -56,7 +56,8 @@ import { ObjectDirective, DynamicDirective } from '@ngt/geometry';
     GridDirective,
     GroundDirective,
     ObjectDirective,
-    DynamicDirective
+    DynamicDirective,
+    LayerDirective
   ]
 })
 export class NgtModule {

@@ -4,8 +4,6 @@ import * as THREE from 'three';
 
 import { ChronosService } from '@ngs/core/chronos.service';
 
-// TODO - link this to 2D canvas layer through shared services.
-
 @Directive({
   selector: 'ngt-projector'     // tslint:disable-line
 })
