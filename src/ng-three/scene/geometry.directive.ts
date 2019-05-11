@@ -1,5 +1,5 @@
 import { OnInit, Directive, ContentChildren, QueryList, AfterContentInit } from '@angular/core';
-import { ObjectDirective, DynamicDirective } from '@ngt/geometry';
+import { ObjectDirective, DynamicDirective, LayerDirective } from '@ngt/geometry';
 
 @Directive({
   selector: 'ngt-geometry'     // tslint:disable-line
@@ -7,12 +7,14 @@ import { ObjectDirective, DynamicDirective } from '@ngt/geometry';
 export class GeometryDirective implements OnInit, AfterContentInit {
   @ContentChildren(ObjectDirective) objectDomQuery: QueryList<ObjectDirective>;
   @ContentChildren(DynamicDirective) dynamicDomQuery: QueryList<DynamicDirective>;
+  @ContentChildren(LayerDirective) layerDomQuery: QueryList<LayerDirective>;
 
   private scene: THREE.Scene;
   private parentID: string;
 
   private objectDirectives: ObjectDirective[] = [];
   private dynamicDirectives: DynamicDirective[] = [];
+  private layerDirectives: LayerDirective[] = [];
 
   constructor () {
     this.parentID = '';
@@ -23,6 +25,9 @@ export class GeometryDirective implements OnInit, AfterContentInit {
   ngAfterContentInit () {
     this.objectDirectives = this.objectDomQuery.toArray();
     this.dynamicDirectives = this.dynamicDomQuery.toArray();
+    this.layerDirectives = this.layerDomQuery.toArray();
+
+    // TODO if   this.layerDirectives   length is more then 32, discard the rest OR throw an error
 
     for (const oneDirective of this.objectDirectives) {
       this.scene.add(oneDirective.object);
@@ -33,10 +38,21 @@ export class GeometryDirective implements OnInit, AfterContentInit {
         this.scene.add(element['object']);
       }
     }
+
+    for (const oneDirective of this.layerDirectives) {
+      oneDirective.setScene(this.scene);
+    }
   }
 
   renderID (passDown: string): void {
     this.parentID = passDown;
+    this.propagateID (passDown);
+  }
+
+  propagateID (passDown: string): void {
+    for (const oneDirective of this.layerDirectives) {
+      oneDirective.renderID(passDown);
+    }
   }
 
   setScene (masterScene: THREE.Scene): void {
@@ -48,6 +64,9 @@ export class GeometryDirective implements OnInit, AfterContentInit {
       oneDirective.render();
     }
     for (const oneDirective of this.dynamicDirectives) {
+      oneDirective.render();
+    }
+    for (const oneDirective of this.layerDirectives) {
       oneDirective.render();
     }
   }

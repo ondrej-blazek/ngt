@@ -1,6 +1,5 @@
 export * from './ngt.module';
 
-// TODO - Layers of Three JS
 // TODO - integration with Angular features / Bootstrap frame / Material
 // TODO - Modals and App interaction back to ThreeJS
 // TODO - cross application talk / channel / data exchange

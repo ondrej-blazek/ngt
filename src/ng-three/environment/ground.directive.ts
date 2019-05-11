@@ -9,7 +9,7 @@ import * as THREE from 'three';
 })
 export class GroundDirective implements OnInit, AfterContentInit {
   public geometry: THREE.PlaneBufferGeometry;
-  public material: THREE.MeshPhongMaterial;
+  public material: THREE.MeshPhongMaterial | THREE.MeshBasicMaterial;
   public plane: THREE.Mesh;
 
   constructor () {
