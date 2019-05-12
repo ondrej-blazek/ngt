@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { NgtRenderDirective } from '@ngt/core';
 import { SceneDirective, OrbitDirective, VrDirective, EnvironmentDirective, GeometryDirective, LightDirective } from '@ngt/scene';
-import { CameraDirective, RaycasterDirective, ProjectorDirective } from '@ngt/camera';
+import { PerspectiveCameraDirective, OrthoCameraDirective, RaycasterDirective, ProjectorDirective } from '@ngt/camera';
 import { PointLightDirective, HemisphereLightDirective } from '@ngt/light';
 import { AxesDirective, BackgroundDirective, DomeDirective, FogDirective, GridDirective, GroundDirective } from '@ngt/environment';
 import { ObjectDirective, DynamicDirective, LayerDirective } from '@ngt/geometry';
@@ -14,50 +14,20 @@ import { ObjectDirective, DynamicDirective, LayerDirective } from '@ngt/geometry
   ],
   declarations: [
     NgtRenderDirective,
-    SceneDirective,
-    OrbitDirective,
-    VrDirective,
-    EnvironmentDirective,
-    GeometryDirective,
-    LightDirective,
-    CameraDirective,
-    RaycasterDirective,
-    ProjectorDirective,
-    PointLightDirective,
-    HemisphereLightDirective,
-    AxesDirective,
-    BackgroundDirective,
-    DomeDirective,
-    FogDirective,
-    GridDirective,
-    GroundDirective,
-    ObjectDirective,
-    DynamicDirective,
-    LayerDirective
+    SceneDirective, OrbitDirective, VrDirective, EnvironmentDirective, GeometryDirective, LightDirective,
+    PerspectiveCameraDirective, OrthoCameraDirective, RaycasterDirective, ProjectorDirective,
+    PointLightDirective, HemisphereLightDirective,
+    AxesDirective, BackgroundDirective, DomeDirective, FogDirective, GridDirective, GroundDirective,
+    ObjectDirective, DynamicDirective, LayerDirective
   ],
   providers: [],
   exports: [
     NgtRenderDirective,
-    SceneDirective,
-    OrbitDirective,
-    VrDirective,
-    EnvironmentDirective,
-    GeometryDirective,
-    LightDirective,
-    CameraDirective,
-    RaycasterDirective,
-    ProjectorDirective,
-    PointLightDirective,
-    HemisphereLightDirective,
-    AxesDirective,
-    BackgroundDirective,
-    DomeDirective,
-    FogDirective,
-    GridDirective,
-    GroundDirective,
-    ObjectDirective,
-    DynamicDirective,
-    LayerDirective
+    SceneDirective, OrbitDirective, VrDirective, EnvironmentDirective, GeometryDirective, LightDirective,
+    PerspectiveCameraDirective, OrthoCameraDirective, RaycasterDirective, ProjectorDirective,
+    PointLightDirective, HemisphereLightDirective,
+    AxesDirective, BackgroundDirective, DomeDirective, FogDirective, GridDirective, GroundDirective,
+    ObjectDirective, DynamicDirective, LayerDirective
   ]
 })
 export class NgtModule {

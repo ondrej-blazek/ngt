@@ -1,7 +1,7 @@
 import { Directive, ContentChild, OnChanges, OnInit, AfterContentInit, OnDestroy } from '@angular/core';
 import * as THREE from 'three';
 
-import { CameraDirective, RaycasterDirective, ProjectorDirective } from '@ngt/camera';
+import { PerspectiveCameraDirective, OrthoCameraDirective, RaycasterDirective, ProjectorDirective } from '@ngt/camera';
 import { EnvironmentDirective } from './environment.directive';
 import { GeometryDirective } from './geometry.directive';
 import { LightDirective } from './light.directive';
@@ -10,7 +10,8 @@ import { LightDirective } from './light.directive';
   selector: 'ngt-scene'     // tslint:disable-line
 })
 export class SceneDirective implements OnChanges, OnInit, AfterContentInit, OnDestroy {
-  @ContentChild(CameraDirective) cameraDirective: any;
+  @ContentChild(PerspectiveCameraDirective) cameraDirective: any;
+  @ContentChild(OrthoCameraDirective) orthoDirective: any;
   @ContentChild(RaycasterDirective) raycasterDirective: any;
   @ContentChild(ProjectorDirective) projectorDirective: any;
   @ContentChild(EnvironmentDirective) environmentDirective: any;
@@ -22,7 +23,14 @@ export class SceneDirective implements OnChanges, OnInit, AfterContentInit, OnDe
   public scene: THREE.Scene = new THREE.Scene ();
 
   get camera () {     // Called by render directive
-    return this.cameraDirective.camera;
+    let cameraValue = null;
+    if (this.cameraDirective) {
+      cameraValue = this.cameraDirective.camera
+    }
+    if (this.orthoDirective) {
+      cameraValue = this.orthoDirective.camera
+    }
+    return cameraValue;
   }
 
   constructor () {
@@ -43,20 +51,19 @@ export class SceneDirective implements OnChanges, OnInit, AfterContentInit, OnDe
     }
 
     // Camera
-    if (this.cameraDirective) {
+    if (this.camera !== null) {
       this.camera.lookAt(this.scene.position);
       this.scene.add(this.camera);
-      // this.scene.add(this.cameraDirective.cameraHelper);     // TODO - investigate the errors
     }
 
     // RayCaster
-    if (this.raycasterDirective && this.cameraDirective) {
+    if (this.raycasterDirective && this.camera !== null) {
       this.raycasterDirective.setScene(this.scene);
       this.raycasterDirective.setCamera(this.camera);
     }
 
     // Projector to 2D
-    if (this.projectorDirective && this.cameraDirective) {
+    if (this.projectorDirective && this.camera !== null) {
       this.projectorDirective.setScene(this.scene);
       this.projectorDirective.setCamera(this.camera);
     }
@@ -76,6 +83,9 @@ export class SceneDirective implements OnChanges, OnInit, AfterContentInit, OnDe
   propagateID (passDown: string): void {
     if (this.cameraDirective) {
       this.cameraDirective.renderID(passDown);
+    }
+    if (this.orthoDirective) {
+      this.orthoDirective.renderID(passDown);
     }
     if (this.raycasterDirective) {
       this.raycasterDirective.renderID(passDown);

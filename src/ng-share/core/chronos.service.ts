@@ -64,6 +64,29 @@ export class ChronosService {
     });
   }
 
+  // Active Layer
+  enableLayer (id: string, layerNo: number) {
+    this.subject.next({
+      type: 'enableLayer',
+      id: id,
+      layerNo: layerNo
+    });
+  }
+  disableLayer (id: string, layerNo: number) {
+    this.subject.next({
+      type: 'disableLayer',
+      id: id,
+      layerNo: layerNo
+    });
+  }
+  toggleLayer (id: string, layerNo: number) {
+    this.subject.next({
+      type: 'toggleLayer',
+      id: id,
+      layerNo: layerNo
+    });
+  }
+
   // mouse movement / events
   mouseIsMoving (id: string, mouse: THREE.Vector2) {
     this.subject.next({
@@ -72,7 +95,6 @@ export class ChronosService {
       mouse: mouse
     });
   }
-
   mouseIsActive (id: string, active: boolean) {
     this.subject.next({
       type: 'mouseActive',
@@ -80,7 +102,6 @@ export class ChronosService {
       active: active
     });
   }
-
   mouseIsDown (id: string, down: boolean) {
     this.subject.next({
       type: 'mouseDown',
@@ -88,7 +109,6 @@ export class ChronosService {
       down: down
     });
   }
-
   mouseClick (id: string) {
     this.subject.next({
       type: 'mouseClick',
@@ -101,13 +121,11 @@ export class ChronosService {
   getInteraction (): Array<string> {
     return (this.interactionArray);
   }
-
   addToInteraction (uuid: string): void {
     this.interactionArray.push(uuid);
     const unique = this.interactionArray.filter((item, i, ar) => ( ar.indexOf(item) === i ));
     this.interactionArray = unique;
   }
-
   removeFromInteraction (uuid: string): void {
     const filtered = this.interactionArray.filter((item, i, ar) => ( item !== uuid ));
     this.interactionArray = filtered;
@@ -117,7 +135,6 @@ export class ChronosService {
   getActiveObject (): any {
     return (this.activeObject);
   }
-
   setActiveObject (id: string, oneObject: any): void {
     this.activeObject = oneObject;
     this.subject.next({
@@ -126,7 +143,6 @@ export class ChronosService {
       activeID: oneObject.uuid
     });
   }
-
   clearActiveObject (id: string, oneObject: any): void {
     this.activeObject = null;
     this.subject.next({
@@ -140,7 +156,6 @@ export class ChronosService {
   getClickedObject (): any {
     return (this.clickedObject);
   }
-
   setClickedObject (id: string, oneObject: any): void {
     this.subject.next({
       type: 'setClickedObject',
@@ -148,7 +163,6 @@ export class ChronosService {
       clickedID: oneObject.uuid
     });
   }
-
   clearClickedObject (id: string, oneObject: any): void {
     this.subject.next({
       type: 'clearClickedObject',
@@ -156,7 +170,6 @@ export class ChronosService {
       clickedID: oneObject.uuid
     });
   }
-
   updateClickedObject (id: string, oneObject: any): void {
     if (this.clickedObject === null) {
       this.clickedObject = oneObject;

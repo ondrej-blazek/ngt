@@ -27,8 +27,6 @@ export class GeometryDirective implements OnInit, AfterContentInit {
     this.dynamicDirectives = this.dynamicDomQuery.toArray();
     this.layerDirectives = this.layerDomQuery.toArray();
 
-    // TODO if   this.layerDirectives   length is more then 32, discard the rest OR throw an error
-
     for (const oneDirective of this.objectDirectives) {
       this.scene.add(oneDirective.object);
     }
@@ -44,6 +42,10 @@ export class GeometryDirective implements OnInit, AfterContentInit {
     }
   }
 
+  setScene (masterScene: THREE.Scene): void {
+    this.scene = masterScene;
+  }
+
   renderID (passDown: string): void {
     this.parentID = passDown;
     this.propagateID (passDown);
@@ -55,8 +57,8 @@ export class GeometryDirective implements OnInit, AfterContentInit {
     }
   }
 
-  setScene (masterScene: THREE.Scene): void {
-    this.scene = masterScene;
+  render (): void {
+    this.propagateRender();
   }
 
   propagateRender (): void {
@@ -69,9 +71,5 @@ export class GeometryDirective implements OnInit, AfterContentInit {
     for (const oneDirective of this.layerDirectives) {
       oneDirective.render();
     }
-  }
-
-  render (): void {
-    this.propagateRender();
   }
 }

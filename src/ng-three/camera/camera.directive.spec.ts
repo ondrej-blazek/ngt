@@ -1,8 +1,8 @@
-import { CameraDirective } from './camera.directive';
+import { PerspectiveCameraDirective } from './camera.directive';
 
-describe('CameraDirective', () => {
+describe('PerspectiveCameraDirective', () => {
   it('should create an instance', () => {
-    const directive = new CameraDirective();
+    const directive = new PerspectiveCameraDirective();
     expect(directive).toBeTruthy();
   });
 });

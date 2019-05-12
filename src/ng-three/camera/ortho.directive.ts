@@ -6,20 +6,25 @@ import { ChronosService } from '@ngs/core/chronos.service';
 
 // TODO - Partially Augment camera into a content class that provides settings in
 
+/*
+ *     TOO BROKEN!!!  NOT READY YET!!!!
+ */
+
+
 @Directive({
-  selector: 'ngt-camera'     // tslint:disable-line
+  selector: 'ngt-camera-ortho'     // tslint:disable-line
 })
-export class PerspectiveCameraDirective implements OnInit, OnChanges, OnDestroy, AfterContentInit {
+export class OrthoCameraDirective implements OnInit, OnChanges, OnDestroy, AfterContentInit {
   // element parameters
   @Input() location: THREE.Vector3;
   @Input() rotation: THREE.Euler;
 
   private scene: THREE.Scene;
 
-  private viewAngle: number;
-  private aspect: number;
-  private near: number;
-  private far: number;
+  // private viewAngle: number;
+  // private aspect: number;
+  // private near: number;
+  // private far: number;
 
   // private message: any;
   private parentID: string;
@@ -27,7 +32,7 @@ export class PerspectiveCameraDirective implements OnInit, OnChanges, OnDestroy,
   private width: number;
   private height: number;
 
-  public camera: THREE.PerspectiveCamera;
+  public camera: THREE.OrthographicCamera;
   public cameraHelper: THREE.CameraHelper;
 
   constructor (
@@ -37,12 +42,12 @@ export class PerspectiveCameraDirective implements OnInit, OnChanges, OnDestroy,
     this.location = new THREE.Vector3(0, 0, 0);
     this.rotation = new THREE.Euler(0, 0, 0, 'XYZ');
 
-    this.viewAngle = 75;
-    this.near = 0.1;
-    this.far = 10000;
+    // this.viewAngle = 75;
+    // this.near = 0.1;
+    // this.far = 10000;
+    // this.aspect = this.width / this.height;
 
-    this.aspect = this.width / this.height;
-    this.camera = new THREE.PerspectiveCamera(this.viewAngle, this.aspect, this.near, this.far);
+    this.camera = new THREE.OrthographicCamera( -(this.width/2), (this.width/2), (this.height/2), -(this.height/2), 1, 1000 );
     this.cameraHelper = new THREE.CameraHelper( this.camera );
 
     // subscribe to home component messages
@@ -78,7 +83,7 @@ export class PerspectiveCameraDirective implements OnInit, OnChanges, OnDestroy,
 
   updateAspect (ratio: number): void {
     if (this.camera) {
-      this.camera.aspect = ratio;
+      // this.camera.aspect = ratio;
       this.camera.updateProjectionMatrix();
     }
   }
@@ -98,4 +103,4 @@ export class PerspectiveCameraDirective implements OnInit, OnChanges, OnDestroy,
 }
 
 // More reading:
-//   https://threejs.org/docs/#api/en/cameras/PerspectiveCamera
+//   https://threejs.org/docs/#api/en/cameras/OrthographicCamera

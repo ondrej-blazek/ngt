@@ -1,5 +1,8 @@
 import { Directive, Input, OnInit, OnChanges, AfterContentInit, OnDestroy } from '@angular/core';
+import { Subscription } from 'rxjs';
 import * as THREE from 'three';
+
+import { ChronosService } from '@ngs/core/chronos.service';
 
 @Directive({
   selector: 'ngt-point-light'     // tslint:disable-line
@@ -10,11 +13,14 @@ export class PointLightDirective implements OnInit, OnChanges, AfterContentInit,
   @Input() animate: boolean;
   @Input() content: any;
 
-  public parentID: string;
+  private parentID: string;
+  private subscription: Subscription;
   public light: THREE.PointLight;
   public lightHelper: THREE.PointLightHelper;
 
-  constructor () {
+  constructor (
+    private chronosService: ChronosService
+  ) {
     this.offset = new THREE.Vector3(0, 0, 0);
     this.animate = false;
     this.content = null;
@@ -23,6 +29,15 @@ export class PointLightDirective implements OnInit, OnChanges, AfterContentInit,
     // Light + helper object
     this.light = new THREE.PointLight();
     this.lightHelper = new THREE.PointLightHelper(this.light, 2);
+
+    // subscribe to home component messages
+    this.subscription = this.chronosService.getMessage().subscribe(
+      message => {
+        if (message.type === 'enableLayer' && message.id === this.parentID ) {
+          this.light.layers.enable(message.layerNo);
+        }
+      }
+    );
   }
 
   ngOnChanges (changes) {

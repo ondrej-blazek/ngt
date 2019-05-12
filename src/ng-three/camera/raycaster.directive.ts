@@ -14,7 +14,7 @@ import { ChronosService } from '@ngs/core/chronos.service';
 export class RaycasterDirective implements OnChanges, OnInit, AfterContentInit, OnDestroy {
 
   private scene: THREE.Scene;
-  private camera: THREE.PerspectiveCamera;      // <<<< Perspective ONLY??  no ortho  - TODO
+  private camera: THREE.PerspectiveCamera | THREE.OrthographicCamera;
 
   private subscription: Subscription;
   private parentID: string;
@@ -76,7 +76,7 @@ export class RaycasterDirective implements OnChanges, OnInit, AfterContentInit, 
     this.scene = masterScene;
   }
 
-  setCamera (masterCamera: THREE.PerspectiveCamera): void {
+  setCamera (masterCamera: THREE.PerspectiveCamera | THREE.OrthographicCamera): void {
     this.camera = masterCamera;
   }
 
