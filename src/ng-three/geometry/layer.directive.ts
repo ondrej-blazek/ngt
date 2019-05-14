@@ -5,6 +5,9 @@ import { ChronosService } from '@ngs/core/chronos.service';
 import { ObjectDirective } from './object.directive';
 import { DynamicDirective } from './dynamic.directive';
 
+// TODO - add toggle feature, add or remove the objects from scene accordingly.
+// TODO - front-end visual items is required prior task above.
+
 @Directive({
   selector: 'ngt-layer'     // tslint:disable-line
 })
@@ -28,9 +31,6 @@ export class LayerDirective implements OnInit, OnChanges, OnDestroy, AfterConten
     this.layer = 0;
     this.visible = true;
     this.parentID = '';
-
-    // TODO - notify channel of active layer
-    // TODO - enable layers on camera and lights
 
     // subscribe to home component messages
     this.subscription = this.chronosService.getMessage().subscribe(
