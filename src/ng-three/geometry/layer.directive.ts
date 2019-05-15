@@ -41,10 +41,13 @@ export class LayerDirective implements OnInit, OnChanges, OnDestroy, AfterConten
   }
 
   ngOnChanges (changes) {
-    // if (changes.layer) {           // DO NOT allow layer be re-assigned
+    // if (changes.layer) {           // !!! DO NOT allow layer be re-assigned
     //   this.layer = changes.layer.currentValue;
     // }
     if (changes.visible) {
+
+      console.log ('changes.visible', changes.visible);
+
       this.visible = changes.visible.currentValue;
     }
   }

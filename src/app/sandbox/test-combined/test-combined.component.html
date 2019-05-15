@@ -5,40 +5,40 @@
 
       <!-- 3D scene(s) -->
       <ngt-render id="threeMaster" class="mainScene">
-        <ngt-orbit [enabled]="!isVRMode"></ngt-orbit>
-        <ngt-vr [enabled]="isVRMode" [height]="height" [width]="width"></ngt-vr>
+        <ngt-orbit [enabled]="!env.isVRMode"></ngt-orbit>
+        <ngt-vr [enabled]="env.isVRMode" [height]="height" [width]="width"></ngt-vr>
 
         <ngt-scene>
-          <ngt-camera [location]="camPosition"></ngt-camera>
+          <ngt-camera [location]="env.camPosition"></ngt-camera>
           <ngt-raycaster></ngt-raycaster>
           <ngt-projector></ngt-projector>
 
           <ngt-light [helpers]="true">
-            <ngt-point-light [offset]="lightPosition" [content]="pointLight" [animate]="false"></ngt-point-light>
-            <ngt-hemisphere-light [offset]="hemPosition" [content]="hemiLight" [animate]="false"></ngt-hemisphere-light>
+            <ngt-point-light [offset]="env.lightPosition" [content]="pointLight" [animate]="false"></ngt-point-light>
+            <ngt-hemisphere-light [offset]="env.hemPosition" [content]="hemiLight" [animate]="false"></ngt-hemisphere-light>
           </ngt-light>
 
           <ngt-environment>
-            <ngt-background [color]="backgroundColor"></ngt-background>
+            <ngt-background [color]="env.backgroundColor"></ngt-background>
             <ngt-ground></ngt-ground>
             <ngt-dome></ngt-dome>
-            <ngt-fog [color]="backgroundColor" [near]="1" [far]="500"></ngt-fog>
+            <ngt-fog [color]="env.backgroundColor" [near]="1" [far]="500"></ngt-fog>
 
             <ngt-helper-axes [side]="100"></ngt-helper-axes>
             <ngt-helper-grid [size]="400" [divisions]="40"></ngt-helper-grid>
           </ngt-environment>
 
           <ngt-geometry>
-            <ngt-layer [layer]="0" [visible]="true">
-              <ngt-object [offset]="sphereAOffset" [rotation]="sphereARotation" [scale]="sphereAScale" [content]="sphereA"></ngt-object>
-              <ngt-object [offset]="sphereBOffset" [rotation]="sphereBRotation" [scale]="sphereBScale" [content]="sphereB" [interact]="true"></ngt-object>
+            <ngt-layer [layer]="layers[0].layer" [visible]="layers[0].visible">
+              <ngt-object [offset]="spheres.sphereAOffset" [rotation]="spheres.sphereARotation" [scale]="spheres.sphereAScale" [content]="sphereA"></ngt-object>
+              <ngt-object [offset]="spheres.sphereBOffset" [rotation]="spheres.sphereBRotation" [scale]="spheres.sphereBScale" [content]="sphereB" [interact]="true"></ngt-object>
             </ngt-layer>
-            <ngt-layer [layer]="1" [visible]="false">
-              <ngt-object [offset]="cubeAOffset" [rotation]="cubeARotation" [scale]="cubeAScale" [content]="cubeA"></ngt-object>
-              <ngt-object [offset]="cubeBOffset" [rotation]="cubeBRotation" [scale]="cubeBScale" [content]="cubeB" [interact]="true"></ngt-object>
+            <ngt-layer [layer]="layers[1].layer" [visible]="layers[1].visible">
+              <ngt-object [offset]="cubes.cubeAOffset" [rotation]="cubes.cubeARotation" [scale]="cubes.cubeAScale" [content]="cubeA"></ngt-object>
+              <ngt-object [offset]="cubes.cubeBOffset" [rotation]="cubes.cubeBRotation" [scale]="cubes.cubeBScale" [content]="cubeB" [interact]="true"></ngt-object>
             </ngt-layer>
-            <ngt-layer [layer]="2" [visible]="false">
-              <ngt-dynamic [offset]="dynamicOffset" [rotation]="dynamicRotation" [scale]="dynamicScale" [animate]="dynamicAnimate" [content]="dynamic" [interact]="true"></ngt-dynamic>
+            <ngt-layer [layer]="layers[2].layer" [visible]="layers[2].visible">
+              <ngt-dynamic [offset]="dynamics.dynamicOffset" [rotation]="dynamics.dynamicRotation" [scale]="dynamics.dynamicScale" [animate]="dynamics.dynamicAnimate" [content]="dynamic" [interact]="true"></ngt-dynamic>
             </ngt-layer>
           </ngt-geometry>
         </ngt-scene>
@@ -57,6 +57,8 @@
 
   <!-- User UI / HTML -->
   <div class="someUI">
-    <app-ui-layers></app-ui-layers>
+    <app-ui-layers [id]="0" [(status)]="layers[0].visible"></app-ui-layers>
+    <app-ui-layers [id]="1" [(status)]="layers[1].visible"></app-ui-layers>
+    <app-ui-layers [id]="2" [(status)]="layers[2].visible"></app-ui-layers>
   </div>
 </div>
