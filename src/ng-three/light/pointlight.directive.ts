@@ -36,6 +36,12 @@ export class PointLightDirective implements OnInit, OnChanges, AfterContentInit,
         if (message.type === 'enableLayer' && message.id === this.parentID ) {
           this.light.layers.enable(message.layerNo);
         }
+        if (message.type === 'toggleLayer' && message.id === this.parentID ) {
+          this.light.layers.toggle(message.layerNo);
+        }
+        if (message.type === 'disableLayer' && message.id === this.parentID ) {
+          this.light.layers.disable(message.layerNo);
+        }
       }
     );
   }

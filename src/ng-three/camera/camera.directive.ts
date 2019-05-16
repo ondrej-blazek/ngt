@@ -56,6 +56,12 @@ export class PerspectiveCameraDirective implements OnInit, OnChanges, OnDestroy,
         if (message.type === 'enableLayer' && message.id === this.parentID ) {
           this.camera.layers.enable(message.layerNo);
         }
+        if (message.type === 'toggleLayer' && message.id === this.parentID ) {
+          this.camera.layers.toggle(message.layerNo);
+        }
+        if (message.type === 'disableLayer' && message.id === this.parentID ) {
+          this.camera.layers.disable(message.layerNo);
+        }
       }
     );
   }

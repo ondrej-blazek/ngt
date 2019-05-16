@@ -1,4 +1,4 @@
-import { OnInit, Directive, ContentChildren, QueryList, AfterContentInit, AfterViewInit, Input, OnChanges, OnDestroy } from '@angular/core';
+import { OnInit, Directive, ContentChildren, QueryList, AfterContentInit, AfterViewInit, Input, OnChanges, OnDestroy, SimpleChanges } from '@angular/core';
 import { Subscription } from 'rxjs';
 
 import { ChronosService } from '@ngs/core/chronos.service';
@@ -40,15 +40,16 @@ export class LayerDirective implements OnInit, OnChanges, OnDestroy, AfterConten
     );
   }
 
-  ngOnChanges (changes) {
+  ngOnChanges (changes: SimpleChanges) {
     // if (changes.layer) {           // !!! DO NOT allow layer be re-assigned
     //   this.layer = changes.layer.currentValue;
     // }
     if (changes.visible) {
 
-      console.log ('changes.visible', changes.visible);
+      console.log ('changes.visible', changes.visible, this.layer);
 
       this.visible = changes.visible.currentValue;
+      // this.chronosService.toggleLayer (this.parentID, this.layer);
     }
   }
 
