@@ -78,7 +78,7 @@ export class TestCombinedComponent implements OnInit {
       },
       {
         layer: 1,
-        visible: false
+        visible: true
       },
       {
         layer: 2,

@@ -48,8 +48,16 @@ export class LayerDirective implements OnInit, OnChanges, OnDestroy, AfterConten
 
       console.log ('changes.visible', changes.visible, this.layer);
 
+      // this.visible = true;
       this.visible = changes.visible.currentValue;
-      // this.chronosService.toggleLayer (this.parentID, this.layer);
+      // if (changes.visible.currentValue === true && changes.visible.previousValue === false) {
+      //   this.chronosService.toggleLayer (this.parentID, this.layer);
+      // }
+
+      for (const oneDirective of this.objectDirectives) {
+        oneDirective.object.layers.toggle(this.layer);
+      }
+
     }
   }
 
@@ -67,15 +75,13 @@ export class LayerDirective implements OnInit, OnChanges, OnDestroy, AfterConten
     this.objectDirectives = this.objectDomQuery.toArray();
     this.dynamicDirectives = this.dynamicDomQuery.toArray();
 
-    if (this.visible){
-      for (const oneDirective of this.objectDirectives) {
-        oneDirective.object.layers.set(this.layer);
-        this.scene.add(oneDirective.object);
-      }
-      for (const oneDirective of this.dynamicDirectives) {
-        for (const element of oneDirective.objectArray) {
-          this.scene.add(element['object']);
-        }
+    for (const oneDirective of this.objectDirectives) {
+      oneDirective.object.layers.set(this.layer);
+      this.scene.add(oneDirective.object);
+    }
+    for (const oneDirective of this.dynamicDirectives) {
+      for (const element of oneDirective.objectArray) {
+        this.scene.add(element['object']);
       }
     }
   }
@@ -93,13 +99,11 @@ export class LayerDirective implements OnInit, OnChanges, OnDestroy, AfterConten
   }
 
   propagateRender (): void {
-    if (this.visible){
-      for (const oneDirective of this.objectDirectives) {
-        oneDirective.render();
-      }
-      for (const oneDirective of this.dynamicDirectives) {
-        oneDirective.render();
-      }
+    for (const oneDirective of this.objectDirectives) {
+      oneDirective.render();
+    }
+    for (const oneDirective of this.dynamicDirectives) {
+      oneDirective.render();
     }
   }
 
