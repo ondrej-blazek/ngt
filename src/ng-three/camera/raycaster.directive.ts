@@ -56,6 +56,7 @@ export class RaycasterDirective implements OnChanges, OnInit, AfterContentInit, 
           this.mouseIsActive = message.active;
         }
         if (message.type === 'mouseClick' && message.id === this.parentID) {
+          this.interactionArray = this.chronosService.getInteraction ();
           this.rayClick ();
         }
       }
@@ -65,7 +66,6 @@ export class RaycasterDirective implements OnChanges, OnInit, AfterContentInit, 
   ngOnChanges (changes): void {}
   ngOnInit (): void {}
   ngAfterContentInit (): void {
-    // TODO - this.interactionArray has to be able to update on runtime to reflect dynamic changes to the array.
     this.interactionArray = this.chronosService.getInteraction ();
   }
   ngOnDestroy (): void {

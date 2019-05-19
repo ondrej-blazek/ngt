@@ -45,19 +45,18 @@ export class LayerDirective implements OnInit, OnChanges, OnDestroy, AfterConten
     //   this.layer = changes.layer.currentValue;
     // }
     if (changes.visible) {
-
-      console.log ('changes.visible', changes.visible, this.layer);
-
-      // this.visible = true;
       this.visible = changes.visible.currentValue;
-      // if (changes.visible.currentValue === true && changes.visible.previousValue === false) {
-      //   this.chronosService.toggleLayer (this.parentID, this.layer);
-      // }
 
       for (const oneDirective of this.objectDirectives) {
         oneDirective.object.layers.toggle(this.layer);
+        if (oneDirective.interact === true) {
+          if (changes.visible.currentValue === true && changes.visible.previousValue === false) {
+            this.chronosService.addToInteraction(oneDirective.object.uuid);
+          } else {
+            this.chronosService.removeFromInteraction(oneDirective.object.uuid);
+          }
+        }
       }
-
     }
   }
 
