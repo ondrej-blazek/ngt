@@ -6,7 +6,7 @@ import { ChronosService } from '@ngs/core/chronos.service';
 
 // TODO - Look into all 'any' objects and definitions to see if they can be made more specific.
 // TODO - Objects also have the ability to react to raycaster - investigate some more.
-// TODO - detect front and back 
+// TODO - detect front and back
 
 @Directive({
   selector: 'ngt-raycaster'     // tslint:disable-line
@@ -59,6 +59,9 @@ export class RaycasterDirective implements OnChanges, OnInit, AfterContentInit, 
           this.interactionArray = this.chronosService.getInteraction ();
           this.rayClick ();
         }
+        if ((message.type === 'enableLayer' || message.type === 'disableLayer' || message.type === 'toggleLayer') && message.id === this.parentID) {       // tslint:disable-line
+          this.interactionArray = this.chronosService.getInteraction ();
+        }
       }
     );
   }
@@ -89,23 +92,6 @@ export class RaycasterDirective implements OnChanges, OnInit, AfterContentInit, 
       const interaction = this.rayFilter ();
       this.rayThrough (interaction);
     }
-  }
-
-  // Only some objects are allowed
-  rayFilter (): any {
-    // Raycaster with array of results
-    this.rayCaster.setFromCamera( this.mouse, this.camera );
-    this.intersects = this.rayCaster.intersectObjects( this.scene.children );
-
-    // Only objects that you should interact with
-    const firstIntersect = this.intersects[0].object;
-    const interactionCheck: Array<string> = this.interactionArray.filter((item, i, ar) => ( item === firstIntersect.uuid ));
-
-    let interaction: any = null;
-    if (interactionCheck.length !== 0) {
-      interaction = firstIntersect;
-    }
-    return interaction;
   }
 
   // Ray through / mouse over
@@ -151,6 +137,30 @@ export class RaycasterDirective implements OnChanges, OnInit, AfterContentInit, 
   rayClick (): void {
     const interaction = this.rayFilter ();
     this.rayThroughClick (interaction);
+  }
+
+  // Only some objects are allowed
+  rayFilter (): any {
+    // Raycaster with array of results
+    this.rayCaster.setFromCamera( this.mouse, this.camera );
+    this.intersects = this.rayCaster.intersectObjects( this.scene.children );
+
+    // Only objects that you should interact with
+    let rayObjectIntersect: any = null;
+    let interactionCheck: Array<string> = [];
+    let interaction: any = null;
+
+    for (const intersect of this.intersects) {
+      rayObjectIntersect = intersect.object;
+      interactionCheck = this.interactionArray.filter((item, i, ar) => ( item === rayObjectIntersect.uuid ));
+
+      if (interactionCheck.length !== 0) {
+        interaction = rayObjectIntersect;
+        break;
+      }
+    }
+
+    return interaction;
   }
 
   rayThroughClick (interaction: any): void {

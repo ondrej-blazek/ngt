@@ -25,10 +25,10 @@ export class SceneDirective implements OnChanges, OnInit, AfterContentInit, OnDe
   get camera () {     // Called by render directive
     let cameraValue = null;
     if (this.cameraDirective) {
-      cameraValue = this.cameraDirective.camera
+      cameraValue = this.cameraDirective.camera;
     }
     if (this.orthoDirective) {
-      cameraValue = this.orthoDirective.camera
+      cameraValue = this.orthoDirective.camera;
     }
     return cameraValue;
   }

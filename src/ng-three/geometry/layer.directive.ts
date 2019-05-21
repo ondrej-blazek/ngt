@@ -1,4 +1,6 @@
-import { OnInit, Directive, ContentChildren, QueryList, AfterContentInit, AfterViewInit, Input, OnChanges, OnDestroy, SimpleChanges } from '@angular/core';
+import {
+  OnInit, Directive, ContentChildren, QueryList, AfterContentInit,
+  AfterViewInit, Input, OnChanges, OnDestroy, SimpleChanges } from '@angular/core';
 import { Subscription } from 'rxjs';
 
 import { ChronosService } from '@ngs/core/chronos.service';
@@ -47,21 +49,14 @@ export class LayerDirective implements OnInit, OnChanges, OnDestroy, AfterConten
     if (changes.visible) {
       this.visible = changes.visible.currentValue;
 
-      for (const oneDirective of this.objectDirectives) {
-        oneDirective.object.layers.toggle(this.layer);
-        if (oneDirective.interact === true) {
-          if (changes.visible.currentValue === true && changes.visible.previousValue === false) {
-            this.chronosService.addToInteraction(oneDirective.object.uuid);
-          } else {
-            this.chronosService.removeFromInteraction(oneDirective.object.uuid);
-          }
-        }
-      }
+      // Toggle object withing layer
+      this.toggleSingleObjects (this.objectDirectives, changes.visible.currentValue, changes.visible.previousValue);
+      this.toggleDynamicObjects (this.dynamicDirectives, changes.visible.currentValue, changes.visible.previousValue);
     }
   }
 
   ngOnInit () {
-    if (this.layer > 0 && this.layer < 32){
+    if (this.layer > 0 && this.layer < 32) {
       this.chronosService.enableLayer (this.parentID, this.layer);
     } else {
       this.layer = 0;
@@ -74,6 +69,7 @@ export class LayerDirective implements OnInit, OnChanges, OnDestroy, AfterConten
     this.objectDirectives = this.objectDomQuery.toArray();
     this.dynamicDirectives = this.dynamicDomQuery.toArray();
 
+    // Add all objects to scene
     for (const oneDirective of this.objectDirectives) {
       oneDirective.object.layers.set(this.layer);
       this.scene.add(oneDirective.object);
@@ -82,6 +78,12 @@ export class LayerDirective implements OnInit, OnChanges, OnDestroy, AfterConten
       for (const element of oneDirective.objectArray) {
         this.scene.add(element['object']);
       }
+    }
+
+    // Initial state
+    if (this.visible === false) {
+      this.toggleSingleObjects (this.objectDirectives, false, true);
+      this.toggleDynamicObjects (this.dynamicDirectives, false, true);
     }
   }
 
@@ -108,6 +110,34 @@ export class LayerDirective implements OnInit, OnChanges, OnDestroy, AfterConten
 
   render (): void {
     this.propagateRender();
+  }
+
+  toggleSingleObjects (objectDirectives: any[], currentValue: boolean, previousValue: boolean): void {
+    for (const oneDirective of objectDirectives) {
+      oneDirective.object.layers.toggle(this.layer);
+
+      if (oneDirective.interact === true) {
+        if (currentValue === true && previousValue === false) {
+          // Add back reycaster interaction array
+          this.chronosService.addToInteraction(oneDirective.object.uuid);
+        } else {
+          // Remove from reycaster interaction array
+          this.chronosService.removeFromInteraction(oneDirective.object.uuid);
+
+          // Clear clicked object if any
+          const clickedObject = this.chronosService.getClickedObject();
+          if (clickedObject !== null) {
+            this.chronosService.updateClickedObject (this.parentID, clickedObject);
+          }
+        }
+      }
+    }
+  }
+
+  toggleDynamicObjects (dynamicDirectives: any[], currentValue: boolean, previousValue: boolean): void {
+    for (const oneDirectiveArray of dynamicDirectives) {
+      this.toggleSingleObjects (oneDirectiveArray.objectArray, currentValue, previousValue);
+    }
   }
 }
 

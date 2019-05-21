@@ -7,7 +7,7 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 })
 export class UiLayersComponent implements OnInit {
   // Params
-  @Input() status: boolean = false;
+  @Input() status: boolean;
   @Input() id: number;
   @Output() statusChange = new EventEmitter();
 
@@ -17,7 +17,7 @@ export class UiLayersComponent implements OnInit {
   }
   ngOnInit() {}
 
-  toggleSwitch ():void {
+  toggleSwitch (): void {
     // Status switch
     if (this.status) {
       this.status = false;

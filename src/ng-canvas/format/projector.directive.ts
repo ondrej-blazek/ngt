@@ -25,22 +25,22 @@ export class ProjectorDirective implements OnInit, AfterViewInit, AfterContentIn
     // subscribe to home component messages
     this.subscription = this.chronosService.getMessage().subscribe(
       message => {
-        if (message.type === 'setActiveObject' && message.id === this.parentID) {
+        if (message.type === 'setActiveObject' && message.id === this.parentID && this.content) {
           this.activeFlag = false;
           this.content.activeFlag = true;
           this.content.activeObject = this.chronosService.activeObjectProjection;
         }
-        if (message.type === 'clearActiveObject' && message.id === this.parentID) {
+        if (message.type === 'clearActiveObject' && message.id === this.parentID && this.content) {
           this.activeFlag = false;
           this.content.activeFlag = false;
           this.content.activeObject = null;
         }
-        if (message.type === 'setClickedObject' && message.id === this.parentID) {
+        if (message.type === 'setClickedObject' && message.id === this.parentID && this.content) {
           this.clickedFlag = true;
           this.content.clickedFlag = true;
           this.content.clickedObject = this.chronosService.activeObjectProjection;
         }
-        if (message.type === 'clearClickedObject' && message.id === this.parentID) {
+        if (message.type === 'clearClickedObject' && message.id === this.parentID && this.content) {
           this.clickedFlag = false;
           this.content.clickedFlag = false;
           this.content.clickedObject = null;

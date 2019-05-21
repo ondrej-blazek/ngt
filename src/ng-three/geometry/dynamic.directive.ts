@@ -1,4 +1,5 @@
 import { Directive, Input, OnChanges, OnInit, AfterContentInit, OnDestroy } from '@angular/core';
+import { Subscription } from 'rxjs';
 import * as THREE from 'three';
 
 import { ChronosService } from '@ngs/core/chronos.service';
@@ -14,6 +15,7 @@ export class DynamicDirective implements OnChanges, OnInit, AfterContentInit, On
   @Input() interact: boolean;
   @Input() content: any;
 
+  private subscription: Subscription;
   public objectArray: THREE.Mesh[];
 
   constructor (
@@ -24,6 +26,25 @@ export class DynamicDirective implements OnChanges, OnInit, AfterContentInit, On
     this.scale = new THREE.Vector3(1, 1, 1);
     this.animate = true;
     this.interact = false;
+
+    
+    // subscribe to home component messages
+    this.subscription = this.chronosService.getMessage().subscribe(
+      message => {
+        if (message.type === 'setActiveObject') {
+          this.userSetActiveObject(message.activeID);
+        }
+        if (message.type === 'clearActiveObject') {
+          this.userClearActiveObject (message.activeID);
+        }
+        if (message.type === 'setClickedObject') {
+          this.userSetClickedObject (message.clickedID);
+        }
+        if (message.type === 'clearClickedObject') {
+          this.userClearClickedObject (message.clickedID);
+        }
+      }
+    );
   }
 
   ngOnChanges (changes) {
@@ -53,6 +74,7 @@ export class DynamicDirective implements OnChanges, OnInit, AfterContentInit, On
 
     if (this.interact) {
       for (const element of this.objectArray) {
+        element['interact'] = this.interact;
         this.chronosService.addToInteraction(element['object'].uuid);
       }
     }
@@ -64,6 +86,41 @@ export class DynamicDirective implements OnChanges, OnInit, AfterContentInit, On
   render (): void {
     if (this.content && this.animate) {
       this.content.render();
+    }
+  }
+
+  // TODO - Connect user interaction through to the original service.
+
+  // User interaction
+  userSetActiveObject (id: string): void {
+    for (const element of this.objectArray) {
+      if (element['object'].uuid === id && this.interact) {
+        // this.content.userSetActiveObject();
+      }
+    }
+  }
+
+  userClearActiveObject (id: string): void {
+    for (const element of this.objectArray) {
+      if (element['object'].uuid === id && this.interact) {
+        // this.content.userClearActiveObject();
+      }
+    }
+  }
+
+  userSetClickedObject (id: string): void {
+    for (const element of this.objectArray) {
+      if (element['object'].uuid === id && this.interact) {
+        // this.content.userSetClickedObject();
+      }
+    }
+  }
+
+  userClearClickedObject (id: string): void {
+    for (const element of this.objectArray) {
+      if (element['object'].uuid === id && this.interact) {
+        // this.content.userClearClickedObject();
+      }
     }
   }
 }

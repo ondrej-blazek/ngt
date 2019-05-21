@@ -47,7 +47,7 @@ export class OrthoCameraDirective implements OnInit, OnChanges, OnDestroy, After
     // this.far = 10000;
     // this.aspect = this.width / this.height;
 
-    this.camera = new THREE.OrthographicCamera( -(this.width/2), (this.width/2), (this.height/2), -(this.height/2), 1, 1000 );
+    this.camera = new THREE.OrthographicCamera( - (this.width / 2), (this.width / 2), (this.height / 2), - (this.height / 2), 1, 1000 );
     this.cameraHelper = new THREE.CameraHelper( this.camera );
 
     // subscribe to home component messages

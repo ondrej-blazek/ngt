@@ -64,7 +64,6 @@ export class ObjectDirective implements OnChanges, OnInit, AfterContentInit, OnD
     }
     if (changes.interact && changes.interact.currentValue) {
       this.interact = changes.interact.currentValue;
-      // TODO - convert to function that can add / remove object from interaction array
     }
   }
 
