@@ -2,7 +2,10 @@ export * from './pointlight.directive';
 export * from './hemilight.directive';
 
 
-// TODO - Look into more lights options
-//      - Ambient
-//      - Directional
-//      - Spotlight
+// TODO - Cover all types of lights
+//      AmbientLight
+//      DirectionalLight
+//      HemisphereLight   - DONE
+//      PointLight        - DONE
+//      RectAreaLight
+//      SpotLight

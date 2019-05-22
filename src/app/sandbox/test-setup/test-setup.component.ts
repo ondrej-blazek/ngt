@@ -61,27 +61,27 @@ export class TestSetupComponent implements OnInit {
     this.cubeA = new CubeContentServiceService();
     this.cubeAOffset = new THREE.Vector3(0, 10, 0);
     this.cubeARotation = new THREE.Euler(0, 0, THREE.Math.degToRad(30), 'XYZ');
-    this.cubeAScale = new THREE.Vector3(0.5, 2, 1);
+    this.cubeAScale = new THREE.Vector3(1, 1, 1);
 
     this.cubeB = new CubeContentServiceService();
     this.cubeBOffset = new THREE.Vector3(-12, 10, 0);
     this.cubeBRotation = new THREE.Euler(0, THREE.Math.degToRad(45), THREE.Math.degToRad(30), 'XYZ');
-    this.cubeBScale = new THREE.Vector3(1, 0.5, 1);
+    this.cubeBScale = new THREE.Vector3(1, 1, 1);
 
     this.sphereA = new SphereContentServiceService();
     this.sphereAOffset = new THREE.Vector3(11, 10, 0);
     this.sphereARotation = new THREE.Euler(0, 0, 0, 'XYZ');
-    this.sphereAScale = new THREE.Vector3(1, 0.5, 2);
+    this.sphereAScale = new THREE.Vector3(1, 1, 1);
 
     this.sphereB = new SphereContentServiceService();
     this.sphereBOffset = new THREE.Vector3(0, 10, -10);
     this.sphereBRotation = new THREE.Euler(0, 0, 0, 'XYZ');
-    this.sphereBScale = new THREE.Vector3(0.5, 1, 1);
+    this.sphereBScale = new THREE.Vector3(1, 1, 1);
 
     this.dynamic = new DynamicContentServiceService();
     this.dynamicOffset = new THREE.Vector3(0, 0, 0);
-    this.dynamicRotation = new THREE.Euler(0, THREE.Math.degToRad(-45), THREE.Math.degToRad(45), 'XYZ');
-    this.dynamicScale = new THREE.Vector3(2.5, 0.5, 2.5);
+    this.dynamicRotation = new THREE.Euler(0, THREE.Math.degToRad(0), THREE.Math.degToRad(0), 'XYZ');
+    this.dynamicScale = new THREE.Vector3(1, 1, 1);
     this.dynamicAnimate = true;
 
 

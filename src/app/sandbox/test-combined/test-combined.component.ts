@@ -74,15 +74,15 @@ export class TestCombinedComponent implements OnInit {
     this.layers = [
       {
         layer: 0,
-        visible: false
+        visible: true
       },
       {
         layer: 1,
-        visible: false
+        visible: true
       },
       {
         layer: 2,
-        visible: true
+        visible: false
       }
     ];
   }

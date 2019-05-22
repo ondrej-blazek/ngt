@@ -1,14 +1,6 @@
 import { OnInit, Directive, ContentChildren, QueryList, AfterContentInit, Input, OnChanges } from '@angular/core';
 import { PointLightDirective, HemisphereLightDirective } from '@ngt/light';
 
-// TODO - Cover all types of lights
-//      AmbientLight
-//      DirectionalLight
-//      HemisphereLight   - DONE
-//      PointLight        - DONE
-//      RectAreaLight
-//      SpotLight
-
 @Directive({
   selector: 'ngt-light'     // tslint:disable-line
 })

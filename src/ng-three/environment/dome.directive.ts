@@ -2,7 +2,7 @@ import { Directive, AfterContentInit, OnInit } from '@angular/core';
 import * as THREE from 'three';
 
 // TODO - partially open this directive to be adjustable from a content class colour / fog density or distance
-// TODO - create default class in cas that content / partial setting is not provided.  ???
+// TODO - create default class in case that content / partial setting is not provided.  ???
 
 @Directive({
   selector: 'ngt-dome'     // tslint:disable-line

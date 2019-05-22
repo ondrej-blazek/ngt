@@ -16,7 +16,7 @@ export class DynamicDirective implements OnChanges, OnInit, AfterContentInit, On
   @Input() content: any;
 
   private subscription: Subscription;
-  public objectArray: THREE.Mesh[];
+  public objectArray: any[];
 
   constructor (
     private chronosService: ChronosService
@@ -27,7 +27,6 @@ export class DynamicDirective implements OnChanges, OnInit, AfterContentInit, On
     this.animate = true;
     this.interact = false;
 
-    
     // subscribe to home component messages
     this.subscription = this.chronosService.getMessage().subscribe(
       message => {
@@ -89,13 +88,11 @@ export class DynamicDirective implements OnChanges, OnInit, AfterContentInit, On
     }
   }
 
-  // TODO - Connect user interaction through to the original service.
-
   // User interaction
   userSetActiveObject (id: string): void {
     for (const element of this.objectArray) {
       if (element['object'].uuid === id && this.interact) {
-        // this.content.userSetActiveObject();
+        this.content.userSetActiveObject(element);
       }
     }
   }
@@ -103,7 +100,7 @@ export class DynamicDirective implements OnChanges, OnInit, AfterContentInit, On
   userClearActiveObject (id: string): void {
     for (const element of this.objectArray) {
       if (element['object'].uuid === id && this.interact) {
-        // this.content.userClearActiveObject();
+        this.content.userClearActiveObject(element);
       }
     }
   }
@@ -111,7 +108,7 @@ export class DynamicDirective implements OnChanges, OnInit, AfterContentInit, On
   userSetClickedObject (id: string): void {
     for (const element of this.objectArray) {
       if (element['object'].uuid === id && this.interact) {
-        // this.content.userSetClickedObject();
+        this.content.userSetClickedObject(element);
       }
     }
   }
@@ -119,7 +116,7 @@ export class DynamicDirective implements OnChanges, OnInit, AfterContentInit, On
   userClearClickedObject (id: string): void {
     for (const element of this.objectArray) {
       if (element['object'].uuid === id && this.interact) {
-        // this.content.userClearClickedObject();
+        this.content.userClearClickedObject(element);
       }
     }
   }

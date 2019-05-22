@@ -7,9 +7,6 @@ import { ChronosService } from '@ngs/core/chronos.service';
 import { ObjectDirective } from './object.directive';
 import { DynamicDirective } from './dynamic.directive';
 
-// TODO - add toggle feature, add or remove the objects from scene accordingly.
-// TODO - front-end visual items is required prior task above.
-
 @Directive({
   selector: 'ngt-layer'     // tslint:disable-line
 })

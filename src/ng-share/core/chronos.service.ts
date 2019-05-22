@@ -117,7 +117,6 @@ export class ChronosService {
   }
 
   // Interactive object tracking
-  // TODO - Propagate change to this array to Raycaster dynamically. If objects are added or removed dynamically.
   getInteraction (): Array<string> {
     return (this.interactionArray);
   }
