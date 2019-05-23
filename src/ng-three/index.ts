@@ -23,6 +23,8 @@ More reading:
     https://free3d.com/3d-models/
     https://free3d.com/3d-model/45-acp-smith-and-wesson-13999.html
     https://www.turbosquid.com/Search/3D-Models/free
+    https://www.turbosquid.com/3d-models/free-duesen-bayern-mystar-190-3d-model/1062796
+    https://www.turbosquid.com/3d-models/blender-carrot-crystal-oak-tree-3d-model-1189852
 
   Works by others
     https://www.npmjs.com/package/atft

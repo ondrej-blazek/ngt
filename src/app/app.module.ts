@@ -14,6 +14,7 @@ import { NgtModule } from '@ngt/ngt.module';
 // Standard app / testing
 import { HomeModule } from '@app/home/home.module';
 import { SandboxModule } from '@app/sandbox/sandbox.module';
+import { DemoModule } from '@app/demo/demo.module';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { SandboxModule } from '@app/sandbox/sandbox.module';
     NgcModule,
     NgtModule,
     HomeModule,
-    SandboxModule
+    SandboxModule,
+    DemoModule
   ],
   providers: [],
   bootstrap: [AppComponent]
