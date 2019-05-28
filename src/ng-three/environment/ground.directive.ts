@@ -1,22 +1,54 @@
-import { Directive, AfterContentInit, OnInit } from '@angular/core';
+import { Directive, Input, AfterContentInit, OnInit, OnChanges } from '@angular/core';
 import * as THREE from 'three';
-
-// TODO - Make this partially adjustable from content class Colour / Size
-// TODO - create default class in cas that content / partial setting is not provided.  ???
 
 @Directive({
   selector: 'ngt-ground'     // tslint:disable-line
 })
-export class GroundDirective implements OnInit, AfterContentInit {
-  public geometry: THREE.PlaneBufferGeometry;
-  public material: THREE.MeshPhongMaterial | THREE.MeshBasicMaterial;
+export class GroundDirective implements OnInit, OnChanges, AfterContentInit {
+  @Input() color: THREE.Color;
+  @Input() specular: THREE.Color;
+  @Input() size: number;
+
+  private geometry: THREE.PlaneBufferGeometry;
+  private material: THREE.MeshPhongMaterial | THREE.MeshBasicMaterial;
   public plane: THREE.Mesh;
 
   constructor () {
-    this.geometry = new THREE.PlaneBufferGeometry ( 10000, 10000 );
+    this.color = new THREE.Color(0xffffff);
+    this.specular = new THREE.Color(0x050505);
+    this.size = 10000;
+
+    this.plane = null;
+  }
+
+  ngOnChanges (changes) {
+    if (changes.color) {
+      this.color = changes.color.currentValue;
+    }
+    if (changes.specular) {
+      this.specular = changes.specular.currentValue;
+    }
+    if (changes.size) {
+      this.size = changes.size.currentValue;
+    }
+
+    if (changes.color || changes.specular || changes.size) {
+      this.setPlane();
+    }
+  }
+
+  ngOnInit () {
+    if (this.plane === null){
+      this.setPlane ();
+    }
+  }
+  ngAfterContentInit () {}
+
+  setPlane (): void {
+    this.geometry = new THREE.PlaneBufferGeometry ( this.size, this.size );
     this.material = new THREE.MeshPhongMaterial({
-      color: 0xffffff,
-      specular: 0x050505,
+      color: this.color,
+      specular: this.specular,
       side: THREE.DoubleSide
     });
 
@@ -25,7 +57,4 @@ export class GroundDirective implements OnInit, AfterContentInit {
     this.plane.rotation.x = - Math.PI / 2;
     this.plane.receiveShadow = true;
   }
-
-  ngOnInit () {}
-  ngAfterContentInit () {}
 }
