@@ -1,11 +1,10 @@
 import { Directive, Input } from '@angular/core';
-import * as OrbitControls from 'three-orbitcontrols';
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 
 @Directive({
   selector: 'ngt-orbit'     // tslint:disable-line
 })
 export class OrbitDirective {
-  // element parameters
   @Input() enabled: boolean;
 
   private parentID: string;
@@ -29,9 +28,3 @@ export class OrbitDirective {
     this.parentID = passDown;
   }
 }
-
-// More info:
-// https://github.com/nicolaspanel/three-orbitcontrols-ts#readme
-// https://threejs.org/docs/#examples/controls/OrbitControls
-
-// newer but not working:  https://www.npmjs.com/package/three-orbitcontrols
