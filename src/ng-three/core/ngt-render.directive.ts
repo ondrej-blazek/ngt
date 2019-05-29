@@ -6,7 +6,6 @@ import { ChronosService } from '@ngs/core/chronos.service';
 import { SceneDirective, OrbitDirective, VrDirective } from '@ngt/scene';
 
 // TODO - investigate VR mode
-// TODO - investigate OrbitCamera using latest code, Create class -> import orbit controls -> export class -> Use this as internal class
 
 @Directive({
   selector: 'ngt-render'     // tslint:disable-line
@@ -19,7 +18,7 @@ export class NgtRenderDirective implements OnInit, OnDestroy, OnChanges, AfterCo
   // child components / directives
   @ContentChild(SceneDirective) sceneDirective: SceneDirective;
   @ContentChild(OrbitDirective) orbitDirective: OrbitDirective;
-  @ContentChild(VrDirective) vrDirective: VrDirective;
+  // @ContentChild(VrDirective) vrDirective: VrDirective;
 
   get scene() {
     return this.sceneDirective.scene;
@@ -120,7 +119,7 @@ export class NgtRenderDirective implements OnInit, OnDestroy, OnChanges, AfterCo
   propagateID (passDown: string) {
     this.sceneDirective.renderID(passDown);
     this.orbitDirective.renderID(passDown);
-    this.vrDirective.renderID(passDown);
+    // this.vrDirective.renderID(passDown);
   }
 
   propagateRender (): void {

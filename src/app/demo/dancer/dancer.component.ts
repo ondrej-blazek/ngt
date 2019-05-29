@@ -16,6 +16,9 @@ export class DancerComponent implements OnInit {
   private imagePath: string;
   private imageUrls: string[];
 
+  private gltfPath: string;
+  private gltfFile: string;
+
   constructor() {
     this.env = new EnvService ();
     this.pointLight = new PointLightService();
@@ -23,6 +26,9 @@ export class DancerComponent implements OnInit {
 
     this.imagePath = '/assets/skybox_sun/';
     this.imageUrls = ['px.jpg', 'nx.jpg', 'py.jpg', 'ny.jpg', 'pz.jpg', 'nz.jpg'];
+
+    this.gltfPath = '/assets/dancer/';
+    this.gltfFile = 'samba_dancer.gltf';
   }
 
   ngOnInit() {}

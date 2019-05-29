@@ -14,7 +14,7 @@ export class EnvService {
 
   constructor() {
     this.isVRMode = false;
-    this.camPosition = new THREE.Vector3(50, 75, 100);
+    this.camPosition = new THREE.Vector3(-1, 0.5, 3);
 
     this.backgroundColor = new THREE.Color(0xD7CBB1);
     this.fogColor = new THREE.Color(0xD2C6AC);

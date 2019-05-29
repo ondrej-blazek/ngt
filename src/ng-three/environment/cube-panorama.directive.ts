@@ -23,8 +23,14 @@ export class CubePanoramaDirective implements OnInit, OnChanges, AfterContentIni
   }
 
   ngOnChanges (changes) {
+    if (changes.basePath) {
+      this.basePath = changes.basePath.currentValue;
+    }
     if (changes.imageArray) {
       this.imageArray = changes.imageArray.currentValue;
+    }
+
+    if (changes.basePath || changes.imageArray) {
       this.updateScene(this.basePath, this.imageArray);
     }
   }
@@ -35,7 +41,6 @@ export class CubePanoramaDirective implements OnInit, OnChanges, AfterContentIni
     }
   }
   ngAfterContentInit () {}
-
 
   setScene (masterScene: THREE.Scene): void {
     this.scene = masterScene;
