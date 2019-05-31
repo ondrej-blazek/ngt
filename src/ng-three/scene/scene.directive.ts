@@ -18,9 +18,9 @@ export class SceneDirective implements OnChanges, OnInit, AfterContentInit, OnDe
   @ContentChild(GeometryDirective) geometryDirective: any;
   @ContentChild(LightDirective) lightDirective: any;
 
-  private parentID: string;
-
-  public scene: THREE.Scene = new THREE.Scene ();
+  private chronosID: string;
+  private renderID: string;
+  public scene: THREE.Scene;
 
   get camera () {     // Called by render directive
     let cameraValue = null;
@@ -34,7 +34,9 @@ export class SceneDirective implements OnChanges, OnInit, AfterContentInit, OnDe
   }
 
   constructor () {
-    this.parentID = '';
+    this.chronosID = '';
+    this.renderID = '';
+    this.scene = new THREE.Scene ();
   }
 
   ngOnChanges (changes) {}
@@ -69,38 +71,46 @@ export class SceneDirective implements OnChanges, OnInit, AfterContentInit, OnDe
     }
   }
 
-  ngAfterContentInit () {}
+  ngAfterContentInit () {
+    console.log ('ngAfterContentInit - this.chronosID', this.chronosID, this.scene);
+  }
 
   ngOnDestroy (): void {
     this.scene.remove();
   }
 
-  renderID (passDown: string): void {
-    this.parentID = passDown;
-    this.propagateID (passDown);
+  // ---------------------------------------------------------------------------------
+
+  processID (chronosID: string, renderID: string): void {
+    this.chronosID = chronosID;
+    this.renderID = renderID;
+
+    console.log ('processID - this.chronosID', this.chronosID, this.renderID, this.scene);
+
+    this.propagateID (this.chronosID, this.renderID);
   }
 
-  propagateID (passDown: string): void {
+  propagateID (chronosID: string, renderID: string): void {
     if (this.cameraDirective) {
-      this.cameraDirective.renderID(passDown);
+      this.cameraDirective.processID(chronosID);
     }
     if (this.orthoDirective) {
-      this.orthoDirective.renderID(passDown);
+      this.orthoDirective.processID(chronosID);
     }
     if (this.raycasterDirective) {
-      this.raycasterDirective.renderID(passDown);
+      this.raycasterDirective.processID(chronosID);
     }
     if (this.projectorDirective) {
-      this.projectorDirective.renderID(passDown);
+      this.projectorDirective.processID(chronosID);
     }
     if (this.environmentDirective) {
-      this.environmentDirective.renderID(passDown);
+      this.environmentDirective.processID(chronosID);
     }
     if (this.geometryDirective) {
-      this.geometryDirective.renderID(passDown);
+      this.geometryDirective.processID(chronosID);
     }
     if (this.lightDirective) {
-      this.lightDirective.renderID(passDown);
+      this.lightDirective.processID(chronosID);
     }
   }
 

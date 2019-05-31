@@ -17,7 +17,7 @@ export class RaycasterDirective implements OnChanges, OnInit, AfterContentInit, 
   private camera: THREE.PerspectiveCamera | THREE.OrthographicCamera;
 
   private subscription: Subscription;
-  private parentID: string;
+  private chronosID: string;
   private rayCaster: THREE.Raycaster;
   private mouse: THREE.Vector2;
   private mouseIsActive: boolean;
@@ -33,7 +33,7 @@ export class RaycasterDirective implements OnChanges, OnInit, AfterContentInit, 
   constructor (
     private chronosService: ChronosService
   ) {
-    this.parentID = '';
+    this.chronosID = '';
     this.rayCaster = new THREE.Raycaster();
     this.mouse = new THREE.Vector2();
     this.mouseIsActive = false;
@@ -49,17 +49,17 @@ export class RaycasterDirective implements OnChanges, OnInit, AfterContentInit, 
     // subscribe to home component messages
     this.subscription = this.chronosService.getMessage().subscribe(
       message => {
-        if (message.type === 'mouseMove' && message.id === this.parentID) {
+        if (message.type === 'mouseMove' && message.id === this.chronosID) {
           this.mouse = message.mouse;
         }
-        if (message.type === 'mouseActive' && message.id === this.parentID) {
+        if (message.type === 'mouseActive' && message.id === this.chronosID) {
           this.mouseIsActive = message.active;
         }
-        if (message.type === 'mouseClick' && message.id === this.parentID) {
+        if (message.type === 'mouseClick' && message.id === this.chronosID) {
           this.interactionArray = this.chronosService.getInteraction ();
           this.rayClick ();
         }
-        if ((message.type === 'enableLayer' || message.type === 'disableLayer' || message.type === 'toggleLayer') && message.id === this.parentID) {       // tslint:disable-line
+        if ((message.type === 'enableLayer' || message.type === 'disableLayer' || message.type === 'toggleLayer') && message.id === this.chronosID) {       // tslint:disable-line
           this.interactionArray = this.chronosService.getInteraction ();
         }
       }
@@ -83,8 +83,8 @@ export class RaycasterDirective implements OnChanges, OnInit, AfterContentInit, 
     this.camera = masterCamera;
   }
 
-  renderID (passDown: string): void {
-    this.parentID = passDown;
+  processID (passDown: string): void {
+    this.chronosID = passDown;
   }
 
   render (): void {
@@ -96,11 +96,11 @@ export class RaycasterDirective implements OnChanges, OnInit, AfterContentInit, 
 
   // Ray through / mouse over
   setActiveObject (oneObject: any): void {
-    this.chronosService.setActiveObject (this.parentID, oneObject);
+    this.chronosService.setActiveObject (this.chronosID, oneObject);
   }
 
   clearActiveObject (oneObject: any): void {
-    this.chronosService.clearActiveObject (this.parentID, oneObject);
+    this.chronosService.clearActiveObject (this.chronosID, oneObject);
 
     this.previousObject = null;
     this.previousObjectID = '';
@@ -165,7 +165,7 @@ export class RaycasterDirective implements OnChanges, OnInit, AfterContentInit, 
 
   rayThroughClick (interaction: any): void {
     if (interaction !== null) {
-      this.chronosService.updateClickedObject (this.parentID, interaction);
+      this.chronosService.updateClickedObject (this.chronosID, interaction);
     }
   }
 }

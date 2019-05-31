@@ -13,7 +13,7 @@ export class ProjectorDirective implements OnChanges, OnInit, AfterContentInit, 
   private camera: THREE.PerspectiveCamera | THREE.OrthographicCamera;
 
   private subscription: Subscription;
-  private parentID: string;
+  private chronosID: string;
   private elemWidth: number;
   private elemHeight: number;
 
@@ -31,7 +31,7 @@ export class ProjectorDirective implements OnChanges, OnInit, AfterContentInit, 
   constructor (
     private chronosService: ChronosService
   ) {
-    this.parentID = '';
+    this.chronosID = '';
     this.elemWidth = 0;
     this.elemHeight = 0;
 
@@ -48,20 +48,20 @@ export class ProjectorDirective implements OnChanges, OnInit, AfterContentInit, 
     // subscribe to home component messages
     this.subscription = this.chronosService.getMessage().subscribe(
       message => {
-        if (message.type === 'elementSize' && message.id === this.parentID) {
+        if (message.type === 'elementSize' && message.id === this.chronosID) {
           this.elemWidth = message.width;
           this.elemHeight = message.height;
         }
-        if (message.type === 'setActiveObject' && message.id === this.parentID) {
+        if (message.type === 'setActiveObject' && message.id === this.chronosID) {
           this.activeObject = this.chronosService.getActiveObject();
         }
-        if (message.type === 'clearActiveObject' && message.id === this.parentID) {
+        if (message.type === 'clearActiveObject' && message.id === this.chronosID) {
           this.activeObject = null;
         }
-        if (message.type === 'setClickedObject' && message.id === this.parentID) {
+        if (message.type === 'setClickedObject' && message.id === this.chronosID) {
           this.clickedObject = this.chronosService.getClickedObject();
         }
-        if (message.type === 'clearClickedObject' && message.id === this.parentID) {
+        if (message.type === 'clearClickedObject' && message.id === this.chronosID) {
           this.clickedObject = null;
         }
       }
@@ -83,8 +83,8 @@ export class ProjectorDirective implements OnChanges, OnInit, AfterContentInit, 
     this.camera = masterCamera;
   }
 
-  renderID (passDown: string): void {
-    this.parentID = passDown;
+  processID (passDown: string): void {
+    this.chronosID = passDown;
   }
 
   render (): void {

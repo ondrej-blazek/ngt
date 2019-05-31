@@ -13,7 +13,7 @@ export class PointLightDirective implements OnInit, OnChanges, AfterContentInit,
   @Input() animate: boolean;
   @Input() content: any;
 
-  private parentID: string;
+  private chronosID: string;
   private subscription: Subscription;
   public light: THREE.PointLight;
   public lightHelper: THREE.PointLightHelper;
@@ -24,7 +24,7 @@ export class PointLightDirective implements OnInit, OnChanges, AfterContentInit,
     this.offset = new THREE.Vector3(0, 0, 0);
     this.animate = false;
     this.content = null;
-    this.parentID = '';
+    this.chronosID = '';
 
     // Light + helper object
     this.light = new THREE.PointLight();
@@ -33,13 +33,13 @@ export class PointLightDirective implements OnInit, OnChanges, AfterContentInit,
     // subscribe to home component messages
     this.subscription = this.chronosService.getMessage().subscribe(
       message => {
-        if (message.type === 'enableLayer' && message.id === this.parentID ) {
+        if (message.type === 'enableLayer' && message.id === this.chronosID ) {
           this.light.layers.enable(message.layerNo);
         }
-        if (message.type === 'toggleLayer' && message.id === this.parentID ) {
+        if (message.type === 'toggleLayer' && message.id === this.chronosID ) {
           this.light.layers.toggle(message.layerNo);
         }
-        if (message.type === 'disableLayer' && message.id === this.parentID ) {
+        if (message.type === 'disableLayer' && message.id === this.chronosID ) {
           this.light.layers.disable(message.layerNo);
         }
       }
@@ -65,8 +65,8 @@ export class PointLightDirective implements OnInit, OnChanges, AfterContentInit,
     this.lightHelper.dispose();
   }
 
-  renderID (passDown: string): void {
-    this.parentID = passDown;
+  processID (passDown: string): void {
+    this.chronosID = passDown;
   }
 
   render (): void {

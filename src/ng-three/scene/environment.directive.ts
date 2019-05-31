@@ -15,10 +15,10 @@ export class EnvironmentDirective implements OnInit, AfterContentInit, OnDestroy
   @ContentChild(GroundDirective) groundDirective: any;
 
   private scene: THREE.Scene;
-  private parentID: string;
+  private chronosID: string;
 
   constructor () {
-    this.parentID = '';
+    this.chronosID = '';
   }
 
   ngOnInit () {
@@ -54,8 +54,8 @@ export class EnvironmentDirective implements OnInit, AfterContentInit, OnDestroy
 
   ngOnDestroy () {}
 
-  renderID (passDown: string): void {
-    this.parentID = passDown;
+  processID (passDown: string): void {
+    this.chronosID = passDown;
   }
 
   setScene (masterScene: THREE.Scene): void {

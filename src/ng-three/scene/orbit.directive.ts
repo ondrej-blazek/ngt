@@ -7,11 +7,11 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 export class OrbitDirective {
   @Input() enabled: boolean;
 
-  private parentID: string;
+  private chronosID: string;
   public controls: OrbitControls;
 
   constructor () {
-    this.parentID = '';
+    this.chronosID = '';
     this.enabled = true;
   }
 
@@ -24,7 +24,7 @@ export class OrbitDirective {
     this.controls.update();
   }
 
-  renderID (passDown: string): void {
-    this.parentID = passDown;
+  processID (passDown: string): void {
+    this.chronosID = passDown;
   }
 }

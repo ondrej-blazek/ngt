@@ -13,17 +13,17 @@ export class VrDirective {
   @Input() width: number;
   @Input() enabled: boolean;
 
-  private parentID: string;
+  private chronosID: string;
   public controls: any;
   public effect: any;
 
   constructor () {
-    this.parentID = '';
+    this.chronosID = '';
     this.enabled = true;
   }
 
-  renderID (passDown: string): void {
-    this.parentID = passDown;
+  processID (passDown: string): void {
+    this.chronosID = passDown;
   }
 
   // ngOnChanges(changes) {

@@ -10,7 +10,7 @@ import { ChronosService } from '@ngs/core/chronos.service';
 export class ProjectorDirective implements OnInit, AfterViewInit, AfterContentInit, OnDestroy {
   @Input() content: any;
 
-  private parentID: string;
+  private chronosID: string;
   private subscription: Subscription;
   private activeFlag: boolean;
   private clickedFlag: boolean;
@@ -18,29 +18,29 @@ export class ProjectorDirective implements OnInit, AfterViewInit, AfterContentIn
   constructor(
     private chronosService: ChronosService
   ) {
-    this.parentID = '';
+    this.chronosID = '';
     this.activeFlag = false;
     this.clickedFlag = false;
 
     // subscribe to home component messages
     this.subscription = this.chronosService.getMessage().subscribe(
       message => {
-        if (message.type === 'setActiveObject' && message.id === this.parentID && this.content) {
+        if (message.type === 'setActiveObject' && message.id === this.chronosID && this.content) {
           this.activeFlag = false;
           this.content.activeFlag = true;
           this.content.activeObject = this.chronosService.activeObjectProjection;
         }
-        if (message.type === 'clearActiveObject' && message.id === this.parentID && this.content) {
+        if (message.type === 'clearActiveObject' && message.id === this.chronosID && this.content) {
           this.activeFlag = false;
           this.content.activeFlag = false;
           this.content.activeObject = null;
         }
-        if (message.type === 'setClickedObject' && message.id === this.parentID && this.content) {
+        if (message.type === 'setClickedObject' && message.id === this.chronosID && this.content) {
           this.clickedFlag = true;
           this.content.clickedFlag = true;
           this.content.clickedObject = this.chronosService.activeObjectProjection;
         }
-        if (message.type === 'clearClickedObject' && message.id === this.parentID && this.content) {
+        if (message.type === 'clearClickedObject' && message.id === this.chronosID && this.content) {
           this.clickedFlag = false;
           this.content.clickedFlag = false;
           this.content.clickedObject = null;
@@ -56,8 +56,8 @@ export class ProjectorDirective implements OnInit, AfterViewInit, AfterContentIn
     this.content = null;
   }
 
-  renderID (passDown: string): void {
-    this.parentID = passDown;
+  processID (passDown: string): void {
+    this.chronosID = passDown;
   }
 
   render (canvasRef, canvasContext): void {

@@ -10,11 +10,13 @@ import { NgtModule } from '@ngt/ngt.module';
 // Local setup
 import { CarComponent } from './car/car.component';
 import { DancerComponent } from './dancer/dancer.component';
+import { HelmetComponent } from './helmet/helmet.component';
 
 @NgModule({
   declarations: [
     CarComponent,
-    DancerComponent
+    DancerComponent,
+    HelmetComponent
   ],
   imports: [
     CommonModule,

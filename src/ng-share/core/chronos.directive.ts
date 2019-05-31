@@ -12,50 +12,47 @@ export class ChronosDirective implements OnInit, OnDestroy, AfterContentInit {
   @ContentChildren(NgtRenderDirective) threeDomQuery: QueryList<NgtRenderDirective>;
   @ContentChildren(NgcRenderDirective) canvasDomQuery: QueryList<NgcRenderDirective>;
 
-  private parentID: string;
-  private threeDirectives: NgtRenderDirective[] = [];
-  private canvasDirectives: NgcRenderDirective[] = [];
+  private chronosID: string;
+  private threeRenderDirectives: NgtRenderDirective[];
+  private canvasRenderDirectives: NgcRenderDirective[];
   private currentFrame: number;
 
   constructor () {
-    this.parentID = '';
+    this.chronosID = '';
+    this.threeRenderDirectives = [];
+    this.canvasRenderDirectives = [];
+    this.currentFrame = 0;
   }
 
   ngOnInit () {}
+
+  ngAfterContentInit () {
+    // Fetch the dom elements into an array
+    this.threeRenderDirectives = this.threeDomQuery.toArray();
+    this.canvasRenderDirectives = this.canvasDomQuery.toArray();
+
+    this.propagateID(this.chronosID);
+    this.propagateRender();
+    this.render();
+  }
 
   ngOnDestroy () {
     cancelAnimationFrame(this.currentFrame);
   }
 
-  ngAfterContentInit () {
-    // Fetch the dom elements into an array
-    this.threeDirectives = this.threeDomQuery.toArray();
-    this.canvasDirectives = this.canvasDomQuery.toArray();
-
-    this.propagateID(this.parentID);
-    this.propagateRender();
-    this.render();
-  }
+  // ---------------------------------------------------------------------------------
 
   idUpdate (passDown: string) {
-    this.parentID = passDown;
+    this.chronosID = passDown;
+    // this.propagateID(this.chronosID);
   }
 
   propagateID (passDown: string) {
-    for (const oneThree of this.threeDirectives) {
-      oneThree.renderID(passDown);
+    for (const oneThreeRender of this.threeRenderDirectives) {
+      oneThreeRender.processID(passDown);
     }
-    for (const oneCanvas of this.canvasDirectives) {
-      oneCanvas.renderID(passDown);
-    }
-  }
-
-  propagateRender (): void {
-    for (const oneThree of this.threeDirectives) {
-      oneThree.render();
-    }
-    for (const oneCanvas of this.canvasDirectives) {
-      oneCanvas.render();
+    for (const oneCanvasRender of this.canvasRenderDirectives) {
+      oneCanvasRender.processID(passDown);
     }
   }
 
@@ -71,5 +68,14 @@ export class ChronosDirective implements OnInit, OnDestroy, AfterContentInit {
     // This function now executes all rendering needs synchronously across all enclosed directives
     this.currentFrame = animFrame;
     this.propagateRender ();
+  }
+
+  propagateRender (): void {
+    for (const oneThreeRender of this.threeRenderDirectives) {
+      oneThreeRender.render();
+    }
+    for (const oneCanvasRender of this.canvasRenderDirectives) {
+      oneCanvasRender.render();
+    }
   }
 }

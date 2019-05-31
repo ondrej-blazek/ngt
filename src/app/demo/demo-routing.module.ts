@@ -4,6 +4,7 @@ import { Routes, RouterModule } from '@angular/router';
 // Local setup
 import { CarComponent } from './car/car.component';
 import { DancerComponent } from './dancer/dancer.component';
+import { HelmetComponent } from './helmet/helmet.component';
 
 const routes: Routes = [
   {
@@ -14,6 +15,11 @@ const routes: Routes = [
   {
     path: 'dancer',
     component: DancerComponent,
+    resolve: {}
+  },
+  {
+    path: 'helmet',
+    component: HelmetComponent,
     resolve: {}
   }
 ];

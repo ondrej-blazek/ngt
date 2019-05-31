@@ -27,7 +27,7 @@ export class OrthoCameraDirective implements OnInit, OnChanges, OnDestroy, After
   // private far: number;
 
   // private message: any;
-  private parentID: string;
+  private chronosID: string;
   private subscription: Subscription;
   private width: number;
   private height: number;
@@ -38,7 +38,7 @@ export class OrthoCameraDirective implements OnInit, OnChanges, OnDestroy, After
   constructor (
     private chronosService: ChronosService
   ) {
-    this.parentID = '';
+    this.chronosID = '';
     this.location = new THREE.Vector3(0, 0, 0);
     this.rotation = new THREE.Euler(0, 0, 0, 'XYZ');
 
@@ -53,18 +53,18 @@ export class OrthoCameraDirective implements OnInit, OnChanges, OnDestroy, After
     // subscribe to home component messages
     this.subscription = this.chronosService.getMessage().subscribe(
       message => {
-        if (message.type === 'elementSize' && message.id === this.parentID ) {
+        if (message.type === 'elementSize' && message.id === this.chronosID ) {
           this.width = message.width;
           this.height = message.height;
           this.updateAspect(this.width / this.height);
         }
-        if (message.type === 'enableLayer' && message.id === this.parentID ) {
+        if (message.type === 'enableLayer' && message.id === this.chronosID ) {
           this.camera.layers.enable(message.layerNo);
         }
-        if (message.type === 'toggleLayer' && message.id === this.parentID ) {
+        if (message.type === 'toggleLayer' && message.id === this.chronosID ) {
           this.camera.layers.toggle(message.layerNo);
         }
-        if (message.type === 'disableLayer' && message.id === this.parentID ) {
+        if (message.type === 'disableLayer' && message.id === this.chronosID ) {
           this.camera.layers.disable(message.layerNo);
         }
       }
@@ -103,8 +103,8 @@ export class OrthoCameraDirective implements OnInit, OnChanges, OnDestroy, After
     this.scene = masterScene;
   }
 
-  renderID (passDown: string): void {
-    this.parentID = passDown;
+  processID (passDown: string): void {
+    this.chronosID = passDown;
   }
 }
 

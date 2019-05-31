@@ -28,13 +28,9 @@ export class NgtRenderDirective implements OnInit, OnDestroy, OnChanges, AfterCo
   }
 
   // variables
-  private renderer: THREE.WebGLRenderer = new THREE.WebGLRenderer({
-    antialias: true,
-    precision: 'lowp'
-  });
-
+  private renderer: THREE.WebGLRenderer;
   private message: any;
-  private parentID: string;
+  private chronosID: string;
   private subscription: Subscription;
   private width: number;
   private height: number;
@@ -43,7 +39,11 @@ export class NgtRenderDirective implements OnInit, OnDestroy, OnChanges, AfterCo
     private chronosService: ChronosService,
     private element: ElementRef
   ) {
-    this.parentID = '';
+    this.chronosID = '';
+    this.renderer = new THREE.WebGLRenderer({
+      antialias: true,
+      precision: 'lowp'
+    });
 
     // subscribe to home component messages
     this.subscription = this.chronosService.getMessage().subscribe(
@@ -52,20 +52,6 @@ export class NgtRenderDirective implements OnInit, OnDestroy, OnChanges, AfterCo
       }
     );
   }
-
-  ngOnInit () {}
-
-  ngOnDestroy () {
-    this.subscription.unsubscribe();
-
-    this.camera.remove();
-    this.render = () => {};
-
-    this.renderer.clear();
-    this.renderer.dispose();
-    this.element = null;
-  }
-
 
   ngOnChanges (changes) {
     // if(changes.isVRMode && changes.isVRMode.currentValue) {
@@ -85,6 +71,8 @@ export class NgtRenderDirective implements OnInit, OnDestroy, OnChanges, AfterCo
     }
   }
 
+  ngOnInit () {}
+
   ngAfterContentInit () {
     this.renderer.setSize(this.width, this.height);
     this.renderer.setPixelRatio(Math.floor(window.devicePixelRatio));
@@ -102,24 +90,37 @@ export class NgtRenderDirective implements OnInit, OnDestroy, OnChanges, AfterCo
     elCatch.setAttribute('class', this.class);
   }
 
+  ngOnDestroy () {
+    this.subscription.unsubscribe();
+
+    this.camera.remove();
+    this.render = () => {};
+
+    this.renderer.clear();
+    this.renderer.dispose();
+    this.element = null;
+  }
+
+  // ---------------------------------------------------------------------------------
+
   processMessage (message: any): void {
     this.message = message;
-    if (this.message.type === 'elementSize' && this.message.id === this.parentID ) {
+    if (this.message.type === 'elementSize' && this.message.id === this.chronosID ) {
       this.width = this.message.width;
       this.height = this.message.height;
       this.renderer.setSize(this.width, this.height);
     }
   }
 
-  renderID (passDown: string): void {
-    this.parentID = passDown;
-    this.propagateID(passDown);
+  processID (passDown: string): void {
+    this.chronosID = passDown;
+    this.propagateID(this.chronosID);
   }
 
   propagateID (passDown: string) {
-    this.sceneDirective.renderID(passDown);
-    this.orbitDirective.renderID(passDown);
-    // this.vrDirective.renderID(passDown);
+    this.sceneDirective.processID(passDown, this.id);
+    this.orbitDirective.processID(passDown);
+    // this.vrDirective.processID(passDown);
   }
 
   propagateRender (): void {

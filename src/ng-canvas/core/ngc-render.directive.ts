@@ -29,7 +29,7 @@ export class NgcRenderDirective implements OnInit, AfterViewInit, AfterContentIn
   private shapeDirectives: ShapeDirective[];
   private projectorDirectives: ProjectorDirective[];
 
-  private parentID: string;
+  private chronosID: string;
   private subscription: Subscription;
 
   private canvas: HTMLCanvasElement;
@@ -41,11 +41,11 @@ export class NgcRenderDirective implements OnInit, AfterViewInit, AfterContentIn
     private renderer: Renderer2,
     private element: ElementRef
   ) {
-    this.parentID = '';
+    this.chronosID = '';
 
     this.subscription = this.chronosService.getMessage().subscribe(
       message => {
-        if (message.type === 'elementSize' && message.id === this.parentID ) {
+        if (message.type === 'elementSize' && message.id === this.chronosID ) {
           this.updateCanvasSize (message.width, message.height);
         }
       }
@@ -80,17 +80,17 @@ export class NgcRenderDirective implements OnInit, AfterViewInit, AfterContentIn
     this.canvasRef.height = height;
   }
 
-  renderID (passDown: string): void {
-    this.parentID = passDown;
+  processID (passDown: string): void {
+    this.chronosID = passDown;
     this.propagateID (passDown);
   }
 
   propagateID (passDown: string): void {
     for (const oneShape of this.shapeDirectives) {
-      oneShape.renderID(passDown);
+      oneShape.processID(passDown);
     }
     for (const oneProjector of this.projectorDirectives) {
-      oneProjector.renderID(passDown);
+      oneProjector.processID(passDown);
     }
   }
 

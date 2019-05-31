@@ -18,7 +18,7 @@ export class LayerDirective implements OnInit, OnChanges, OnDestroy, AfterConten
   @ContentChildren(DynamicDirective) dynamicDomQuery: QueryList<DynamicDirective>;
 
   private scene: THREE.Scene;
-  private parentID: string;
+  private chronosID: string;
   private subscription: Subscription;
 
   private objectDirectives: ObjectDirective[] = [];
@@ -29,12 +29,12 @@ export class LayerDirective implements OnInit, OnChanges, OnDestroy, AfterConten
   ) {
     this.layer = 0;
     this.visible = true;
-    this.parentID = '';
+    this.chronosID = '';
 
     // subscribe to home component messages
     this.subscription = this.chronosService.getMessage().subscribe(
       message => {
-        // if (message.type === 'mouseMove' && message.id === this.parentID) {}
+        // if (message.type === 'mouseMove' && message.id === this.chronosID) {}
       }
     );
   }
@@ -54,7 +54,7 @@ export class LayerDirective implements OnInit, OnChanges, OnDestroy, AfterConten
 
   ngOnInit () {
     if (this.layer > 0 && this.layer < 32) {
-      this.chronosService.enableLayer (this.parentID, this.layer);
+      this.chronosService.enableLayer (this.chronosID, this.layer);
     } else {
       this.layer = 0;
     }
@@ -88,8 +88,8 @@ export class LayerDirective implements OnInit, OnChanges, OnDestroy, AfterConten
     this.subscription.unsubscribe();
   }
 
-  renderID (passDown: string): void {
-    this.parentID = passDown;
+  processID (passDown: string): void {
+    this.chronosID = passDown;
   }
 
   setScene (masterScene: THREE.Scene): void {
@@ -124,7 +124,7 @@ export class LayerDirective implements OnInit, OnChanges, OnDestroy, AfterConten
           // Clear clicked object if any
           const clickedObject = this.chronosService.getClickedObject();
           if (clickedObject !== null) {
-            this.chronosService.updateClickedObject (this.parentID, clickedObject);
+            this.chronosService.updateClickedObject (this.chronosID, clickedObject);
           }
         }
       }

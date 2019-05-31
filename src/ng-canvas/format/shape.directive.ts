@@ -6,10 +6,10 @@ import { Directive, Input, OnInit, AfterViewInit, AfterContentInit, OnDestroy } 
 export class ShapeDirective implements OnInit, AfterViewInit, AfterContentInit, OnDestroy {
   @Input() content: any;
 
-  private parentID: string;
+  private chronosID: string;
 
   constructor() {
-    this.parentID = '';
+    this.chronosID = '';
   }
 
   ngOnInit () {}
@@ -19,8 +19,8 @@ export class ShapeDirective implements OnInit, AfterViewInit, AfterContentInit, 
     this.content = null;
   }
 
-  renderID (passDown: string): void {
-    this.parentID = passDown;
+  processID (passDown: string): void {
+    this.chronosID = passDown;
   }
 
   render (canvasRef, canvasContext): void {
