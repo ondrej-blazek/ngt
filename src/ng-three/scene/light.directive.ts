@@ -14,6 +14,7 @@ export class LightDirective implements OnChanges, OnInit, AfterContentInit {
 
   private scene: THREE.Scene;
   private chronosID: string;
+  private renderID: string;
 
   private pointLightDirectives: PointLightDirective[];
   private hemiLightDirectives: HemisphereLightDirective[];
@@ -21,6 +22,7 @@ export class LightDirective implements OnChanges, OnInit, AfterContentInit {
   constructor () {
     this.helpers = false;
     this.chronosID = '';
+    this.renderID = '';
     this.pointLightDirectives = [];
     this.hemiLightDirectives = [];
   }
@@ -57,17 +59,19 @@ export class LightDirective implements OnChanges, OnInit, AfterContentInit {
     this.scene = masterScene;
   }
 
-  processID (passDown: string): void {
-    this.chronosID = passDown;
-    this.propagateID (passDown);
+  processID (chronosID: string, renderID: string): void {
+    this.chronosID = chronosID;
+    this.renderID = renderID;
+
+    this.propagateID (chronosID, renderID);
   }
 
-  propagateID (passDown: string): void {
+  propagateID (chronosID: string, renderID: string): void {
     for (const oneDirective of this.pointLightDirectives) {
-      oneDirective.processID(passDown);
+      oneDirective.processID(chronosID, renderID);
     }
     for (const oneDirective of this.hemiLightDirectives) {
-      oneDirective.processID(passDown);
+      oneDirective.processID(chronosID, renderID);
     }
   }
 

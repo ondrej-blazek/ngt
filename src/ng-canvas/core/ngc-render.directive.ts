@@ -75,22 +75,24 @@ export class NgcRenderDirective implements OnInit, AfterViewInit, AfterContentIn
     this.subscription.unsubscribe();
   }
 
+  // ---------------------------------------------------------------------------------
+
   updateCanvasSize (width: number, height: number): void {
     this.canvasRef.width = width;
     this.canvasRef.height = height;
   }
 
-  processID (passDown: string): void {
-    this.chronosID = passDown;
-    this.propagateID (passDown);
+  processID (chronosID: string): void {
+    this.chronosID = chronosID;
+    this.propagateID (this.chronosID, this.id);
   }
 
-  propagateID (passDown: string): void {
+  propagateID (chronosID: string, renderID: string): void {
     for (const oneShape of this.shapeDirectives) {
-      oneShape.processID(passDown);
+      oneShape.processID(chronosID, renderID);
     }
     for (const oneProjector of this.projectorDirectives) {
-      oneProjector.processID(passDown);
+      oneProjector.processID(chronosID, renderID);
     }
   }
 

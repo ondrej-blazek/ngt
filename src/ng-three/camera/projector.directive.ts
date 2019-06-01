@@ -14,6 +14,8 @@ export class ProjectorDirective implements OnChanges, OnInit, AfterContentInit, 
 
   private subscription: Subscription;
   private chronosID: string;
+  private renderID: string;
+
   private elemWidth: number;
   private elemHeight: number;
 
@@ -32,6 +34,7 @@ export class ProjectorDirective implements OnChanges, OnInit, AfterContentInit, 
     private chronosService: ChronosService
   ) {
     this.chronosID = '';
+    this.renderID = '';
     this.elemWidth = 0;
     this.elemHeight = 0;
 
@@ -83,8 +86,9 @@ export class ProjectorDirective implements OnChanges, OnInit, AfterContentInit, 
     this.camera = masterCamera;
   }
 
-  processID (passDown: string): void {
-    this.chronosID = passDown;
+  processID (chronosID: string, renderID: string): void {
+    this.chronosID = chronosID;
+    this.renderID = renderID;
   }
 
   render (): void {

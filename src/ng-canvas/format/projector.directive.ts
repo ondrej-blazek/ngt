@@ -11,6 +11,7 @@ export class ProjectorDirective implements OnInit, AfterViewInit, AfterContentIn
   @Input() content: any;
 
   private chronosID: string;
+  private renderID: string;
   private subscription: Subscription;
   private activeFlag: boolean;
   private clickedFlag: boolean;
@@ -19,6 +20,7 @@ export class ProjectorDirective implements OnInit, AfterViewInit, AfterContentIn
     private chronosService: ChronosService
   ) {
     this.chronosID = '';
+    this.renderID = '';
     this.activeFlag = false;
     this.clickedFlag = false;
 
@@ -56,8 +58,11 @@ export class ProjectorDirective implements OnInit, AfterViewInit, AfterContentIn
     this.content = null;
   }
 
-  processID (passDown: string): void {
-    this.chronosID = passDown;
+  // ---------------------------------------------------------------------------------
+
+  processID (chronosID: string, renderID: string): void {
+    this.chronosID = chronosID;
+    this.renderID = renderID;
   }
 
   render (canvasRef, canvasContext): void {

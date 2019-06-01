@@ -42,17 +42,17 @@ export class ChronosDirective implements OnInit, OnDestroy, AfterContentInit {
 
   // ---------------------------------------------------------------------------------
 
-  idUpdate (passDown: string) {
-    this.chronosID = passDown;
+  idUpdate (chronosID: string) {
+    this.chronosID = chronosID;
     // this.propagateID(this.chronosID);
   }
 
-  propagateID (passDown: string) {
+  propagateID (chronosID: string) {
     for (const oneThreeRender of this.threeRenderDirectives) {
-      oneThreeRender.processID(passDown);
+      oneThreeRender.processID(chronosID);
     }
     for (const oneCanvasRender of this.canvasRenderDirectives) {
-      oneCanvasRender.processID(passDown);
+      oneCanvasRender.processID(chronosID);
     }
   }
 

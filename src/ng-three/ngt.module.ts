@@ -5,7 +5,8 @@ import { NgtRenderDirective } from '@ngt/core';
 import { SceneDirective, OrbitDirective, VrDirective, EnvironmentDirective, GeometryDirective, LightDirective } from '@ngt/scene';
 import { PerspectiveCameraDirective, OrthoCameraDirective, RaycasterDirective, ProjectorDirective } from '@ngt/camera';
 import { PointLightDirective, HemisphereLightDirective } from '@ngt/light';
-import { AxesDirective, BackgroundDirective, CubePanoramaDirective, DomeDirective, FogDirective, GridDirective, GroundDirective } from '@ngt/environment';
+import { AxesDirective, BackgroundDirective, CubePanoramaDirective,
+         DomeDirective, FogDirective, GridDirective, GroundDirective } from '@ngt/environment';
 import { ObjectDirective, DynamicDirective, LayerDirective, GltfDirective } from '@ngt/geometry';
 
 @NgModule({

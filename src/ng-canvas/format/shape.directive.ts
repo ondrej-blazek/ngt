@@ -7,9 +7,11 @@ export class ShapeDirective implements OnInit, AfterViewInit, AfterContentInit, 
   @Input() content: any;
 
   private chronosID: string;
+  private renderID: string;
 
   constructor() {
     this.chronosID = '';
+    this.renderID = '';
   }
 
   ngOnInit () {}
@@ -19,8 +21,11 @@ export class ShapeDirective implements OnInit, AfterViewInit, AfterContentInit, 
     this.content = null;
   }
 
-  processID (passDown: string): void {
-    this.chronosID = passDown;
+  // ---------------------------------------------------------------------------------
+
+  processID (chronosID: string, renderID: string): void {
+    this.chronosID = chronosID;
+    this.renderID = renderID;
   }
 
   render (canvasRef, canvasContext): void {

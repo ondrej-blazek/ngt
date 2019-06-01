@@ -14,6 +14,7 @@ export class HemisphereLightDirective implements OnInit, OnChanges, AfterContent
   @Input() content: any;
 
   private chronosID: string;
+  private renderID: string;
   private subscription: Subscription;
   public light: THREE.HemisphereLight;
   public lightHelper: THREE.HemisphereLightHelper;
@@ -25,6 +26,7 @@ export class HemisphereLightDirective implements OnInit, OnChanges, AfterContent
     this.animate = false;
     this.content = null;
     this.chronosID = '';
+    this.renderID = '';
 
     // Light + helper object
     this.light = new THREE.HemisphereLight();
@@ -65,8 +67,9 @@ export class HemisphereLightDirective implements OnInit, OnChanges, AfterContent
     this.lightHelper.dispose();
   }
 
-  processID (passDown: string): void {
-    this.chronosID = passDown;
+  processID (chronosID: string, renderID: string): void {
+    this.chronosID = chronosID;
+    this.renderID = renderID;
   }
 
   render (): void {

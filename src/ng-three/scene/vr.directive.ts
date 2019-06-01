@@ -14,16 +14,19 @@ export class VrDirective {
   @Input() enabled: boolean;
 
   private chronosID: string;
+  private renderID: string;
   public controls: any;
   public effect: any;
 
   constructor () {
     this.chronosID = '';
+    this.renderID = '';
     this.enabled = true;
   }
 
-  processID (passDown: string): void {
-    this.chronosID = passDown;
+  processID (chronosID: string, renderID: string): void {
+    this.chronosID = chronosID;
+    this.renderID = renderID;
   }
 
   // ngOnChanges(changes) {

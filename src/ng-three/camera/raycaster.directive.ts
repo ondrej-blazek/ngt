@@ -18,6 +18,8 @@ export class RaycasterDirective implements OnChanges, OnInit, AfterContentInit, 
 
   private subscription: Subscription;
   private chronosID: string;
+  private renderID: string;
+
   private rayCaster: THREE.Raycaster;
   private mouse: THREE.Vector2;
   private mouseIsActive: boolean;
@@ -34,6 +36,7 @@ export class RaycasterDirective implements OnChanges, OnInit, AfterContentInit, 
     private chronosService: ChronosService
   ) {
     this.chronosID = '';
+    this.renderID = '';
     this.rayCaster = new THREE.Raycaster();
     this.mouse = new THREE.Vector2();
     this.mouseIsActive = false;
@@ -83,8 +86,9 @@ export class RaycasterDirective implements OnChanges, OnInit, AfterContentInit, 
     this.camera = masterCamera;
   }
 
-  processID (passDown: string): void {
-    this.chronosID = passDown;
+  processID (chronosID: string, renderID: string): void {
+    this.chronosID = chronosID;
+    this.renderID = renderID;
   }
 
   render (): void {

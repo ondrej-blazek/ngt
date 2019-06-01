@@ -1,5 +1,6 @@
 import { Directive, ContentChild, AfterContentInit, OnInit, OnDestroy } from '@angular/core';
-import { AxesDirective, BackgroundDirective, CubePanoramaDirective, DomeDirective, FogDirective, GridDirective, GroundDirective } from '@ngt/environment';
+import { AxesDirective, BackgroundDirective, CubePanoramaDirective,
+         DomeDirective, FogDirective, GridDirective, GroundDirective } from '@ngt/environment';
 import * as THREE from 'three';
 
 @Directive({
@@ -16,9 +17,11 @@ export class EnvironmentDirective implements OnInit, AfterContentInit, OnDestroy
 
   private scene: THREE.Scene;
   private chronosID: string;
+  private renderID: string;
 
   constructor () {
     this.chronosID = '';
+    this.renderID = '';
   }
 
   ngOnInit () {
@@ -54,8 +57,9 @@ export class EnvironmentDirective implements OnInit, AfterContentInit, OnDestroy
 
   ngOnDestroy () {}
 
-  processID (passDown: string): void {
-    this.chronosID = passDown;
+  processID (chronosID: string, renderID: string): void {
+    this.chronosID = chronosID;
+    this.renderID = renderID;
   }
 
   setScene (masterScene: THREE.Scene): void {

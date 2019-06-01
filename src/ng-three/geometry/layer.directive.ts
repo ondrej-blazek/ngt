@@ -19,6 +19,7 @@ export class LayerDirective implements OnInit, OnChanges, OnDestroy, AfterConten
 
   private scene: THREE.Scene;
   private chronosID: string;
+  private renderID: string;
   private subscription: Subscription;
 
   private objectDirectives: ObjectDirective[] = [];
@@ -30,6 +31,7 @@ export class LayerDirective implements OnInit, OnChanges, OnDestroy, AfterConten
     this.layer = 0;
     this.visible = true;
     this.chronosID = '';
+    this.renderID = '';
 
     // subscribe to home component messages
     this.subscription = this.chronosService.getMessage().subscribe(
@@ -88,8 +90,9 @@ export class LayerDirective implements OnInit, OnChanges, OnDestroy, AfterConten
     this.subscription.unsubscribe();
   }
 
-  processID (passDown: string): void {
-    this.chronosID = passDown;
+  processID (chronosID: string, renderID: string): void {
+    this.chronosID = chronosID;
+    this.renderID = renderID;
   }
 
   setScene (masterScene: THREE.Scene): void {

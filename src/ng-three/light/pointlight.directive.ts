@@ -14,6 +14,7 @@ export class PointLightDirective implements OnInit, OnChanges, AfterContentInit,
   @Input() content: any;
 
   private chronosID: string;
+  private renderID: string;
   private subscription: Subscription;
   public light: THREE.PointLight;
   public lightHelper: THREE.PointLightHelper;
@@ -25,6 +26,7 @@ export class PointLightDirective implements OnInit, OnChanges, AfterContentInit,
     this.animate = false;
     this.content = null;
     this.chronosID = '';
+    this.renderID = '';
 
     // Light + helper object
     this.light = new THREE.PointLight();
@@ -65,8 +67,9 @@ export class PointLightDirective implements OnInit, OnChanges, AfterContentInit,
     this.lightHelper.dispose();
   }
 
-  processID (passDown: string): void {
-    this.chronosID = passDown;
+  processID (chronosID: string, renderID: string): void {
+    this.chronosID = chronosID;
+    this.renderID = renderID;
   }
 
   render (): void {

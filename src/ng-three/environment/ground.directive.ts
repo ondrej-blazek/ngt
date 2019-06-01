@@ -38,7 +38,7 @@ export class GroundDirective implements OnInit, OnChanges, AfterContentInit {
   }
 
   ngOnInit () {
-    if (this.plane === null){
+    if (this.plane === null) {
       this.setPlane ();
     }
   }

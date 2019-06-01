@@ -1,6 +1,13 @@
 import { Directive, Input, OnInit, OnChanges, AfterContentInit, OnDestroy } from '@angular/core';
 import * as THREE from 'three';
+
 import { GLTFLoader, GLTF } from 'three/examples/jsm/loaders/GLTFLoader';
+import { PMREMGenerator } from 'three/examples/jsm/pmrem/PMREMGenerator.js';
+import { PMREMCubeUVPacker } from 'three/examples/jsm/pmrem/PMREMCubeUVPacker.js';
+
+import { SceneService } from '@ngt/service';
+
+// TODO - Clean this directive up. There is too much logic that should be part of object class
 
 @Directive({
   selector: 'ngt-gltf'     // tslint:disable-line
@@ -9,19 +16,26 @@ export class GltfDirective implements OnInit, OnChanges, AfterContentInit, OnDes
   @Input() basePath: string;
   @Input() fileName: string;
 
+  private chronosID: string;
+  private renderID: string;
   private withParams: boolean;
   private meshLoader: GLTFLoader;
+
   private scene: THREE.Scene;
   private mixer: THREE.AnimationMixer;
+  private renderStorage: THREE.WebGLRenderer;
 
-  constructor() {
+  constructor(
+    private sceneService: SceneService
+  ) {
+    this.chronosID = '';
+    this.renderID = '';
     this.basePath = '';
     this.fileName = '';
     this.withParams = true;
 
     this.meshLoader = new GLTFLoader();
   }
-
 
   ngOnChanges (changes) {
     if (changes.basePath) {
@@ -44,6 +58,15 @@ export class GltfDirective implements OnInit, OnChanges, AfterContentInit, OnDes
   ngAfterContentInit (): void {}
   ngOnDestroy (): void {}
 
+  // ---------------------------------------------------------------------------------
+
+  processID (chronosID: string, renderID: string): void {
+    this.chronosID = chronosID;
+    this.renderID = renderID;
+
+    this.renderStorage = this.sceneService.getRender(this.chronosID, this.renderID);
+  }
+
   render (): void {
     if (this.mixer) {
       this.mixer.update(0.01666666666666666);
@@ -59,7 +82,28 @@ export class GltfDirective implements OnInit, OnChanges, AfterContentInit, OnDes
 
     this.meshLoader.setPath(basePath);
     this.meshLoader.load(fileName, (gltf: GLTF) => {
+
+      let textureBackground = null;
+      if (typeof(this.scene.background) === 'object') {   // type of THREE.CubeTexture
+        textureBackground = this.scene.background;
+
+        const pmremGenerator = new PMREMGenerator( textureBackground );
+        pmremGenerator.update( this.renderStorage );
+
+        const pmremCubeUVPacker = new PMREMCubeUVPacker( pmremGenerator.cubeLods );
+        pmremCubeUVPacker.update( this.renderStorage );
+
+        const envMap = pmremCubeUVPacker.CubeUVRenderTarget.texture;
+
+        gltf.scene.traverse(( child: any ) => {
+          if (child.type === 'Mesh') {
+            child.material.envMap = envMap;
+          }
+        } );
+      }
+
       this.scene.add(gltf.scene);
+
       this.mixer = new THREE.AnimationMixer(gltf.scene);
       gltf.animations.forEach((clip) => {
         this.mixer.clipAction(clip).play();

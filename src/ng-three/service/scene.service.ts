@@ -5,14 +5,36 @@ import * as THREE from 'three';
   providedIn: 'root'
 })
 export class SceneService {
-  public scene: THREE.Scene;
+  private scenes: THREE.Scene[];
+  private renders: THREE.WebGLRenderer[];
 
-  constructor() {}
-
-  getScene (): THREE.Scene {
-    return this.scene;
+  constructor() {
+    this.scenes = [];
+    this.renders = [];
   }
-  setScene (scene: THREE.Scene): void {
-    this.scene = scene;
+
+  getScene (chronosID: string, renderID: string): THREE.Scene {
+    const keyName = this.keyNameFn (chronosID, renderID);
+    return (this.scenes[keyName]);
+  }
+
+  setScene (chronosID: string, renderID: string, scene: THREE.Scene): void {
+    const keyName = this.keyNameFn (chronosID, renderID);
+    this.scenes[keyName] = scene;
+  }
+
+  getRender (chronosID: string, renderID: string): THREE.WebGLRenderer {
+    const keyName = this.keyNameFn (chronosID, renderID);
+    return (this.renders[keyName]);
+  }
+
+  setRender (chronosID: string, renderID: string, render: THREE.WebGLRenderer): void {
+    const keyName = this.keyNameFn (chronosID, renderID);
+    this.renders[keyName] = render;
+  }
+
+  keyNameFn (chronosID: string, renderID: string): string {
+    const keyName = chronosID + '-' + renderID;
+    return (keyName);
   }
 }

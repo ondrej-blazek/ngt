@@ -28,6 +28,8 @@ export class OrthoCameraDirective implements OnInit, OnChanges, OnDestroy, After
 
   // private message: any;
   private chronosID: string;
+  private renderID: string;
+
   private subscription: Subscription;
   private width: number;
   private height: number;
@@ -39,6 +41,7 @@ export class OrthoCameraDirective implements OnInit, OnChanges, OnDestroy, After
     private chronosService: ChronosService
   ) {
     this.chronosID = '';
+    this.renderID = '';
     this.location = new THREE.Vector3(0, 0, 0);
     this.rotation = new THREE.Euler(0, 0, 0, 'XYZ');
 
@@ -103,8 +106,9 @@ export class OrthoCameraDirective implements OnInit, OnChanges, OnDestroy, After
     this.scene = masterScene;
   }
 
-  processID (passDown: string): void {
-    this.chronosID = passDown;
+  processID (chronosID: string, renderID: string): void {
+    this.chronosID = chronosID;
+    this.renderID = renderID;
   }
 }
 

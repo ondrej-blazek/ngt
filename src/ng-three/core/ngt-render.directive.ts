@@ -3,6 +3,7 @@ import * as THREE from 'three';
 import { Subscription } from 'rxjs';
 
 import { ChronosService } from '@ngs/core/chronos.service';
+import { SceneService } from '@ngt/service';
 import { SceneDirective, OrbitDirective, VrDirective } from '@ngt/scene';
 
 // TODO - investigate VR mode
@@ -37,6 +38,7 @@ export class NgtRenderDirective implements OnInit, OnDestroy, OnChanges, AfterCo
 
   constructor (
     private chronosService: ChronosService,
+    private sceneService: SceneService,
     private element: ElementRef
   ) {
     this.chronosID = '';
@@ -112,15 +114,17 @@ export class NgtRenderDirective implements OnInit, OnDestroy, OnChanges, AfterCo
     }
   }
 
-  processID (passDown: string): void {
-    this.chronosID = passDown;
-    this.propagateID(this.chronosID);
+  processID (chronosID: string): void {
+    this.chronosID = chronosID;
+    this.sceneService.setRender(this.chronosID, this.id, this.renderer);
+
+    this.propagateID(this.chronosID, this.id);
   }
 
-  propagateID (passDown: string) {
-    this.sceneDirective.processID(passDown, this.id);
-    this.orbitDirective.processID(passDown);
-    // this.vrDirective.processID(passDown);
+  propagateID (chronosID: string, renderID: string) {
+    this.sceneDirective.processID(chronosID, renderID);
+    this.orbitDirective.processID(chronosID, renderID);
+    // this.vrDirective.processID(chronosID, renderID);
   }
 
   propagateRender (): void {

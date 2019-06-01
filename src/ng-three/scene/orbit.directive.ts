@@ -8,10 +8,12 @@ export class OrbitDirective {
   @Input() enabled: boolean;
 
   private chronosID: string;
+  private renderID: string;
   public controls: OrbitControls;
 
   constructor () {
     this.chronosID = '';
+    this.renderID = '';
     this.enabled = true;
   }
 
@@ -24,7 +26,8 @@ export class OrbitDirective {
     this.controls.update();
   }
 
-  processID (passDown: string): void {
-    this.chronosID = passDown;
+  processID (chronosID: string, renderID: string): void {
+    this.chronosID = chronosID;
+    this.renderID = renderID;
   }
 }

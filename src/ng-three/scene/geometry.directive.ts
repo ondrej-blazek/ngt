@@ -12,6 +12,7 @@ export class GeometryDirective implements OnInit, AfterContentInit {
 
   private scene: THREE.Scene;
   private chronosID: string;
+  private renderID: string;
 
   private objectDirectives: ObjectDirective[] = [];
   private gltfDirectives: GltfDirective[] = [];
@@ -20,6 +21,7 @@ export class GeometryDirective implements OnInit, AfterContentInit {
 
   constructor () {
     this.chronosID = '';
+    this.renderID = '';
   }
 
   ngOnInit () {}
@@ -57,14 +59,20 @@ export class GeometryDirective implements OnInit, AfterContentInit {
     this.scene = masterScene;
   }
 
-  processID (passDown: string): void {
-    this.chronosID = passDown;
-    this.propagateID (passDown);
+  processID (chronosID: string, renderID: string): void {
+    this.chronosID = chronosID;
+    this.renderID = renderID;
+
+    this.propagateID (chronosID, renderID);
   }
 
-  propagateID (passDown: string): void {
+  propagateID (chronosID: string, renderID: string): void {
+    for (const oneDirective of this.gltfDirectives) {
+      oneDirective.processID(chronosID, renderID);
+    }
+
     for (const oneDirective of this.layerDirectives) {
-      oneDirective.processID(passDown);
+      oneDirective.processID(chronosID, renderID);
     }
   }
 
