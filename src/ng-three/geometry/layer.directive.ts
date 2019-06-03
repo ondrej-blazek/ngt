@@ -6,6 +6,7 @@ import { Subscription } from 'rxjs';
 import { ChronosService } from '@ngs/core/chronos.service';
 import { ObjectDirective } from './object.directive';
 import { DynamicDirective } from './dynamic.directive';
+import { GltfDirective } from './gltf.directive';
 
 @Directive({
   selector: 'ngt-layer'     // tslint:disable-line
@@ -15,6 +16,7 @@ export class LayerDirective implements OnInit, OnChanges, OnDestroy, AfterConten
   @Input() visible: boolean;
 
   @ContentChildren(ObjectDirective) objectDomQuery: QueryList<ObjectDirective>;
+  @ContentChildren(GltfDirective) gltfDomQuery: QueryList<GltfDirective>;
   @ContentChildren(DynamicDirective) dynamicDomQuery: QueryList<DynamicDirective>;
 
   private scene: THREE.Scene;
@@ -23,6 +25,7 @@ export class LayerDirective implements OnInit, OnChanges, OnDestroy, AfterConten
   private subscription: Subscription;
 
   private objectDirectives: ObjectDirective[] = [];
+  private gltfDirectives: GltfDirective[] = [];
   private dynamicDirectives: DynamicDirective[] = [];
 
   constructor (
@@ -55,6 +58,9 @@ export class LayerDirective implements OnInit, OnChanges, OnDestroy, AfterConten
   }
 
   ngOnInit () {
+
+    console.log ('LayerDirective - ngOnInit', this.chronosID, this.renderID);
+
     if (this.layer > 0 && this.layer < 32) {
       this.chronosService.enableLayer (this.chronosID, this.layer);
     } else {
@@ -62,10 +68,15 @@ export class LayerDirective implements OnInit, OnChanges, OnDestroy, AfterConten
     }
   }
 
-  ngAfterContentInit () {}
+  ngAfterContentInit () {
+    console.log ('LayerDirective - ngAfterContentInit', this.chronosID, this.renderID);
+  }
 
   ngAfterViewInit () {
+    console.log ('LayerDirective - ngAfterViewInit', this.chronosID, this.renderID);
+
     this.objectDirectives = this.objectDomQuery.toArray();
+    this.gltfDirectives = this.gltfDomQuery.toArray();
     this.dynamicDirectives = this.dynamicDomQuery.toArray();
 
     // Add all objects to scene
@@ -90,26 +101,51 @@ export class LayerDirective implements OnInit, OnChanges, OnDestroy, AfterConten
     this.subscription.unsubscribe();
   }
 
+  // ---------------------------------------------------------------------------------
+
   processID (chronosID: string, renderID: string): void {
     this.chronosID = chronosID;
     this.renderID = renderID;
+
+    console.log ('LayerDirective - processID', this.chronosID, this.renderID);
+
+    this.propagateID (this.chronosID, this.renderID);
+  }
+
+  propagateID (chronosID: string, renderID: string): void {
+
+    console.log ('LayerDirective - propagateID', this.chronosID, this.renderID);
+
+    for (const oneDirective of this.gltfDirectives) {
+      oneDirective.processID(chronosID, renderID);
+    }
   }
 
   setScene (masterScene: THREE.Scene): void {
     this.scene = masterScene;
+    // this.propagateScene (this.scene);
+  }
+
+  // propagateScene (masterScene: THREE.Scene): void {
+  //   for (const oneDirective of this.gltfDirectives) {
+  //     oneDirective.setScene(masterScene);
+  //   }
+  // }
+
+  render (): void {
+    this.propagateRender();
   }
 
   propagateRender (): void {
     for (const oneDirective of this.objectDirectives) {
       oneDirective.render();
     }
+    for (const oneDirective of this.gltfDirectives) {
+      oneDirective.render();
+    }
     for (const oneDirective of this.dynamicDirectives) {
       oneDirective.render();
     }
-  }
-
-  render (): void {
-    this.propagateRender();
   }
 
   toggleSingleObjects (objectDirectives: any[], currentValue: boolean, previousValue: boolean): void {

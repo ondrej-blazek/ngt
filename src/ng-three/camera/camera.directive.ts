@@ -14,7 +14,7 @@ export class PerspectiveCameraDirective implements OnInit, OnChanges, OnDestroy,
   @Input() location: THREE.Vector3;
   @Input() rotation: THREE.Euler;
 
-  private scene: THREE.Scene;
+  // private scene: THREE.Scene;
 
   private viewAngle: number;
   private aspect: number;
@@ -85,6 +85,8 @@ export class PerspectiveCameraDirective implements OnInit, OnChanges, OnDestroy,
     this.subscription.unsubscribe();
   }
 
+  // ---------------------------------------------------------------------------------
+
   updateAspect (ratio: number): void {
     if (this.camera) {
       this.camera.aspect = ratio;
@@ -95,10 +97,6 @@ export class PerspectiveCameraDirective implements OnInit, OnChanges, OnDestroy,
   setPosition (location: THREE.Vector3, rotation: THREE.Euler): void {
     this.camera.position.set(location.x, location.y, location.z);
     this.camera.rotation.set(rotation.x, rotation.y, rotation.z, rotation.order);
-  }
-
-  setScene (masterScene: THREE.Scene): void {
-    this.scene = masterScene;
   }
 
   processID (chronosID: string, renderID: string): void {

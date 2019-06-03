@@ -3,6 +3,7 @@ import { Subscription } from 'rxjs';
 import * as THREE from 'three';
 
 import { ChronosService } from '@ngs/core/chronos.service';
+import { SceneService } from '@ngt/service';
 
 // TODO - Look into all 'any' objects and definitions to see if they can be made more specific.
 // TODO - Objects also have the ability to react to raycaster - investigate some more.
@@ -33,7 +34,8 @@ export class RaycasterDirective implements OnChanges, OnInit, AfterContentInit, 
   private intersects: Array<any>;
 
   constructor (
-    private chronosService: ChronosService
+    private chronosService: ChronosService,
+    private sceneService: SceneService
   ) {
     this.chronosID = '';
     this.renderID = '';
@@ -70,7 +72,9 @@ export class RaycasterDirective implements OnChanges, OnInit, AfterContentInit, 
   }
 
   ngOnChanges (changes): void {}
-  ngOnInit (): void {}
+  ngOnInit (): void {
+    this.scene = this.sceneService.getScene(this.chronosID, this.renderID);
+  }
   ngAfterContentInit (): void {
     this.interactionArray = this.chronosService.getInteraction ();
   }
@@ -78,9 +82,7 @@ export class RaycasterDirective implements OnChanges, OnInit, AfterContentInit, 
     this.subscription.unsubscribe();
   }
 
-  setScene (masterScene: THREE.Scene): void {
-    this.scene = masterScene;
-  }
+  // ---------------------------------------------------------------------------------
 
   setCamera (masterCamera: THREE.PerspectiveCamera | THREE.OrthographicCamera): void {
     this.camera = masterCamera;

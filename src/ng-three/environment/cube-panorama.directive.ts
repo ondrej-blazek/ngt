@@ -1,6 +1,8 @@
 import { Directive, Input, OnInit, OnChanges, AfterContentInit } from '@angular/core';
 import * as THREE from 'three';
 
+import { SceneService } from '@ngt/service';
+
 @Directive({
   selector: 'ngt-panorama'     // tslint:disable-line
 })
@@ -10,13 +12,20 @@ export class CubePanoramaDirective implements OnInit, OnChanges, AfterContentIni
 
   private withParams: boolean;
   private scene: THREE.Scene;
+  private chronosID: string;
+  private renderID: string;
   private cubeTextureLoader: THREE.CubeTextureLoader;
   public texture: THREE.CubeTexture;
 
-  constructor() {
+  constructor(
+    private sceneService: SceneService
+  ) {
     this.basePath = '';
     this.imageArray = [];
     this.withParams = true;
+
+    this.chronosID = '';
+    this.renderID = '';
 
     this.texture = new THREE.CubeTexture();
     this.cubeTextureLoader = new THREE.CubeTextureLoader();
@@ -30,20 +39,25 @@ export class CubePanoramaDirective implements OnInit, OnChanges, AfterContentIni
       this.imageArray = changes.imageArray.currentValue;
     }
 
-    if (changes.basePath || changes.imageArray) {
+    if ((changes.basePath || changes.imageArray) && this.scene) {
       this.updateScene(this.basePath, this.imageArray);
     }
   }
 
   ngOnInit () {
+    this.scene = this.sceneService.getScene(this.chronosID, this.renderID);
+
     if (this.withParams) {
       this.updateScene(this.basePath, this.imageArray);
     }
   }
   ngAfterContentInit () {}
 
-  setScene (masterScene: THREE.Scene): void {
-    this.scene = masterScene;
+  // ---------------------------------------------------------------------------------
+
+  processID (chronosID: string, renderID: string): void {
+    this.chronosID = chronosID;
+    this.renderID = renderID;
   }
 
   updateScene (basePath: string, imageArray: string[]): void {

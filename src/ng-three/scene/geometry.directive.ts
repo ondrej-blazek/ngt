@@ -1,4 +1,6 @@
 import { OnInit, Directive, ContentChildren, QueryList, AfterContentInit } from '@angular/core';
+
+import { SceneService } from '@ngt/service';
 import { ObjectDirective, DynamicDirective, LayerDirective, GltfDirective } from '@ngt/geometry';
 
 @Directive({
@@ -19,18 +21,28 @@ export class GeometryDirective implements OnInit, AfterContentInit {
   private dynamicDirectives: DynamicDirective[] = [];
   private layerDirectives: LayerDirective[] = [];
 
-  constructor () {
+  constructor (
+    private sceneService: SceneService
+  ) {
     this.chronosID = '';
     this.renderID = '';
   }
 
-  ngOnInit () {}
+  ngOnInit () {
+    this.scene = this.sceneService.getScene(this.chronosID, this.renderID);
+
+    console.log ('GeometryDirective - ngOnInit', this.chronosID, this.renderID, this.layerDirectives);
+  }
 
   ngAfterContentInit () {
     this.objectDirectives = this.objectDomQuery.toArray();
     this.gltfDirectives = this.gltfDomQuery.toArray();
     this.dynamicDirectives = this.dynamicDomQuery.toArray();
     this.layerDirectives = this.layerDomQuery.toArray();
+
+    console.log ('GeometryDirective - ngAfterContentInit', this.chronosID, this.renderID, this.layerDirectives);
+
+    this.propagateID (this.chronosID, this.renderID);
 
     // Pickup objects from directives
     for (const oneDirective of this.objectDirectives) {
@@ -44,9 +56,9 @@ export class GeometryDirective implements OnInit, AfterContentInit {
     }
 
     // Pass scene down to directive
-    for (const oneDirective of this.gltfDirectives) {
-      oneDirective.setScene(this.scene);
-    }
+    // for (const oneDirective of this.gltfDirectives) {
+    //   oneDirective.setScene(this.scene);
+    // }
 
     for (const oneDirective of this.layerDirectives) {
       oneDirective.setScene(this.scene);
@@ -55,22 +67,20 @@ export class GeometryDirective implements OnInit, AfterContentInit {
 
   // ---------------------------------------------------------------------------------
 
-  setScene (masterScene: THREE.Scene): void {
-    this.scene = masterScene;
-  }
-
-  processID (chronosID: string, renderID: string): void {
+  processID (chronosID: string, renderID: string): void {     // Executed BEFORE ngOnInit
     this.chronosID = chronosID;
     this.renderID = renderID;
 
-    this.propagateID (chronosID, renderID);
+    console.log ('GeometryDirective - processID', this.chronosID, this.renderID);
   }
 
   propagateID (chronosID: string, renderID: string): void {
+
+    console.log ('GeometryDirective - propagateID', this.chronosID, this.renderID, this.layerDirectives);
+
     for (const oneDirective of this.gltfDirectives) {
       oneDirective.processID(chronosID, renderID);
     }
-
     for (const oneDirective of this.layerDirectives) {
       oneDirective.processID(chronosID, renderID);
     }

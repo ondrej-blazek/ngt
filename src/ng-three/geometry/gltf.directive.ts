@@ -50,21 +50,27 @@ export class GltfDirective implements OnInit, OnChanges, AfterContentInit, OnDes
     }
   }
 
-  ngOnInit (): void {
-    if (this.withParams) {
-      this.updateScene(this.basePath, this.fileName);
-    }
-  }
+  ngOnInit (): void {}
   ngAfterContentInit (): void {}
   ngOnDestroy (): void {}
 
   // ---------------------------------------------------------------------------------
 
-  processID (chronosID: string, renderID: string): void {
+  processID (chronosID: string, renderID: string): void {     // Executed AFTER ngAfterContentInit -> staring point
     this.chronosID = chronosID;
     this.renderID = renderID;
 
+    this.executeLogic ();
+  }
+
+  executeLogic (): void {
     this.renderStorage = this.sceneService.getRender(this.chronosID, this.renderID);
+    this.scene = this.sceneService.getScene(this.chronosID, this.renderID);
+
+    // ngOnInit
+    if (this.withParams) {
+      this.updateScene(this.basePath, this.fileName);
+    }
   }
 
   render (): void {
@@ -73,16 +79,11 @@ export class GltfDirective implements OnInit, OnChanges, AfterContentInit, OnDes
     }
   }
 
-  setScene (masterScene: THREE.Scene): void {
-    this.scene = masterScene;
-  }
-
   updateScene (basePath: string, fileName: string): void {
     this.withParams = false;
 
     this.meshLoader.setPath(basePath);
     this.meshLoader.load(fileName, (gltf: GLTF) => {
-
       let textureBackground = null;
       if (typeof(this.scene.background) === 'object') {   // type of THREE.CubeTexture
         textureBackground = this.scene.background;
@@ -124,3 +125,8 @@ export class GltfDirective implements OnInit, OnChanges, AfterContentInit, OnDes
 //    https://threejs.org/examples/?q=glt#webgl2_loader_gltf
 //    https://github.com/mrdoob/three.js/blob/master/examples/webgl2_loader_gltf.html
 //    https://github.com/khronosgroup/gltf#gltf-tools
+
+// Model Sources
+//    https://github.com/KhronosGroup/glTF-Sample-Models/tree/master/2.0
+//    https://github.com/KhronosGroup/glTF-Sample-Models/tree/master/2.0/DamagedHelmet
+//    https://github.com/KhronosGroup/glTF-Sample-Models/tree/master/2.0/BoomBox

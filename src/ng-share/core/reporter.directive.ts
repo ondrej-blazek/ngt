@@ -37,7 +37,7 @@ export class ReporterDirective implements OnInit, AfterContentInit {
 
   ngOnInit () {    // Update chronos BEFORE rendering starts
     if (this.chronosDirective) {
-      this.chronosDirective.idUpdate(this.el.nativeElement.id);
+      this.chronosDirective.processID(this.el.nativeElement.id);
       this.sizeReportFunction();
     }
   }

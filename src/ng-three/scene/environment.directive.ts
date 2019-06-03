@@ -1,7 +1,9 @@
 import { Directive, ContentChild, AfterContentInit, OnInit, OnDestroy } from '@angular/core';
+import * as THREE from 'three';
+
+import { SceneService } from '@ngt/service';
 import { AxesDirective, BackgroundDirective, CubePanoramaDirective,
          DomeDirective, FogDirective, GridDirective, GroundDirective } from '@ngt/environment';
-import * as THREE from 'three';
 
 @Directive({
   selector: 'ngt-environment'     // tslint:disable-line
@@ -19,22 +21,15 @@ export class EnvironmentDirective implements OnInit, AfterContentInit, OnDestroy
   private chronosID: string;
   private renderID: string;
 
-  constructor () {
+  constructor (
+    private sceneService: SceneService
+  ) {
     this.chronosID = '';
     this.renderID = '';
   }
 
   ngOnInit () {
-    // Pass scene for additional changes
-    if (this.backgroundDirective) {
-      this.backgroundDirective.setScene(this.scene);
-    }
-    if (this.cubePanoramaDirective) {
-      this.cubePanoramaDirective.setScene(this.scene);
-    }
-    if (this.fogDirective) {
-      this.fogDirective.setScene(this.scene);
-    }
+    this.scene = this.sceneService.getScene(this.chronosID, this.renderID);
   }
 
   ngAfterContentInit () {
@@ -57,12 +52,24 @@ export class EnvironmentDirective implements OnInit, AfterContentInit, OnDestroy
 
   ngOnDestroy () {}
 
+  // ---------------------------------------------------------------------------------
+
   processID (chronosID: string, renderID: string): void {
     this.chronosID = chronosID;
     this.renderID = renderID;
+
+    this.propagateID (this.chronosID, this.renderID);
   }
 
-  setScene (masterScene: THREE.Scene): void {
-    this.scene = masterScene;
+  propagateID (chronosID: string, renderID: string): void {
+    if (this.backgroundDirective) {
+      this.backgroundDirective.processID(chronosID, renderID);
+    }
+    if (this.cubePanoramaDirective) {
+      this.cubePanoramaDirective.processID(chronosID, renderID);
+    }
+    if (this.fogDirective) {
+      this.fogDirective.processID(chronosID, renderID);
+    }
   }
 }

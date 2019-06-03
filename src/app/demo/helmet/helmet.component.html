@@ -6,7 +6,7 @@
       <!-- 3D scene(s) -->
       <ngt-render id="threeMaster" class="mainScene">
         <ngt-orbit [enabled]="!env.isVRMode"></ngt-orbit>
-        <ngt-vr [enabled]="env.isVRMode" [height]="height" [width]="width"></ngt-vr>
+        <!-- <ngt-vr [enabled]="env.isVRMode" [height]="height" [width]="width"></ngt-vr> -->
 
         <ngt-scene>
           <ngt-camera [location]="env.camPosition"></ngt-camera>
@@ -29,9 +29,9 @@
           </ngt-environment>
 
           <ngt-geometry>
-
-            <ngt-gltf [basePath]="gltfPath" [fileName]="gltfFile"></ngt-gltf>
-
+            <ngt-layer (layer)="layers[0].layer" [visible]="layers[0].visible">
+              <ngt-gltf [basePath]="gltfPath" [fileName]="gltfFile"></ngt-gltf>
+            </ngt-layer>
           </ngt-geometry>
         </ngt-scene>
       </ngt-render>

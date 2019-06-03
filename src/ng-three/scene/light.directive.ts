@@ -1,4 +1,6 @@
 import { OnInit, Directive, ContentChildren, QueryList, AfterContentInit, Input, OnChanges } from '@angular/core';
+
+import { SceneService } from '@ngt/service';
 import { PointLightDirective, HemisphereLightDirective } from '@ngt/light';
 
 @Directive({
@@ -19,7 +21,9 @@ export class LightDirective implements OnChanges, OnInit, AfterContentInit {
   private pointLightDirectives: PointLightDirective[];
   private hemiLightDirectives: HemisphereLightDirective[];
 
-  constructor () {
+  constructor (
+    private sceneService: SceneService
+  ) {
     this.helpers = false;
     this.chronosID = '';
     this.renderID = '';
@@ -33,7 +37,9 @@ export class LightDirective implements OnChanges, OnInit, AfterContentInit {
     }
   }
 
-  ngOnInit () {}
+  ngOnInit () {
+    this.scene = this.sceneService.getScene(this.chronosID, this.renderID);
+  }
 
   ngAfterContentInit () {
     // Collect handlers into Array
@@ -55,9 +61,7 @@ export class LightDirective implements OnChanges, OnInit, AfterContentInit {
     }
   }
 
-  setScene (masterScene: THREE.Scene): void {
-    this.scene = masterScene;
-  }
+  // ---------------------------------------------------------------------------------
 
   processID (chronosID: string, renderID: string): void {
     this.chronosID = chronosID;
@@ -75,6 +79,10 @@ export class LightDirective implements OnChanges, OnInit, AfterContentInit {
     }
   }
 
+  render (): void {
+    this.propagateRender();
+  }
+
   propagateRender (): void {
     for (const oneDirective of this.pointLightDirectives) {
       oneDirective.render();
@@ -82,9 +90,5 @@ export class LightDirective implements OnChanges, OnInit, AfterContentInit {
     for (const oneDirective of this.hemiLightDirectives) {
       oneDirective.render();
     }
-  }
-
-  render (): void {
-    this.propagateRender();
   }
 }

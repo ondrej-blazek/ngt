@@ -9,7 +9,6 @@ import { ChronosService } from '@ngs/core/chronos.service';
 })
 export class ProjectorDirective implements OnChanges, OnInit, AfterContentInit, OnDestroy {
 
-  private scene: THREE.Scene;
   private camera: THREE.PerspectiveCamera | THREE.OrthographicCamera;
 
   private subscription: Subscription;
@@ -78,9 +77,7 @@ export class ProjectorDirective implements OnChanges, OnInit, AfterContentInit, 
     this.subscription.unsubscribe();
   }
 
-  setScene (masterScene: THREE.Scene): void {
-    this.scene = masterScene;
-  }
+  // ---------------------------------------------------------------------------------
 
   setCamera (masterCamera: THREE.PerspectiveCamera | THREE.OrthographicCamera): void {
     this.camera = masterCamera;

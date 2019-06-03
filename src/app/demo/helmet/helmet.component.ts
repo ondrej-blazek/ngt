@@ -19,6 +19,9 @@ export class HelmetComponent implements OnInit {
   private gltfPath: string;
   private gltfFile: string;
 
+  // Layers
+  public layers: any[];
+
   constructor() {
     this.env = new EnvService ();
     this.pointLight = new PointLightService();
@@ -29,6 +32,14 @@ export class HelmetComponent implements OnInit {
 
     this.gltfPath = '/assets/damaged_helmet/';
     this.gltfFile = 'DamagedHelmet.gltf';
+
+    // Layers
+    this.layers = [
+      {
+        layer: 0,
+        visible: true
+      }
+    ];
   }
 
   ngOnInit() {}

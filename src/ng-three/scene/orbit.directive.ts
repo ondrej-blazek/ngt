@@ -20,6 +20,10 @@ export class OrbitDirective {
   setupControls (camera, renderer): void {
     this.controls = new OrbitControls(camera, renderer.domElement);
     this.controls.enabled = this.enabled;
+    // this.controls.minDistance = 0;
+    // this.controls.maxDistance = 5;
+    // this.controls.minPolarAngle = Math.PI * 0;
+    // this.controls.maxPolarAngle = Math.PI * 0.495;
   }
 
   updateControls (scene, camera): void {

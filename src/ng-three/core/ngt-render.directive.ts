@@ -4,9 +4,11 @@ import { Subscription } from 'rxjs';
 
 import { ChronosService } from '@ngs/core/chronos.service';
 import { SceneService } from '@ngt/service';
-import { SceneDirective, OrbitDirective, VrDirective } from '@ngt/scene';
+import { PerspectiveCameraDirective, OrthoCameraDirective } from '@ngt/camera';
+import { SceneDirective, OrbitDirective } from '@ngt/scene';
 
-// TODO - investigate VR mode
+// TODO - REMOVE all of VR mode
+// TODO - remove VR directive
 
 @Directive({
   selector: 'ngt-render'     // tslint:disable-line
@@ -19,13 +21,22 @@ export class NgtRenderDirective implements OnInit, OnDestroy, OnChanges, AfterCo
   // child components / directives
   @ContentChild(SceneDirective) sceneDirective: SceneDirective;
   @ContentChild(OrbitDirective) orbitDirective: OrbitDirective;
-  // @ContentChild(VrDirective) vrDirective: VrDirective;
+  @ContentChild(PerspectiveCameraDirective) cameraDirective: any;
+  @ContentChild(OrthoCameraDirective) orthoDirective: any;
 
-  get scene() {
-    return this.sceneDirective.scene;
+  get scene (): THREE.Scene {
+    return (this.sceneDirective.scene);
   }
-  get camera() {
-    return this.sceneDirective.camera;
+
+  get camera (): THREE.PerspectiveCamera | THREE.OrthographicCamera {     // Called by render directive
+    let cameraValue: THREE.PerspectiveCamera | THREE.OrthographicCamera = null;
+    if (this.cameraDirective) {
+      cameraValue = this.cameraDirective.camera;
+    }
+    if (this.orthoDirective) {
+      cameraValue = this.orthoDirective.camera;
+    }
+    return (cameraValue);
   }
 
   // variables
@@ -56,24 +67,17 @@ export class NgtRenderDirective implements OnInit, OnDestroy, OnChanges, AfterCo
   }
 
   ngOnChanges (changes) {
-    // if(changes.isVRMode && changes.isVRMode.currentValue) {
-    //   if(this.vrDirective) {
-    //     if(!this.vrDirective.controls) {
-    //       this.vrDirective.enabled = true;
-    //       this.vrDirective.setupControls(this.camera, this.renderer);
-    //     }
-    //     this.vrDirective.requestVR(this.renderer.domElement);
-    //   }
-    // }
-
-    const widthChng = changes.width && changes.width.currentValue;
-    const heightChng = changes.height && changes.height.currentValue;
-    if (widthChng || heightChng) {
+    const widthChange = changes.width && changes.width.currentValue;
+    const heightChange = changes.height && changes.height.currentValue;
+    if (widthChange || heightChange) {
       this.renderer.setSize(this.width, this.height);
     }
   }
 
-  ngOnInit () {}
+  ngOnInit () {
+    this.sceneService.setRender(this.chronosID, this.id, this.renderer);
+    this.propagateID(this.chronosID, this.id);
+  }
 
   ngAfterContentInit () {
     this.renderer.setSize(this.width, this.height);
@@ -83,13 +87,10 @@ export class NgtRenderDirective implements OnInit, OnDestroy, OnChanges, AfterCo
     if (this.orbitDirective) {
       this.orbitDirective.setupControls(this.camera, this.renderer);
     }
-    // if(this.vrDirective) {
-    //   this.vrDirective.setupControls(this.camera, this.renderer);
-    // }
 
     // This bit will append <canvas> into the directive
-    const elCatch = this.element.nativeElement.appendChild(this.renderer.domElement);
-    elCatch.setAttribute('class', this.class);
+    const elementCatch = this.element.nativeElement.appendChild(this.renderer.domElement);
+    elementCatch.setAttribute('class', this.class);
   }
 
   ngOnDestroy () {
@@ -114,21 +115,25 @@ export class NgtRenderDirective implements OnInit, OnDestroy, OnChanges, AfterCo
     }
   }
 
-  processID (chronosID: string): void {
+  processID (chronosID: string): void {     // Executed BEFORE ngOnInit
     this.chronosID = chronosID;
-    this.sceneService.setRender(this.chronosID, this.id, this.renderer);
-
-    this.propagateID(this.chronosID, this.id);
+    // this.propagateID(this.chronosID, this.id);    // this.id is undefined until ngOnInit
   }
 
   propagateID (chronosID: string, renderID: string) {
-    this.sceneDirective.processID(chronosID, renderID);
-    this.orbitDirective.processID(chronosID, renderID);
-    // this.vrDirective.processID(chronosID, renderID);
-  }
-
-  propagateRender (): void {
-    this.sceneDirective.render();
+    if (this.sceneDirective) {
+      this.sceneDirective.processCamera (this.camera);
+      this.sceneDirective.processID(chronosID, renderID);
+    }
+    if (this.orbitDirective) {
+      this.orbitDirective.processID(chronosID, renderID);
+    }
+    if (this.cameraDirective) {
+      this.cameraDirective.processID(chronosID, renderID);
+    }
+    if (this.orthoDirective) {
+      this.orthoDirective.processID(chronosID, renderID);
+    }
   }
 
   render (): void {
@@ -136,5 +141,9 @@ export class NgtRenderDirective implements OnInit, OnDestroy, OnChanges, AfterCo
       this.renderer.render(this.scene, this.camera);
       this.propagateRender();
     }
+  }
+
+  propagateRender (): void {
+    this.sceneDirective.render();
   }
 }
