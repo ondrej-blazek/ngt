@@ -37,7 +37,7 @@ export class HelmetComponent implements OnInit {
     this.layers = [
       {
         layer: 0,
-        visible: true
+        visible: false
       }
     ];
   }

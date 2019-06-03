@@ -30,8 +30,6 @@ export class GeometryDirective implements OnInit, AfterContentInit {
 
   ngOnInit () {
     this.scene = this.sceneService.getScene(this.chronosID, this.renderID);
-
-    console.log ('GeometryDirective - ngOnInit', this.chronosID, this.renderID, this.layerDirectives);
   }
 
   ngAfterContentInit () {
@@ -39,8 +37,6 @@ export class GeometryDirective implements OnInit, AfterContentInit {
     this.gltfDirectives = this.gltfDomQuery.toArray();
     this.dynamicDirectives = this.dynamicDomQuery.toArray();
     this.layerDirectives = this.layerDomQuery.toArray();
-
-    console.log ('GeometryDirective - ngAfterContentInit', this.chronosID, this.renderID, this.layerDirectives);
 
     this.propagateID (this.chronosID, this.renderID);
 
@@ -54,15 +50,6 @@ export class GeometryDirective implements OnInit, AfterContentInit {
         this.scene.add(element['object']);
       }
     }
-
-    // Pass scene down to directive
-    // for (const oneDirective of this.gltfDirectives) {
-    //   oneDirective.setScene(this.scene);
-    // }
-
-    for (const oneDirective of this.layerDirectives) {
-      oneDirective.setScene(this.scene);
-    }
   }
 
   // ---------------------------------------------------------------------------------
@@ -70,14 +57,9 @@ export class GeometryDirective implements OnInit, AfterContentInit {
   processID (chronosID: string, renderID: string): void {     // Executed BEFORE ngOnInit
     this.chronosID = chronosID;
     this.renderID = renderID;
-
-    console.log ('GeometryDirective - processID', this.chronosID, this.renderID);
   }
 
   propagateID (chronosID: string, renderID: string): void {
-
-    console.log ('GeometryDirective - propagateID', this.chronosID, this.renderID, this.layerDirectives);
-
     for (const oneDirective of this.gltfDirectives) {
       oneDirective.processID(chronosID, renderID);
     }

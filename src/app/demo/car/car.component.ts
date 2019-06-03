@@ -1,15 +1,46 @@
 import { Component, OnInit } from '@angular/core';
 
+import { EnvService } from './service';
+import { PointLightService, HemiLightService } from './3d_content';
+
 @Component({
   selector: 'app-car',
   templateUrl: './car.component.html',
   styleUrls: ['./car.component.scss']
 })
 export class CarComponent implements OnInit {
+  private env: EnvService;
+  private pointLight: PointLightService;
+  private hemiLight: HemiLightService;
 
-  constructor() { }
+  private imagePath: string;
+  private imageUrls: string[];
 
-  ngOnInit() {
+  private gltfPath: string;
+  private gltfFile: string;
+
+  // Layers
+  public layers: any[];
+
+  constructor() {
+    this.env = new EnvService ();
+    this.pointLight = new PointLightService();
+    this.hemiLight = new HemiLightService();
+
+    this.imagePath = '/assets/skybox_sun/';
+    this.imageUrls = ['px.jpg', 'nx.jpg', 'py.jpg', 'ny.jpg', 'pz.jpg', 'nz.jpg'];
+
+    this.gltfPath = '/assets/audi/';
+    this.gltfFile = 'Audi_r8.gltf';
+
+    // Layers
+    this.layers = [
+      {
+        layer: 0,
+        visible: false
+      }
+    ];
   }
 
+  ngOnInit() {}
 }

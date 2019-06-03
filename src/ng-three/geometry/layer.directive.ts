@@ -1,17 +1,21 @@
 import {
   OnInit, Directive, ContentChildren, QueryList, AfterContentInit,
-  AfterViewInit, Input, OnChanges, OnDestroy, SimpleChanges } from '@angular/core';
+  Input, OnChanges, OnDestroy, SimpleChanges } from '@angular/core';
 import { Subscription } from 'rxjs';
 
 import { ChronosService } from '@ngs/core/chronos.service';
+import { SceneService } from '@ngt/service';
+
 import { ObjectDirective } from './object.directive';
 import { DynamicDirective } from './dynamic.directive';
 import { GltfDirective } from './gltf.directive';
 
+// TODO - make glTF files / loaders react to layer toggle
+
 @Directive({
   selector: 'ngt-layer'     // tslint:disable-line
 })
-export class LayerDirective implements OnInit, OnChanges, OnDestroy, AfterContentInit, AfterViewInit {
+export class LayerDirective implements OnInit, OnChanges, OnDestroy, AfterContentInit {
   @Input() layer: number;
   @Input() visible: boolean;
 
@@ -29,7 +33,8 @@ export class LayerDirective implements OnInit, OnChanges, OnDestroy, AfterConten
   private dynamicDirectives: DynamicDirective[] = [];
 
   constructor (
-    private chronosService: ChronosService
+    private chronosService: ChronosService,
+    private sceneService: SceneService
   ) {
     this.layer = 0;
     this.visible = true;
@@ -45,7 +50,7 @@ export class LayerDirective implements OnInit, OnChanges, OnDestroy, AfterConten
   }
 
   ngOnChanges (changes: SimpleChanges) {
-    // if (changes.layer) {           // !!! DO NOT allow layer be re-assigned
+    // if (changes.layer) {           // !!! DO NOT allow layer to be re-assigned
     //   this.layer = changes.layer.currentValue;
     // }
     if (changes.visible) {
@@ -57,29 +62,39 @@ export class LayerDirective implements OnInit, OnChanges, OnDestroy, AfterConten
     }
   }
 
-  ngOnInit () {
+  ngOnInit () {}
 
-    console.log ('LayerDirective - ngOnInit', this.chronosID, this.renderID);
+  ngAfterContentInit () {
+    this.objectDirectives = this.objectDomQuery.toArray();
+    this.gltfDirectives = this.gltfDomQuery.toArray();
+    this.dynamicDirectives = this.dynamicDomQuery.toArray();
+  }
+
+  ngOnDestroy (): void {
+    this.subscription.unsubscribe();
+  }
+
+  // ---------------------------------------------------------------------------------
+
+  processID (chronosID: string, renderID: string): void {     // Executed AFTER ngAfterContentInit -> staring point
+    this.chronosID = chronosID;
+    this.renderID = renderID;
+
+    this.executeLogic ();
+    this.propagateID (this.chronosID, this.renderID);
+  }
+
+  executeLogic (): void {
+    // ngOnInit
+    this.scene = this.sceneService.getScene(this.chronosID, this.renderID);
 
     if (this.layer > 0 && this.layer < 32) {
       this.chronosService.enableLayer (this.chronosID, this.layer);
     } else {
       this.layer = 0;
     }
-  }
 
-  ngAfterContentInit () {
-    console.log ('LayerDirective - ngAfterContentInit', this.chronosID, this.renderID);
-  }
-
-  ngAfterViewInit () {
-    console.log ('LayerDirective - ngAfterViewInit', this.chronosID, this.renderID);
-
-    this.objectDirectives = this.objectDomQuery.toArray();
-    this.gltfDirectives = this.gltfDomQuery.toArray();
-    this.dynamicDirectives = this.dynamicDomQuery.toArray();
-
-    // Add all objects to scene
+    // ngAfterViewInit
     for (const oneDirective of this.objectDirectives) {
       oneDirective.object.layers.set(this.layer);
       this.scene.add(oneDirective.object);
@@ -97,40 +112,11 @@ export class LayerDirective implements OnInit, OnChanges, OnDestroy, AfterConten
     }
   }
 
-  ngOnDestroy (): void {
-    this.subscription.unsubscribe();
-  }
-
-  // ---------------------------------------------------------------------------------
-
-  processID (chronosID: string, renderID: string): void {
-    this.chronosID = chronosID;
-    this.renderID = renderID;
-
-    console.log ('LayerDirective - processID', this.chronosID, this.renderID);
-
-    this.propagateID (this.chronosID, this.renderID);
-  }
-
   propagateID (chronosID: string, renderID: string): void {
-
-    console.log ('LayerDirective - propagateID', this.chronosID, this.renderID);
-
     for (const oneDirective of this.gltfDirectives) {
       oneDirective.processID(chronosID, renderID);
     }
   }
-
-  setScene (masterScene: THREE.Scene): void {
-    this.scene = masterScene;
-    // this.propagateScene (this.scene);
-  }
-
-  // propagateScene (masterScene: THREE.Scene): void {
-  //   for (const oneDirective of this.gltfDirectives) {
-  //     oneDirective.setScene(masterScene);
-  //   }
-  // }
 
   render (): void {
     this.propagateRender();

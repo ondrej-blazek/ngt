@@ -100,7 +100,7 @@ export class GltfDirective implements OnInit, OnChanges, AfterContentInit, OnDes
           if (child.type === 'Mesh') {
             child.material.envMap = envMap;
           }
-        } );
+        });
       }
 
       this.scene.add(gltf.scene);
