@@ -15,7 +15,6 @@ import * as THREE from 'three';
 })
 export class TestSetupComponent implements OnInit {
   public camPosition: THREE.Vector3;
-  public isVRMode: boolean;
   public backgroundColor: THREE.Color;
 
   public lightPosition: THREE.Vector3;
@@ -52,7 +51,6 @@ export class TestSetupComponent implements OnInit {
 
   constructor () {
     this.camPosition = new THREE.Vector3(50, 75, 100);
-    this.isVRMode = false;
     this.backgroundColor = new THREE.Color(0xffffff);
 
     this.lightPosition = new THREE.Vector3(-30, 75, 15);

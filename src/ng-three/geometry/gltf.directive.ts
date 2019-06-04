@@ -15,6 +15,8 @@ import { SceneService } from '@ngt/service';
 export class GltfDirective implements OnInit, OnChanges, AfterContentInit, OnDestroy {
   @Input() basePath: string;
   @Input() fileName: string;
+  @Input() shadows: boolean;
+  @Input() envReflection: boolean;
 
   private chronosID: string;
   private renderID: string;
@@ -32,6 +34,8 @@ export class GltfDirective implements OnInit, OnChanges, AfterContentInit, OnDes
     this.renderID = '';
     this.basePath = '';
     this.fileName = '';
+    this.shadows = true;
+    this.envReflection = true;
     this.withParams = true;
 
     this.meshLoader = new GLTFLoader();
@@ -98,7 +102,15 @@ export class GltfDirective implements OnInit, OnChanges, AfterContentInit, OnDes
 
         gltf.scene.traverse(( child: any ) => {
           if (child.type === 'Mesh') {
-            child.material.envMap = envMap;
+            // reflect cube panorama
+            if (this.envReflection) {
+              child.material.envMap = envMap;
+            }
+            // casts and receive shadows
+            if (this.shadows) {
+              child.castShadow = true;
+              child.receiveShadow = true;
+            }
           }
         });
       }

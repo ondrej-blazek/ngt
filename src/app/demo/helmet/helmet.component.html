@@ -5,8 +5,7 @@
 
       <!-- 3D scene(s) -->
       <ngt-render id="threeMaster" class="mainScene">
-        <ngt-orbit [enabled]="!env.isVRMode"></ngt-orbit>
-        <!-- <ngt-vr [enabled]="env.isVRMode" [height]="height" [width]="width"></ngt-vr> -->
+        <ngt-orbit></ngt-orbit>
 
         <ngt-scene>
           <ngt-camera [location]="env.camPosition"></ngt-camera>

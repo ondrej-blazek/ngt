@@ -2,7 +2,6 @@ import * as THREE from 'three';
 
 export class EnvService {
   public camPosition: THREE.Vector3;
-  public isVRMode: boolean;
   public backgroundColor: THREE.Color;
   public fogColor: THREE.Color;
 
@@ -13,8 +12,7 @@ export class EnvService {
   public hemPosition: THREE.Vector3;
 
   constructor() {
-    this.isVRMode = false;
-    this.camPosition = new THREE.Vector3(1, 1, 3);
+    this.camPosition = new THREE.Vector3(20, 10, 40);
 
     this.backgroundColor = new THREE.Color(0xD7CBB1);
     this.fogColor = new THREE.Color(0xD2C6AC);
