@@ -38,7 +38,6 @@ export class SceneDirective implements OnChanges, OnInit, AfterContentInit, OnDe
 
     // Camera
     if (this.camera) {
-      this.camera.lookAt(this.scene.position);
       this.scene.add(this.camera);
     }
 

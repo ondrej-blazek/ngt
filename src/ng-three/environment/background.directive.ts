@@ -35,7 +35,7 @@ export class BackgroundDirective implements OnInit, OnChanges, AfterContentInit 
   ngAfterContentInit () {}
 
   // ---------------------------------------------------------------------------------
-  
+
   processID (chronosID: string, renderID: string): void {
     this.chronosID = chronosID;
     this.renderID = renderID;

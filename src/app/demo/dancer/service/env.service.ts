@@ -2,6 +2,9 @@ import * as THREE from 'three';
 
 export class EnvService {
   public camPosition: THREE.Vector3;
+  public camRotation: THREE.Euler;
+  public lookAt: THREE.Vector3;
+
   public backgroundColor: THREE.Color;
   public fogColor: THREE.Color;
 
@@ -13,6 +16,8 @@ export class EnvService {
 
   constructor() {
     this.camPosition = new THREE.Vector3(-1, 0.5, 3);
+    this.camRotation = new THREE.Euler(0, 0, THREE.Math.degToRad (45), 'XYZ');
+    this.lookAt = new THREE.Vector3(1, 2, 1);
 
     this.backgroundColor = new THREE.Color(0xD7CBB1);
     this.fogColor = new THREE.Color(0xD2C6AC);

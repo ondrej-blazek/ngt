@@ -3,6 +3,7 @@ import { Subscription } from 'rxjs';
 import * as THREE from 'three';
 
 import { ChronosService } from '@ngs/core/chronos.service';
+import { Content } from '@angular/compiler/src/render3/r3_ast';
 
 // TODO - Partially Augment camera into a content class that provides settings in
 
@@ -13,10 +14,12 @@ export class PerspectiveCameraDirective implements OnInit, OnChanges, OnDestroy,
   // element parameters
   @Input() location: THREE.Vector3;
   @Input() rotation: THREE.Euler;
+  @Input() lookAt: THREE.Vector3;
+  @Input() viewAngle: number;
 
   // private scene: THREE.Scene;
 
-  private viewAngle: number;
+  // private viewAngle: number;
   private aspect: number;
   private near: number;
   private far: number;
@@ -37,14 +40,16 @@ export class PerspectiveCameraDirective implements OnInit, OnChanges, OnDestroy,
   ) {
     this.chronosID = '';
     this.renderID = '';
+
     this.location = new THREE.Vector3(0, 0, 0);
     this.rotation = new THREE.Euler(0, 0, 0, 'XYZ');
+    this.lookAt = new THREE.Vector3(0, 0, 0);
 
     this.viewAngle = 75;
     this.near = 0.1;
     this.far = 10000;
-
     this.aspect = this.width / this.height;
+
     this.camera = new THREE.PerspectiveCamera(this.viewAngle, this.aspect, this.near, this.far);
     this.cameraHelper = new THREE.CameraHelper( this.camera );
 
@@ -70,13 +75,31 @@ export class PerspectiveCameraDirective implements OnInit, OnChanges, OnDestroy,
   }
 
   ngOnChanges (changes) {
-    if ((changes.location && changes.location.currentValue) || (changes.rotation && changes.rotation.currentValue)) {
-      this.setPosition(this.location, this.rotation);
+    if (changes.viewAngle && changes.viewAngle.currentValue) {
+      this.viewAngle = changes.viewAngle.currentValue;
+      this.camera.fov = this.viewAngle;
+    }
+
+    if (changes.location && changes.location.currentValue) {
+      this.location = changes.location.currentValue;
+    }
+    if (changes.rotation && changes.rotation.currentValue) {
+      this.rotation = changes.rotation.currentValue;
+    }
+    if (changes.lookAt && changes.lookAt.currentValue) {
+      this.lookAt = changes.lookAt.currentValue;
+    }
+    if (this.camera && (
+      (changes.location && changes.location.currentValue) ||
+      (changes.rotation && changes.rotation.currentValue) ||
+      (changes.lookAt && changes.lookAt.currentValue))
+    ) {
+      this.setPosition(this.location, this.rotation, this.lookAt);
     }
   }
 
   ngOnInit () {
-    this.setPosition (this.location, this.rotation);
+    this.setPosition (this.location, this.rotation, this.lookAt);
   }
 
   ngAfterContentInit (): void {}
@@ -94,7 +117,7 @@ export class PerspectiveCameraDirective implements OnInit, OnChanges, OnDestroy,
     }
   }
 
-  setPosition (location: THREE.Vector3, rotation: THREE.Euler): void {
+  setPosition (location: THREE.Vector3, rotation: THREE.Euler, lookAt: THREE.Vector3): void {
     this.camera.position.set(location.x, location.y, location.z);
     this.camera.rotation.set(rotation.x, rotation.y, rotation.z, rotation.order);
   }

@@ -54,7 +54,7 @@ export class FogDirective implements OnInit, OnChanges, AfterContentInit {
     this.chronosID = chronosID;
     this.renderID = renderID;
   }
-  
+
   updateScene (color: number, near: number, far: number): void {
     this.scene.fog = new THREE.Fog(color, near, far);
   }
