@@ -1,15 +1,16 @@
-import { Directive, Input } from '@angular/core';
+import { Directive, Input, OnChanges, OnInit } from '@angular/core';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 
 @Directive({
   selector: 'ngt-orbit'     // tslint:disable-line
 })
-export class OrbitDirective {
+export class OrbitDirective implements OnChanges, OnInit {
   @Input() enabled: boolean;
+  @Input() controls: any;
 
   private chronosID: string;
   private renderID: string;
-  public controls: OrbitControls;
+  public orbitControls: OrbitControls;
 
   constructor () {
     this.chronosID = '';
@@ -17,17 +18,29 @@ export class OrbitDirective {
     this.enabled = true;
   }
 
+  ngOnChanges (changes) {
+    if (changes.enabled && changes.enabled.currentValue && this.orbitControls) {
+      this.enabled = changes.enabled.currentValue;
+      this.orbitControls.enabled = this.enabled;
+    }
+  }
+  ngOnInit () {}
+
+  // ---------------------------------------------------------------------------------
+
   setupControls (camera, renderer): void {
-    this.controls = new OrbitControls(camera, renderer.domElement);
-    this.controls.enabled = this.enabled;
-    // this.controls.minDistance = 0;
-    // this.controls.maxDistance = 5;
-    // this.controls.minPolarAngle = Math.PI * 0;
-    // this.controls.maxPolarAngle = Math.PI * 0.495;
+    this.orbitControls = new OrbitControls(camera, renderer.domElement);
+    this.orbitControls.enabled = this.enabled;
+
+    if (this.controls) {
+      Object.keys(this.controls).forEach(key => {
+        this.orbitControls[key] = this.controls[key];
+      });
+    }
   }
 
   updateControls (scene, camera): void {
-    this.controls.update();
+    this.orbitControls.update();
   }
 
   processID (chronosID: string, renderID: string): void {
@@ -35,3 +48,7 @@ export class OrbitDirective {
     this.renderID = renderID;
   }
 }
+
+
+// More reading:
+//    https://threejs.org/docs/#examples/controls/OrbitControls

@@ -32,14 +32,6 @@ export class CarComponent implements OnInit {
 
     this.gltfPath = '/assets/audi/';
     this.gltfFile = 'Audi_r8.gltf';
-
-    // Layers
-    this.layers = [
-      {
-        layer: 0,
-        visible: false
-      }
-    ];
   }
 
   ngOnInit() {}
