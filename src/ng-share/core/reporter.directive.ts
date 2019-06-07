@@ -8,7 +8,7 @@ import { ChronosDirective } from '@ngs/core/chronos.directive';
   selector: '[ngsreporter]'       // tslint:disable-line
 })
 export class ReporterDirective implements OnInit, AfterContentInit {
-  @ContentChild(ChronosDirective) chronosDirective: ChronosDirective;
+  @ContentChild(ChronosDirective, {static: true}) chronosDirective: ChronosDirective;
 
   private windowWidth: number;
   private windowHeight: number;

@@ -19,10 +19,10 @@ export class NgtRenderDirective implements OnInit, OnDestroy, OnChanges, AfterCo
   @Input() class: string;
 
   // child components / directives
-  @ContentChild(SceneDirective) sceneDirective: SceneDirective;
-  @ContentChild(OrbitDirective) orbitDirective: OrbitDirective;
-  @ContentChild(PerspectiveCameraDirective) cameraDirective: any;
-  @ContentChild(OrthoCameraDirective) orthoDirective: any;
+  @ContentChild(SceneDirective, {static: true}) sceneDirective: SceneDirective;
+  @ContentChild(OrbitDirective, {static: true}) orbitDirective: OrbitDirective;
+  @ContentChild(PerspectiveCameraDirective, {static: true}) cameraDirective: any;
+  @ContentChild(OrthoCameraDirective, {static: true}) orthoDirective: any;
 
   get scene (): THREE.Scene {
     return (this.sceneDirective.scene);

@@ -9,7 +9,7 @@ import { NgcRenderDirective } from '@ngc/core';
 })
 export class ChronosDirective implements OnInit, OnDestroy, AfterContentInit {
   // child components / directives
-  @ContentChild(NgtRenderDirective) threeRenderDirective: NgtRenderDirective;
+  @ContentChild(NgtRenderDirective, {static: true}) threeRenderDirective: NgtRenderDirective;
   @ContentChildren(NgcRenderDirective) canvasDomQuery: QueryList<NgcRenderDirective>;
 
   private chronosID: string;

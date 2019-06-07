@@ -12,11 +12,11 @@ import { LightDirective } from './light.directive';
   selector: 'ngt-scene'     // tslint:disable-line
 })
 export class SceneDirective implements OnChanges, OnInit, AfterContentInit, OnDestroy {
-  @ContentChild(RaycasterDirective) raycasterDirective: any;
-  @ContentChild(ProjectorDirective) projectorDirective: any;
-  @ContentChild(EnvironmentDirective) environmentDirective: any;
-  @ContentChild(GeometryDirective) geometryDirective: any;
-  @ContentChild(LightDirective) lightDirective: any;
+  @ContentChild(RaycasterDirective, {static: true}) raycasterDirective: any;
+  @ContentChild(ProjectorDirective, {static: true}) projectorDirective: any;
+  @ContentChild(EnvironmentDirective, {static: true}) environmentDirective: any;
+  @ContentChild(GeometryDirective, {static: true}) geometryDirective: any;
+  @ContentChild(LightDirective, {static: true}) lightDirective: any;
 
   private chronosID: string;
   private renderID: string;

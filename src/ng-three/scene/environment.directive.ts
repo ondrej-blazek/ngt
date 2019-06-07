@@ -9,13 +9,13 @@ import { AxesDirective, BackgroundDirective, CubePanoramaDirective,
   selector: 'ngt-environment'     // tslint:disable-line
 })
 export class EnvironmentDirective implements OnInit, AfterContentInit, OnDestroy {
-  @ContentChild(AxesDirective) axesDirective: any;
-  @ContentChild(BackgroundDirective) backgroundDirective: any;
-  @ContentChild(CubePanoramaDirective) cubePanoramaDirective: any;
-  @ContentChild(DomeDirective) domeDirective: any;
-  @ContentChild(FogDirective) fogDirective: any;
-  @ContentChild(GridDirective) gridDirective: any;
-  @ContentChild(GroundDirective) groundDirective: any;
+  @ContentChild(AxesDirective, {static: true}) axesDirective: any;
+  @ContentChild(BackgroundDirective, {static: true}) backgroundDirective: any;
+  @ContentChild(CubePanoramaDirective, {static: true}) cubePanoramaDirective: any;
+  @ContentChild(DomeDirective, {static: true}) domeDirective: any;
+  @ContentChild(FogDirective, {static: true}) fogDirective: any;
+  @ContentChild(GridDirective, {static: true}) gridDirective: any;
+  @ContentChild(GroundDirective, {static: true}) groundDirective: any;
 
   private scene: THREE.Scene;
   private chronosID: string;
