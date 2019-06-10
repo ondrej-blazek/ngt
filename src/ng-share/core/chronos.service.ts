@@ -7,6 +7,7 @@ import * as THREE from 'three';
 })
 export class ChronosService {
   private subject = new Subject<any>();
+  private domElements: any[];
   private interactionArray: Array<string>;
 
   private activeObject: any;
@@ -17,6 +18,7 @@ export class ChronosService {
 
 
   constructor () {
+    this.domElements = [];
     this.interactionArray = [];
     this.activeObject = null;
     this.clickedObject = null;
@@ -114,6 +116,17 @@ export class ChronosService {
       type: 'mouseClick',
       id: id
     });
+  }
+
+  // active DOM Elements within the page
+  getDOM (chronosID: string): HTMLElement {
+    return (this.domElements[chronosID]);
+  }
+  addToDOM (chronosID: string, domElement: HTMLElement): void {
+    this.domElements[chronosID] = domElement;
+  }
+  removeFromDOM (chronosID: string): void {
+    this.domElements[chronosID] = null;
   }
 
   // Interactive object tracking

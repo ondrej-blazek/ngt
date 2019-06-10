@@ -1,10 +1,12 @@
-import { Directive, Input, OnChanges, OnInit } from '@angular/core';
+import { Directive, Input, OnChanges, OnInit, AfterContentInit } from '@angular/core';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
+
+import { ChronosService } from '@ngs/core/chronos.service';
 
 @Directive({
   selector: 'ngt-orbit'     // tslint:disable-line
 })
-export class OrbitDirective implements OnChanges, OnInit {
+export class OrbitDirective implements OnChanges, OnInit, AfterContentInit {
   @Input() enabled: boolean;
   @Input() controls: any;
 
@@ -12,7 +14,9 @@ export class OrbitDirective implements OnChanges, OnInit {
   private renderID: string;
   public orbitControls: OrbitControls;
 
-  constructor () {
+  constructor (
+    private chronosService: ChronosService
+  ) {
     this.chronosID = '';
     this.renderID = '';
     this.enabled = true;
@@ -24,12 +28,18 @@ export class OrbitDirective implements OnChanges, OnInit {
       this.orbitControls.enabled = this.enabled;
     }
   }
+
   ngOnInit () {}
+  ngAfterContentInit () {}
 
   // ---------------------------------------------------------------------------------
 
   setupControls (camera, renderer): void {
-    this.orbitControls = new OrbitControls(camera, renderer.domElement);
+    // Section element as provided by reporter
+    const domElement:HTMLElement = this.chronosService.getDOM(this.chronosID);
+
+    // this.orbitControls = new OrbitControls(camera, renderer.domElement);
+    this.orbitControls = new OrbitControls(camera, domElement);
     this.orbitControls.enabled = this.enabled;
 
     if (this.controls) {
