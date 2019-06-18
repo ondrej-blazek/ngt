@@ -27,10 +27,10 @@ export class HelmetComponent implements OnInit {
     this.pointLight = new PointLightService();
     this.hemiLight = new HemiLightService();
 
-    this.imagePath = '/assets/bridge/';
+    this.imagePath = '/assets/3d/bridge/';
     this.imageUrls = ['px.jpg', 'nx.jpg', 'py.jpg', 'ny.jpg', 'pz.jpg', 'nz.jpg'];
 
-    this.gltfPath = '/assets/damaged_helmet/';
+    this.gltfPath = '/assets/3d/damaged_helmet/';
     this.gltfFile = 'DamagedHelmet.gltf';
 
     // Layers

@@ -24,10 +24,10 @@ export class DancerComponent implements OnInit {
     this.pointLight = new PointLightService();
     this.hemiLight = new HemiLightService();
 
-    this.imagePath = '/assets/skybox_sun/';
+    this.imagePath = '/assets/3d/skybox_sun/';
     this.imageUrls = ['px.jpg', 'nx.jpg', 'py.jpg', 'ny.jpg', 'pz.jpg', 'nz.jpg'];
 
-    this.gltfPath = '/assets/dancer/';
+    this.gltfPath = '/assets/3d/dancer/';
     this.gltfFile = 'samba_dancer.gltf';
   }
 

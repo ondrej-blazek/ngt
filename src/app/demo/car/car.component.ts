@@ -27,10 +27,10 @@ export class CarComponent implements OnInit {
     this.pointLight = new PointLightService();
     this.hemiLight = new HemiLightService();
 
-    this.imagePath = '/assets/skybox_sun/';
+    this.imagePath = '/assets/3d/skybox_sun/';
     this.imageUrls = ['px.jpg', 'nx.jpg', 'py.jpg', 'ny.jpg', 'pz.jpg', 'nz.jpg'];
 
-    this.gltfPath = '/assets/audi/';
+    this.gltfPath = '/assets/3d/audi/';
     this.gltfFile = 'Audi_r8.gltf';
   }
 
