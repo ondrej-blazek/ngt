@@ -98,7 +98,8 @@ export class ReporterDirective implements OnInit, AfterContentInit {
 
   localMousePosition (): void {
     const localX = (this.mouse.x - this.el.nativeElement.offsetLeft);
-    const localY = (this.mouse.y - ((this.el.nativeElement.parentElement.offsetTop + this.el.nativeElement.offsetTop) - this.domScrollTop));
+    // const localY = (this.mouse.y - ((this.el.nativeElement.parentElement.offsetTop + this.el.nativeElement.offsetTop) - this.domScrollTop));
+    const localY = (this.mouse.y - (this.el.nativeElement.parentElement.offsetTop - this.domScrollTop));
     const localMouse = new THREE.Vector2();
 
     if (localX > 0 && localX <= this.domWidth && localY > 0 && localY <= this.domHeight) {

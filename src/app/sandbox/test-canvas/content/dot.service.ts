@@ -22,6 +22,14 @@ export class DotService {
     this.drawCircle(this.circleShape, ctx);
   }
 
+  mouseMove (mouseX: number, mouseY: number): void {
+    // console.log ('mouseMove', mouseX, mouseY);
+  }
+  
+  mouseClick (): void {
+    // console.log ('mouseClick');
+  }
+
   render (canvasRef, canvasContext) {
     this.animate(canvasRef, canvasContext);
   }

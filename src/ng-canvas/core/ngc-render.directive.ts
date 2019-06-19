@@ -48,6 +48,12 @@ export class NgcRenderDirective implements OnInit, AfterViewInit, AfterContentIn
         if (message.type === 'elementSize' && message.id === this.chronosID ) {
           this.updateCanvasSize (message.width, message.height);
         }
+        // if (message.type === 'mouseMove' && message.id === this.chronosID ) {
+        //   this.mouseMove (message.mouse.x, message.mouse.y);
+        // }
+        // if (message.type === 'mouseClick' && message.id === this.chronosID ) {
+        //   this.mouseClick ();
+        // }
       }
     );
   }
@@ -81,6 +87,14 @@ export class NgcRenderDirective implements OnInit, AfterViewInit, AfterContentIn
     this.canvasRef.width = width;
     this.canvasRef.height = height;
   }
+
+  // mouseMove (mouseX: number, mouseY: number): void {
+  //   console.log ('mouseMove', mouseX, mouseY);
+  // }
+  
+  // mouseClick (): void {
+  //   console.log ('mouseClick');
+  // }
 
   processID (chronosID: string): void {
     this.chronosID = chronosID;

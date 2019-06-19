@@ -26,6 +26,14 @@ export class CloudService {
     this.cloud(ctx);
   }
 
+  mouseMove (mouseX: number, mouseY: number): void {
+    // console.log ('mouseMove', mouseX, mouseY);
+  }
+  
+  mouseClick (): void {
+    // console.log ('mouseClick');
+  }
+
   render (canvasRef, canvasContext) {
     this.animate(canvasRef, canvasContext);
   }
