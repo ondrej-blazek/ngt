@@ -2,10 +2,14 @@ export class CloudService {
 
   private mouseX: number;
   private mouseY: number;
+  private mouseInView: boolean;
+  private mouseState: boolean;
 
   constructor () {
     this.mouseX = 0;
     this.mouseY = 0;
+    this.mouseInView = false;
+    this.mouseState = false;
   }
 
   shape (ctx: any): void {
@@ -19,12 +23,21 @@ export class CloudService {
     ctx.bezierCurveTo(320, 5, 250, 20, 250, 50);
     ctx.bezierCurveTo(200, 5, 150, 20, 170, 80);
 
-    // complete custom shape
-    ctx.closePath();
-    ctx.fillStyle = '#FFFFFF';
-    ctx.fill();
+    // Style
     ctx.lineWidth = 5;
     ctx.strokeStyle = 'blue';
+    ctx.fillStyle = '#FFFFFF';
+
+    if (this.mouseState && ctx.isPointInPath(this.mouseX, this.mouseY)){
+      ctx.fillStyle = '#89e84a';
+    }
+    if (this.mouseInView && ctx.isPointInPath(this.mouseX, this.mouseY)){
+      ctx.strokeStyle = 'red';
+    }
+
+    // complete custom shape
+    ctx.closePath();
+    ctx.fill();
     ctx.stroke();
   }
 
@@ -35,15 +48,18 @@ export class CloudService {
   mouseMove (mouseX: number, mouseY: number): void {
     this.mouseX = mouseX;
     this.mouseY = mouseY;
-    // console.log ('mouseMove', mouseX, mouseY);
+  }
+
+  mouseActive (mouseInView: boolean): void {
+    this.mouseInView = mouseInView;
   }
 
   mouseDown (mouseState: boolean): void {
-    console.log ('mouseDown', mouseState, this.mouseX, this.mouseY);
+    this.mouseState = mouseState;
   }
 
   mouseClick (): void {
-    console.log ('mouseClick', this.mouseX, this.mouseY);
+    // console.log ('mouseClick', this.mouseX, this.mouseY);
   }
 
   render (canvasRef, canvasContext) {

@@ -8,6 +8,7 @@ import { ChronosService } from '@ngs/core/chronos.service';
 })
 export class ShapeDirective implements OnInit, AfterViewInit, AfterContentInit, OnDestroy {
   @Input() content: any;
+  @Input() id: string;
 
   private chronosID: string;
   private renderID: string;
@@ -30,6 +31,9 @@ export class ShapeDirective implements OnInit, AfterViewInit, AfterContentInit, 
         }
         if (message.type === 'mouseMove' && message.id === this.chronosID ) {
           this.mouseMove (message.mouse.x, message.mouse.y);
+        }
+        if (message.type === 'mouseActive' && message.id === this.chronosID ) {
+          this.mouseActive (message.active);
         }
         if (message.type === 'mouseDown' && message.id === this.chronosID ) {
           this.mouseDown (message.down);
@@ -61,7 +65,11 @@ export class ShapeDirective implements OnInit, AfterViewInit, AfterContentInit, 
     this.content.mouseMove (mouseX_px, mouseY_px);
   }
 
-  mouseDown (mouseState) {
+  mouseActive (mouseState: boolean) {
+    this.content.mouseActive (mouseState);
+  }
+
+  mouseDown (mouseState: boolean) {
     this.content.mouseDown (mouseState);
   }
 

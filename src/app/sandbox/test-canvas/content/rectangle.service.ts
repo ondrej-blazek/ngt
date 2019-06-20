@@ -1,8 +1,19 @@
 export class RectangleService {
+
+  private mouseX: number;
+  private mouseY: number;
+  private mouseInView: boolean;
+  private mouseState: boolean;
+
   private rectShape: any;
   private counter: number;
 
   constructor () {
+    this.mouseX = 0;
+    this.mouseY = 0;
+    this.mouseInView = false;
+    this.mouseState = false;
+
     this.counter = 0;
 
     this.rectShape = {
@@ -17,10 +28,21 @@ export class RectangleService {
   shape (myRectangle, ctx): void {
     ctx.beginPath();
     ctx.rect(myRectangle.x, myRectangle.y, myRectangle.width, myRectangle.height);
+
+    // Style
     ctx.fillStyle = '#8ED6FF';
-    ctx.fill();
     ctx.lineWidth = myRectangle.borderWidth;
     ctx.strokeStyle = 'black';
+
+    if (this.mouseState && ctx.isPointInPath(this.mouseX, this.mouseY)){
+      ctx.fillStyle = '#952aaa';
+    }
+    if (this.mouseInView && ctx.isPointInPath(this.mouseX, this.mouseY)){
+      ctx.strokeStyle = 'red';
+    }
+
+    // complete custom shape
+    ctx.fill();
     ctx.stroke();
   }
 
@@ -43,15 +65,20 @@ export class RectangleService {
   }
 
   mouseMove (mouseX: number, mouseY: number): void {
-    // console.log ('mouseMove', mouseX, mouseY);
+    this.mouseX = mouseX;
+    this.mouseY = mouseY;
+  }
+
+  mouseActive (mouseInView: boolean): void {
+    this.mouseInView = mouseInView;
   }
 
   mouseDown (mouseState: boolean): void {
-    // console.log ('mouseDown', mouseState);
+    this.mouseState = mouseState;
   }
 
   mouseClick (): void {
-    // console.log ('mouseClick');
+    // console.log ('mouseClick', this.mouseX, this.mouseY);
   }
 
   render (canvasRef, canvasContext) {

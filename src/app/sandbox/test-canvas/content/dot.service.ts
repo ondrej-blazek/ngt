@@ -26,6 +26,10 @@ export class DotService {
     // console.log ('mouseMove', mouseX, mouseY);
   }
 
+  mouseActive (mouseInView: boolean): void {
+    // console.log ('mouseActive', mouseInView);
+  }
+
   mouseDown (mouseState: boolean): void {
     // console.log ('mouseDown', mouseState);
   }
