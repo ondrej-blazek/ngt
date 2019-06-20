@@ -11,7 +11,7 @@ export class DotService {
     };
   }
 
-  drawCircle (circle, ctx): void {
+  shape (circle, ctx): void {
     ctx.beginPath();
     ctx.arc(circle.x, circle.y, circle.r, circle.sAngle, circle.eAngle);
     ctx.fillStyle = '#FF0000';
@@ -19,13 +19,17 @@ export class DotService {
   }
 
   animate (canvas, ctx): void {
-    this.drawCircle(this.circleShape, ctx);
+    this.shape(this.circleShape, ctx);
   }
 
   mouseMove (mouseX: number, mouseY: number): void {
     // console.log ('mouseMove', mouseX, mouseY);
   }
-  
+
+  mouseDown (mouseState: boolean): void {
+    // console.log ('mouseDown', mouseState);
+  }
+
   mouseClick (): void {
     // console.log ('mouseClick');
   }

@@ -1,8 +1,14 @@
 export class CloudService {
 
-  constructor () {}
+  private mouseX: number;
+  private mouseY: number;
 
-  cloud (ctx: any): void {
+  constructor () {
+    this.mouseX = 0;
+    this.mouseY = 0;
+  }
+
+  shape (ctx: any): void {
     // begin custom shape
     ctx.beginPath();
     ctx.moveTo(170, 80);
@@ -23,15 +29,21 @@ export class CloudService {
   }
 
   animate (canvas, ctx): void {
-    this.cloud(ctx);
+    this.shape(ctx);
   }
 
   mouseMove (mouseX: number, mouseY: number): void {
+    this.mouseX = mouseX;
+    this.mouseY = mouseY;
     // console.log ('mouseMove', mouseX, mouseY);
   }
-  
+
+  mouseDown (mouseState: boolean): void {
+    console.log ('mouseDown', mouseState, this.mouseX, this.mouseY);
+  }
+
   mouseClick (): void {
-    // console.log ('mouseClick');
+    console.log ('mouseClick', this.mouseX, this.mouseY);
   }
 
   render (canvasRef, canvasContext) {

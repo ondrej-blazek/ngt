@@ -14,7 +14,7 @@ export class RectangleService {
     };
   }
 
-  drawRectangle (myRectangle, ctx): void {
+  shape (myRectangle, ctx): void {
     ctx.beginPath();
     ctx.rect(myRectangle.x, myRectangle.y, myRectangle.width, myRectangle.height);
     ctx.fillStyle = '#8ED6FF';
@@ -39,13 +39,17 @@ export class RectangleService {
     this.rectShape.x = nextX;
 
     // draw
-    this.drawRectangle(this.rectShape, ctx);
+    this.shape(this.rectShape, ctx);
   }
 
   mouseMove (mouseX: number, mouseY: number): void {
     // console.log ('mouseMove', mouseX, mouseY);
   }
-  
+
+  mouseDown (mouseState: boolean): void {
+    // console.log ('mouseDown', mouseState);
+  }
+
   mouseClick (): void {
     // console.log ('mouseClick');
   }

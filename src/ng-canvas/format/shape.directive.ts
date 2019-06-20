@@ -12,17 +12,27 @@ export class ShapeDirective implements OnInit, AfterViewInit, AfterContentInit, 
   private chronosID: string;
   private renderID: string;
   private subscription: Subscription;
+  private screenWidth: number;
+  private screenHeight: number;
 
   constructor(
     private chronosService: ChronosService
   ) {
     this.chronosID = '';
     this.renderID = '';
+    this.screenWidth = 0;
+    this.screenHeight = 0;
 
     this.subscription = this.chronosService.getMessage().subscribe(
       message => {
+        if (message.type === 'elementSize' && message.id === this.chronosID ) {
+          this.updateCanvasSize (message.width, message.height);
+        }
         if (message.type === 'mouseMove' && message.id === this.chronosID ) {
           this.mouseMove (message.mouse.x, message.mouse.y);
+        }
+        if (message.type === 'mouseDown' && message.id === this.chronosID ) {
+          this.mouseDown (message.down);
         }
         if (message.type === 'mouseClick' && message.id === this.chronosID ) {
           this.mouseClick ();
@@ -40,10 +50,21 @@ export class ShapeDirective implements OnInit, AfterViewInit, AfterContentInit, 
 
   // ---------------------------------------------------------------------------------
 
-  mouseMove (mouseX: number, mouseY: number): void {
-    this.content.mouseMove (mouseX, mouseY);
+  updateCanvasSize (width: number, height: number): void {
+    this.screenWidth = width;
+    this.screenHeight = height;
   }
-  
+
+  mouseMove (mouseX: number, mouseY: number): void {
+    const mouseX_px = Math.round(((mouseX + 1) / 2) * this.screenWidth);
+    const mouseY_px = Math.round(((mouseY - 1) / 2) * this.screenHeight * (-1));
+    this.content.mouseMove (mouseX_px, mouseY_px);
+  }
+
+  mouseDown (mouseState) {
+    this.content.mouseDown (mouseState);
+  }
+
   mouseClick (): void {
     this.content.mouseClick ();
   }
