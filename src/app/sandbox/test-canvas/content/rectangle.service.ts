@@ -1,21 +1,14 @@
-export class RectangleService {
+import { ShapeService } from '@ngc/service';
 
-  private mouseX: number;
-  private mouseY: number;
-  private mouseInView: boolean;
-  private mouseState: boolean;
+export class RectangleService extends ShapeService {
 
   private rectShape: any;
   private counter: number;
 
   constructor () {
-    this.mouseX = 0;
-    this.mouseY = 0;
-    this.mouseInView = false;
-    this.mouseState = false;
+    super();
 
     this.counter = 0;
-
     this.rectShape = {
       x: 250,
       y: 70,
@@ -25,13 +18,13 @@ export class RectangleService {
     };
   }
 
-  shape (myRectangle, ctx): void {
+  shape (ctx): void {
     ctx.beginPath();
-    ctx.rect(myRectangle.x, myRectangle.y, myRectangle.width, myRectangle.height);
+    ctx.rect(this.rectShape.x, this.rectShape.y, this.rectShape.width, this.rectShape.height);
 
     // Style
     ctx.fillStyle = '#8ED6FF';
-    ctx.lineWidth = myRectangle.borderWidth;
+    ctx.lineWidth = this.rectShape.borderWidth;
     ctx.strokeStyle = 'black';
 
     if (this.mouseState && ctx.isPointInPath(this.mouseX, this.mouseY)){
@@ -61,24 +54,7 @@ export class RectangleService {
     this.rectShape.x = nextX;
 
     // draw
-    this.shape(this.rectShape, ctx);
-  }
-
-  mouseMove (mouseX: number, mouseY: number): void {
-    this.mouseX = mouseX;
-    this.mouseY = mouseY;
-  }
-
-  mouseActive (mouseInView: boolean): void {
-    this.mouseInView = mouseInView;
-  }
-
-  mouseDown (mouseState: boolean): void {
-    this.mouseState = mouseState;
-  }
-
-  mouseClick (): void {
-    // console.log ('mouseClick', this.mouseX, this.mouseY);
+    this.shape(ctx);
   }
 
   render (canvasRef, canvasContext) {

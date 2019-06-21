@@ -1,15 +1,9 @@
-export class CloudService {
+import { ShapeService } from '@ngc/service';
 
-  private mouseX: number;
-  private mouseY: number;
-  private mouseInView: boolean;
-  private mouseState: boolean;
+export class CloudService extends ShapeService {
 
   constructor () {
-    this.mouseX = 0;
-    this.mouseY = 0;
-    this.mouseInView = false;
-    this.mouseState = false;
+    super();
   }
 
   shape (ctx: any): void {
@@ -41,28 +35,11 @@ export class CloudService {
     ctx.stroke();
   }
 
-  animate (canvas, ctx): void {
+  animate (canvas: any, ctx: any): void {
     this.shape(ctx);
   }
 
-  mouseMove (mouseX: number, mouseY: number): void {
-    this.mouseX = mouseX;
-    this.mouseY = mouseY;
-  }
-
-  mouseActive (mouseInView: boolean): void {
-    this.mouseInView = mouseInView;
-  }
-
-  mouseDown (mouseState: boolean): void {
-    this.mouseState = mouseState;
-  }
-
-  mouseClick (): void {
-    // console.log ('mouseClick', this.mouseX, this.mouseY);
-  }
-
-  render (canvasRef, canvasContext) {
+  render (canvasRef: any, canvasContext: any): void {
     this.animate(canvasRef, canvasContext);
   }
 }

@@ -1,7 +1,11 @@
-export class DotService {
+import { ShapeService } from '@ngc/service';
+
+export class DotService extends ShapeService {
   private circleShape: any;
 
   constructor () {
+    super();
+
     this.circleShape = {
       x: 20,
       y: 20,
@@ -11,31 +15,15 @@ export class DotService {
     };
   }
 
-  shape (circle, ctx): void {
+  shape (ctx): void {
     ctx.beginPath();
-    ctx.arc(circle.x, circle.y, circle.r, circle.sAngle, circle.eAngle);
+    ctx.arc(this.circleShape.x, this.circleShape.y, this.circleShape.r, this.circleShape.sAngle, this.circleShape.eAngle);
     ctx.fillStyle = '#FF0000';
     ctx.fill();
   }
 
   animate (canvas, ctx): void {
-    this.shape(this.circleShape, ctx);
-  }
-
-  mouseMove (mouseX: number, mouseY: number): void {
-    // console.log ('mouseMove', mouseX, mouseY);
-  }
-
-  mouseActive (mouseInView: boolean): void {
-    // console.log ('mouseActive', mouseInView);
-  }
-
-  mouseDown (mouseState: boolean): void {
-    // console.log ('mouseDown', mouseState);
-  }
-
-  mouseClick (): void {
-    // console.log ('mouseClick');
+    this.shape(ctx);
   }
 
   render (canvasRef, canvasContext) {

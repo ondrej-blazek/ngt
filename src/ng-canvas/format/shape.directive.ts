@@ -45,7 +45,9 @@ export class ShapeDirective implements OnInit, AfterViewInit, AfterContentInit, 
     );
   }
 
-  ngOnInit () {}
+  ngOnInit () {
+    console.log ('id', this.id);
+  }
   ngAfterViewInit () {}
   ngAfterContentInit () {}
   ngOnDestroy () {
