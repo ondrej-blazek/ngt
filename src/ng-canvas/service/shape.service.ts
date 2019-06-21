@@ -5,11 +5,21 @@ export class ShapeService {
   protected mouseInView: boolean;
   protected mouseState: boolean;
 
+  protected intersects: boolean;
+  protected myID: string;
+
   constructor() {
     this.mouseX = 0;
     this.mouseY = 0;
     this.mouseInView = false;
     this.mouseState = false;
+
+    this.intersects = false;
+    this.myID = '';
+  }
+
+  saveID (layerID: string) {
+    this.myID = layerID;
   }
 
   // User interaction defaults
@@ -26,7 +36,11 @@ export class ShapeService {
     this.mouseState = mouseState;
   }
 
-  mouseClick (): void {}
+  mouseClick (): void {
+    if (this.intersects) {
+      console.log('this.myID', this.myID);
+    }
+  }
 
   // Canvas rendering default
   shape (ctx: any): void {}

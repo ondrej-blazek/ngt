@@ -2,6 +2,7 @@ import { Directive, Input, OnInit, AfterViewInit, AfterContentInit, OnDestroy } 
 import { Subscription } from 'rxjs';
 
 import { ChronosService } from '@ngs/core/chronos.service';
+import { LayersService } from '@ngc/service';
 
 @Directive({
   selector: 'ngc-shape'     // tslint:disable-line
@@ -17,7 +18,8 @@ export class ShapeDirective implements OnInit, AfterViewInit, AfterContentInit, 
   private screenHeight: number;
 
   constructor(
-    private chronosService: ChronosService
+    private chronosService: ChronosService,
+    private layers: LayersService
   ) {
     this.chronosID = '';
     this.renderID = '';
@@ -46,10 +48,11 @@ export class ShapeDirective implements OnInit, AfterViewInit, AfterContentInit, 
   }
 
   ngOnInit () {
-    console.log ('id', this.id);
+    this.content.saveID(this.id);
   }
   ngAfterViewInit () {}
   ngAfterContentInit () {}
+
   ngOnDestroy () {
     this.content = null;
   }
@@ -82,6 +85,7 @@ export class ShapeDirective implements OnInit, AfterViewInit, AfterContentInit, 
   processID (chronosID: string, renderID: string): void {
     this.chronosID = chronosID;
     this.renderID = renderID;
+    this.layers.addToLayers(this.renderID, this.id);
   }
 
   render (canvasRef, canvasContext): void {

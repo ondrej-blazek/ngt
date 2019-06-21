@@ -22,10 +22,10 @@ export class CloudService extends ShapeService {
     ctx.strokeStyle = 'blue';
     ctx.fillStyle = '#FFFFFF';
 
-    if (this.mouseState && ctx.isPointInPath(this.mouseX, this.mouseY)){
+    if (this.mouseState && ctx.isPointInPath(this.mouseX, this.mouseY)) {
       ctx.fillStyle = '#89e84a';
     }
-    if (this.mouseInView && ctx.isPointInPath(this.mouseX, this.mouseY)){
+    if (this.mouseInView && ctx.isPointInPath(this.mouseX, this.mouseY)) {
       ctx.strokeStyle = 'red';
     }
 
