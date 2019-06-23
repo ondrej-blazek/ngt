@@ -38,7 +38,7 @@ export class ShapeDirective implements OnInit, AfterViewInit, AfterContentInit, 
           this.mouseActive (message.active);
         }
         if (message.type === 'mouseDown' && message.id === this.chronosID ) {
-          this.mouseDown (message.down);
+          this.mouseHoldDown (message.down);
         }
         if (message.type === 'mouseClick' && message.id === this.chronosID ) {
           this.mouseClick ();
@@ -48,7 +48,7 @@ export class ShapeDirective implements OnInit, AfterViewInit, AfterContentInit, 
   }
 
   ngOnInit () {
-    this.content.saveID(this.id);
+    console.log ('uuid + id', this.content.getUUID(), this.id);
   }
   ngAfterViewInit () {}
   ngAfterContentInit () {}
@@ -74,8 +74,8 @@ export class ShapeDirective implements OnInit, AfterViewInit, AfterContentInit, 
     this.content.mouseActive (mouseState);
   }
 
-  mouseDown (mouseState: boolean) {
-    this.content.mouseDown (mouseState);
+  mouseHoldDown (mouseState: boolean) {
+    this.content.mouseHoldDown (mouseState);
   }
 
   mouseClick (): void {

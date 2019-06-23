@@ -27,10 +27,16 @@ export class RectangleService extends ShapeService {
     ctx.lineWidth = this.rectShape.borderWidth;
     ctx.strokeStyle = 'black';
 
-    if (this.mouseState && ctx.isPointInPath(this.mouseX, this.mouseY)){
+    if (ctx.isPointInPath(this.mouseX, this.mouseY)) {
+      this.mouseWithinShape = true;
+    } else {
+      this.mouseWithinShape = false;
+    }
+
+    if (this.mouseState && this.mouseWithinShape){
       ctx.fillStyle = '#952aaa';
     }
-    if (this.mouseInView && ctx.isPointInPath(this.mouseX, this.mouseY)){
+    if (this.mouseInView && this.mouseWithinShape){
       ctx.strokeStyle = 'red';
     }
 
@@ -55,9 +61,5 @@ export class RectangleService extends ShapeService {
 
     // draw
     this.shape(ctx);
-  }
-
-  render (canvasRef, canvasContext) {
-    this.animate(canvasRef, canvasContext);
   }
 }

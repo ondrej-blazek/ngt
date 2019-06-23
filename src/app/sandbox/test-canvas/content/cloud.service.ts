@@ -22,10 +22,16 @@ export class CloudService extends ShapeService {
     ctx.strokeStyle = 'blue';
     ctx.fillStyle = '#FFFFFF';
 
-    if (this.mouseState && ctx.isPointInPath(this.mouseX, this.mouseY)) {
+    if (ctx.isPointInPath(this.mouseX, this.mouseY)) {
+      this.mouseWithinShape = true;
+    } else {
+      this.mouseWithinShape = false;
+    }
+
+    if (this.mouseState && this.mouseWithinShape) {
       ctx.fillStyle = '#89e84a';
     }
-    if (this.mouseInView && ctx.isPointInPath(this.mouseX, this.mouseY)) {
+    if (this.mouseInView && this.mouseWithinShape) {
       ctx.strokeStyle = 'red';
     }
 
@@ -33,13 +39,5 @@ export class CloudService extends ShapeService {
     ctx.closePath();
     ctx.fill();
     ctx.stroke();
-  }
-
-  animate (canvas: any, ctx: any): void {
-    this.shape(ctx);
-  }
-
-  render (canvasRef: any, canvasContext: any): void {
-    this.animate(canvasRef, canvasContext);
   }
 }
