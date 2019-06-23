@@ -21,12 +21,4 @@ export class DotService extends ShapeService {
     ctx.fillStyle = '#FF0000';
     ctx.fill();
   }
-
-  animate (canvas, ctx): void {
-    this.shape(ctx);
-  }
-
-  render (canvasRef, canvasContext) {
-    this.animate(canvasRef, canvasContext);
-  }
 }

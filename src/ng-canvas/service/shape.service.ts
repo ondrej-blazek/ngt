@@ -3,8 +3,11 @@ export class ShapeService {
   protected mouseX: number;
   protected mouseY: number;
   protected mouseInView: boolean;
+
   protected mouseStateLast: boolean;
   protected mouseState: boolean;
+  protected mouseOverLast: boolean;
+  protected mouseOver: boolean;
 
   protected mouseWithinShape: boolean;
   protected mouseOneOff: boolean;
@@ -15,8 +18,11 @@ export class ShapeService {
     this.mouseX = 0;
     this.mouseY = 0;
     this.mouseInView = false;
+
     this.mouseStateLast = false;
     this.mouseState = false;
+    this.mouseOverLast = false;
+    this.mouseOver = false;
 
     this.mouseWithinShape = false;
     this.mouseOneOff = true;
@@ -52,28 +58,37 @@ export class ShapeService {
     return (newUUID);
   }
 
-  // User interaction defaults
+  // User interaction - from reporter
   mouseMove (mouseX: number, mouseY: number): void {
     this.mouseX = mouseX;
     this.mouseY = mouseY;
   }
-
   mouseActive (mouseInView: boolean): void {
     this.mouseInView = mouseInView;
   }
-
-  mouseDown (): void {
-    console.log ('mouseDown', this.uuid);
-  }
-  mouseHoldDown (mouseState: boolean): void {
+  mouseDown (mouseState: boolean): void {
     this.mouseState = mouseState;
+  }
+
+  // User interaction - restricted to the shape (These functions should be replaced by content functions)
+  mouseClick (): void {
+    // console.log ('mouseClick', this.uuid);
+  }
+  mouseHoldDown (): void {
     // console.log ('mouseHoldDown', this.uuid);
   }
   mouseRelease (): void {
-    console.log ('mouseRelease', this.uuid);
+    // console.log ('mouseRelease', this.uuid);
   }
-
-  mouseClick (): void {}
+  mouseEnter (): void {
+    // console.log ('mouseEnter', this.uuid);
+  }
+  mouseHover (): void {
+    // console.log ('mouseHover', this.uuid);
+  }
+  mouseLeave (): void {
+    // console.log ('mouseLeave', this.uuid);
+  }
 
   // Canvas rendering default
   shape (ctx: any): void {}
@@ -83,11 +98,15 @@ export class ShapeService {
   }
 
   render (canvasRef: any, canvasContext: any): void {
-    // User events
+    // User interactions
     if (this.mouseInView && this.mouseState && this.mouseWithinShape && this.mouseOneOff === this.mouseState) {
       this.mouseStateLast = this.mouseState;
       this.mouseOneOff = false;
-      this.mouseDown();
+      this.mouseClick();
+    }
+
+    if (this.mouseInView && this.mouseState && this.mouseWithinShape ) {
+      this.mouseHoldDown();
     }
 
     if (this.mouseStateLast && !this.mouseState && !this.mouseOneOff){
@@ -95,6 +114,22 @@ export class ShapeService {
       this.mouseRelease ();
     }
 
+    if (this.mouseInView && this.mouseWithinShape) {
+      this.mouseOverLast = this.mouseOver;
+      this.mouseOver = true;
+      this.mouseHover ();
+      if (this.mouseOverLast === false && this.mouseOver) {
+        this.mouseEnter ();
+      }
+    } else {
+      if (this.mouseOverLast && this.mouseOver) {
+        this.mouseOverLast = false;
+        this.mouseOver = false;
+        this.mouseLeave ();
+      }
+    }
+
+    // Animations
     this.animate(canvasRef, canvasContext);
   }
 }
