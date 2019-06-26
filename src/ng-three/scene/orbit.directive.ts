@@ -36,7 +36,7 @@ export class OrbitDirective implements OnChanges, OnInit, AfterContentInit {
 
   setupControls (camera, renderer): void {
     // Section element as provided by reporter
-    const domElement:HTMLElement = this.chronosService.getDOM(this.chronosID);
+    const domElement: HTMLElement = this.chronosService.getDOM (this.chronosID);
 
     // this.orbitControls = new OrbitControls(camera, renderer.domElement);
     this.orbitControls = new OrbitControls(camera, domElement);

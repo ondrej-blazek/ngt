@@ -1,6 +1,7 @@
+import { ShapeService } from '@ngc/service';
 import * as THREE from 'three';
 
-export class ProjectorService {
+export class ProjectorService extends ShapeService {
   private circleShape: any;
 
   public activeFlag: boolean;
@@ -9,6 +10,8 @@ export class ProjectorService {
   public clickedObject: THREE.Vector2;
 
   constructor () {
+    super ();
+
     this.circleShape = {
       x: 20,
       y: 20,
@@ -39,7 +42,7 @@ export class ProjectorService {
     }
   }
 
-  render (canvasRef, canvasContext) {
-    this.animate(canvasRef, canvasContext);
-  }
+  // render (canvasRef, canvasContext) {
+  //   this.animate(canvasRef, canvasContext);
+  // }
 }

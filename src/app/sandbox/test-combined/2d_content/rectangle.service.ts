@@ -1,10 +1,13 @@
-export class RectangleService {
+import { ShapeService } from '@ngc/service';
+
+export class RectangleService extends ShapeService {
   private rectShape: any;
   private counter: number;
 
   constructor () {
-    this.counter = 0;
+    super ();
 
+    this.counter = 0;
     this.rectShape = {
       x: 250,
       y: 70,

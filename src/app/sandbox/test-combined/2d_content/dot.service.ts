@@ -1,7 +1,12 @@
-export class DotService {
+import { ShapeService } from '@ngc/service';
+import { extend } from 'webdriver-js-extender';
+
+export class DotService extends ShapeService {
   private circleShape: any;
 
   constructor () {
+    super ();
+
     this.circleShape = {
       x: 20,
       y: 20,

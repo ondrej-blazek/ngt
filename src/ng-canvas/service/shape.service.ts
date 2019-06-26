@@ -36,16 +36,16 @@ export class ShapeService {
   }
 
   makeRandomString (length: number): string {
-    let text: string = '';
+    let text = '';
     const char_list = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
 
-    for (let i=0; i < length; i++ ) {
+    for (let i = 0; i < length; i++ ) {
       text += char_list.charAt(Math.floor(Math.random() * char_list.length));
     }
     return text;
   }
   generateUUID (): string {
-    let newUUID = "";
+    let newUUID = '';
     newUUID += this.makeRandomString(8);
     newUUID += '-';
     newUUID += this.makeRandomString(4);
@@ -105,11 +105,11 @@ export class ShapeService {
       this.mouseClick();
     }
 
-    if (this.mouseInView && this.mouseState && this.mouseWithinShape ) {
+    if (this.mouseInView && this.mouseState && this.mouseWithinShape) {
       this.mouseHoldDown();
     }
 
-    if (this.mouseStateLast && !this.mouseState && !this.mouseOneOff){
+    if (this.mouseStateLast && !this.mouseState && !this.mouseOneOff) {
       this.mouseOneOff = true;
       this.mouseRelease ();
     }

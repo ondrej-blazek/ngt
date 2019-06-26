@@ -1,6 +1,10 @@
-export class CloudService {
+import { ShapeService } from '@ngc/service';
 
-  constructor () {}
+export class CloudService extends ShapeService {
+
+  constructor () {
+    super ();
+  }
 
   cloud (ctx: any): void {
     // begin custom shape

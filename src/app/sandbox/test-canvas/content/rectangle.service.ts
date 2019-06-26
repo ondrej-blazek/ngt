@@ -33,10 +33,10 @@ export class RectangleService extends ShapeService {
       this.mouseWithinShape = false;
     }
 
-    if (this.mouseState && this.mouseWithinShape){
+    if (this.mouseState && this.mouseWithinShape) {
       ctx.fillStyle = '#952aaa';
     }
-    if (this.mouseInView && this.mouseWithinShape){
+    if (this.mouseInView && this.mouseWithinShape) {
       ctx.strokeStyle = 'red';
     }
 

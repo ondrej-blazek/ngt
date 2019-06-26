@@ -78,7 +78,7 @@ export class ShapeDirective implements OnInit, AfterViewInit, AfterContentInit, 
   processID (chronosID: string, renderID: string): void {
     this.chronosID = chronosID;
     this.renderID = renderID;
-    this.layers.addToLayers(this.renderID, this.id);
+    this.layers.addToLayers(this.renderID, this.id, this.content.getUUID());
   }
 
   render (canvasRef, canvasContext): void {
