@@ -13,18 +13,11 @@ export class ChronosService {
   private activeObject: any;
   private clickedObject: any;
 
-  // public activeObjectProjection: THREE.Vector2;
-  // public clickedObjectProjection: THREE.Vector2;
-
-
   constructor () {
     this.domElements = [];
     this.interactionArray = [];
     this.activeObject = null;
     this.clickedObject = null;
-
-    // this.activeObjectProjection = new THREE.Vector2();
-    // this.clickedObjectProjection = new THREE.Vector2();
   }
 
   // Main
@@ -40,7 +33,7 @@ export class ChronosService {
  */
 
   // Watch for specific Dom element to change
-  elementSize (id: string, width: number, height: number) {
+  elementSize (id: string, width: number, height: number): void {
     this.subject.next({
       type: 'elementSize',
       id: id,
@@ -50,7 +43,7 @@ export class ChronosService {
   }
 
   // Window size
-  screenSize (width: number, height: number) {
+  screenSize (width: number, height: number): void {
     this.subject.next({
       type: 'screenSize',
       width: width,
@@ -59,7 +52,7 @@ export class ChronosService {
   }
 
   // Screen is active / in focus
-  screenIsActive (active: boolean) {
+  screenIsActive (active: boolean): void {
     this.subject.next({
       type: 'screenIsActive',
       status: active
@@ -67,21 +60,21 @@ export class ChronosService {
   }
 
   // Active Layer
-  enableLayer (id: string, layerNo: number) {
+  enableLayer (id: string, layerNo: number): void {
     this.subject.next({
       type: 'enableLayer',
       id: id,
       layerNo: layerNo
     });
   }
-  disableLayer (id: string, layerNo: number) {
+  disableLayer (id: string, layerNo: number): void {
     this.subject.next({
       type: 'disableLayer',
       id: id,
       layerNo: layerNo
     });
   }
-  toggleLayer (id: string, layerNo: number) {
+  toggleLayer (id: string, layerNo: number): void {
     this.subject.next({
       type: 'toggleLayer',
       id: id,
@@ -90,28 +83,28 @@ export class ChronosService {
   }
 
   // mouse movement / events
-  mouseIsMoving (id: string, mouse: THREE.Vector2) {
+  mouseIsMoving (id: string, mouse: THREE.Vector2): void {
     this.subject.next({
       type: 'mouseMove',
       id: id,
       mouse: mouse
     });
   }
-  mouseIsActive (id: string, active: boolean) {
+  mouseIsActive (id: string, active: boolean): void {
     this.subject.next({
       type: 'mouseActive',
       id: id,
       active: active
     });
   }
-  mouseIsDown (id: string, down: boolean) {
+  mouseIsDown (id: string, down: boolean): void {
     this.subject.next({
       type: 'mouseDown',
       id: id,
       down: down
     });
   }
-  mouseClick (id: string) {
+  mouseClick (id: string): void {
     this.subject.next({
       type: 'mouseClick',
       id: id
@@ -119,20 +112,20 @@ export class ChronosService {
   }
 
   // 3D to 2D projection data
-  activeProjection (coordinates: THREE.Vector2): void {
+  activeProjection (id: string, coordinates: THREE.Vector2): void {
     this.subject.next({
       type: 'activeProjection',
+      id: id,
       coordinates: coordinates
     });
   }
-
-  clickedProjection (coordinates: THREE.Vector2): void {
+  clickedProjection (id: string, coordinates: THREE.Vector2): void {
     this.subject.next({
       type: 'clickedProjection',
+      id: id,
       coordinates: coordinates
     });
   }
-
 
   // active DOM Elements within the page
   getDOM (chronosID: string): HTMLElement {

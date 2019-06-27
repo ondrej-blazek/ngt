@@ -1,6 +1,5 @@
 import { Directive, Input, OnInit, AfterViewInit, AfterContentInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
-// import * as THREE from 'three';
 
 import { ChronosService } from '@ngs/core/chronos.service';
 
@@ -30,17 +29,26 @@ export class ProjectorDirective implements OnInit, AfterViewInit, AfterContentIn
         if (message.type === 'setActiveObject' && message.id === this.chronosID && this.content) {
           this.activeFlag = false;
           this.content.activeFlag = true;
-          this.content.activeObject = this.chronosService.activeObjectProjection;
+        }
+        if (message.type === 'activeProjection' && message.id === this.chronosID && this.content) {
+          if (this.activeFlag) {
+            this.content.activeObject = message.coordinates;
+          }
         }
         if (message.type === 'clearActiveObject' && message.id === this.chronosID && this.content) {
           this.activeFlag = false;
           this.content.activeFlag = false;
           this.content.activeObject = null;
         }
+
         if (message.type === 'setClickedObject' && message.id === this.chronosID && this.content) {
           this.clickedFlag = true;
           this.content.clickedFlag = true;
-          this.content.clickedObject = this.chronosService.activeObjectProjection;
+        }
+        if (message.type === 'clickedProjection' && message.id === this.chronosID && this.content) {
+          if (this.clickedFlag) {
+            this.content.clickedObject = message.coordinates;
+          }
         }
         if (message.type === 'clearClickedObject' && message.id === this.chronosID && this.content) {
           this.clickedFlag = false;
@@ -66,13 +74,6 @@ export class ProjectorDirective implements OnInit, AfterViewInit, AfterContentIn
   }
 
   render (canvasRef, canvasContext): void {
-    if (this.activeFlag) {
-      this.content.activeObject = this.chronosService.activeObjectProjection;
-    }
-    if (this.clickedFlag) {
-      this.content.clickedObject = this.chronosService.clickedObjectProjection;
-    }
-
     this.content.render(canvasRef, canvasContext);
   }
 }

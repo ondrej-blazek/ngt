@@ -91,13 +91,11 @@ export class ProjectorDirective implements OnChanges, OnInit, AfterContentInit, 
   render (): void {
     if (this.activeObject !== null) {
       this.activeObjectProjection = this.raycastProjection (this.activeObject, this.activeObjectPosition);
-      // this.chronosService.activeObjectProjection = this.activeObjectProjection;
-      this.chronosService.activeProjection (this.activeObjectProjection);
+      this.chronosService.activeProjection (this.chronosID, this.activeObjectProjection);     // <<< Make Chronos service broadcast this
     }
     if (this.clickedObject !== null) {
       this.clickedObjectProjection = this.raycastProjection (this.clickedObject, this.clickedObjectPosition);
-      // this.chronosService.clickedObjectProjection = this.clickedObjectProjection;
-      this.chronosService.clickedProjection (this.clickedObjectProjection);
+      this.chronosService.clickedProjection (this.chronosID, this.clickedObjectProjection);   // <<< Make Chronos service broadcast this
     }
   }
 

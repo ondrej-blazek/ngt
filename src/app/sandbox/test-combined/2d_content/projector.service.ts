@@ -41,8 +41,4 @@ export class ProjectorService extends ShapeService {
       this.drawCircle(this.circleShape, ctx);
     }
   }
-
-  // render (canvasRef, canvasContext) {
-  //   this.animate(canvasRef, canvasContext);
-  // }
 }
