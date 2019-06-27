@@ -13,8 +13,8 @@ export class ChronosService {
   private activeObject: any;
   private clickedObject: any;
 
-  public activeObjectProjection: THREE.Vector2;
-  public clickedObjectProjection: THREE.Vector2;
+  // public activeObjectProjection: THREE.Vector2;
+  // public clickedObjectProjection: THREE.Vector2;
 
 
   constructor () {
@@ -23,8 +23,8 @@ export class ChronosService {
     this.activeObject = null;
     this.clickedObject = null;
 
-    this.activeObjectProjection = new THREE.Vector2();
-    this.clickedObjectProjection = new THREE.Vector2();
+    // this.activeObjectProjection = new THREE.Vector2();
+    // this.clickedObjectProjection = new THREE.Vector2();
   }
 
   // Main
@@ -117,6 +117,22 @@ export class ChronosService {
       id: id
     });
   }
+
+  // 3D to 2D projection data
+  activeProjection (coordinates: THREE.Vector2): void {
+    this.subject.next({
+      type: 'activeProjection',
+      coordinates: coordinates
+    });
+  }
+
+  clickedProjection (coordinates: THREE.Vector2): void {
+    this.subject.next({
+      type: 'clickedProjection',
+      coordinates: coordinates
+    });
+  }
+
 
   // active DOM Elements within the page
   getDOM (chronosID: string): HTMLElement {
