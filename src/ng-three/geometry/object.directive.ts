@@ -13,6 +13,7 @@ export class ObjectDirective implements OnChanges, OnInit, AfterContentInit, OnD
   @Input() scale: THREE.Vector3;
   @Input() animate: boolean;
   @Input() interact: boolean;
+  @Input() link: string;
   @Input() content: any;
 
   private subscription: Subscription;
@@ -26,6 +27,7 @@ export class ObjectDirective implements OnChanges, OnInit, AfterContentInit, OnD
     this.scale = new THREE.Vector3(1, 1, 1);
     this.animate = true;
     this.interact = false;
+    this.link = '';
 
     // subscribe to home component messages
     this.subscription = this.chronosService.getMessage().subscribe(

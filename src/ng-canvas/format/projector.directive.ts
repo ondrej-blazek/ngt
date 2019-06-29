@@ -8,6 +8,7 @@ import { ChronosService } from '@ngs/core/chronos.service';
 })
 export class ProjectorDirective implements OnInit, AfterViewInit, AfterContentInit, OnDestroy {
   @Input() content: any;
+  @Input() id: string;
 
   private chronosID: string;
   private renderID: string;
