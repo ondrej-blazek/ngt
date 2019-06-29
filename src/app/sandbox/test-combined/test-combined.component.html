@@ -30,14 +30,20 @@
           <ngt-geometry>
             <ngt-layer (layer)="layers[0].layer" [visible]="layers[0].visible">
               <ngt-object [offset]="spheres.sphereAOffset" [rotation]="spheres.sphereARotation" [scale]="spheres.sphereAScale" [content]="sphereA"></ngt-object>
-              <ngt-object [offset]="spheres.sphereBOffset" [rotation]="spheres.sphereBRotation" [scale]="spheres.sphereBScale" [content]="sphereB" [interact]="true" link="redDot"></ngt-object>
+              <ngt-object
+                  [offset]="spheres.sphereBOffset" [rotation]="spheres.sphereBRotation" [scale]="spheres.sphereBScale"
+                  [content]="sphereB" [interact]="true" name="oneSphere"></ngt-object>
             </ngt-layer>
             <ngt-layer (layer)="layers[1].layer" [visible]="layers[1].visible">
               <ngt-object [offset]="cubes.cubeAOffset" [rotation]="cubes.cubeARotation" [scale]="cubes.cubeAScale" [content]="cubeA"></ngt-object>
-              <ngt-object [offset]="cubes.cubeBOffset" [rotation]="cubes.cubeBRotation" [scale]="cubes.cubeBScale" [content]="cubeB" [interact]="true"></ngt-object>
+              <ngt-object
+                  [offset]="cubes.cubeBOffset" [rotation]="cubes.cubeBRotation" [scale]="cubes.cubeBScale"
+                  [content]="cubeB" [interact]="true" name="oneCube"></ngt-object>
             </ngt-layer>
             <ngt-layer (layer)="layers[2].layer" [visible]="layers[2].visible">
-              <ngt-dynamic [offset]="dynamics.dynamicOffset" [rotation]="dynamics.dynamicRotation" [scale]="dynamics.dynamicScale" [animate]="dynamics.dynamicAnimate" [content]="dynamic" [interact]="true"></ngt-dynamic>
+              <ngt-dynamic
+                  [offset]="dynamics.dynamicOffset" [rotation]="dynamics.dynamicRotation" [scale]="dynamics.dynamicScale"
+                  [animate]="dynamics.dynamicAnimate" [content]="dynamic" [interact]="true"></ngt-dynamic>
             </ngt-layer>
           </ngt-geometry>
         </ngt-scene>
@@ -48,7 +54,9 @@
         <!-- <ngc-shape [content]="rectangle"></ngc-shape> -->
         <!-- <ngc-shape [content]="cloud"></ngc-shape> -->
         <ngc-shape [content]="dot"></ngc-shape>
-        <ngc-projector id="redDot" [content]="projector"></ngc-projector>
+        <ngc-projector link="oneSphere" [content]="projector"></ngc-projector>
+        <ngc-projector link="oneCube" [content]="projectorB"></ngc-projector>
+        <ngc-projector link="" [content]="projectorC"></ngc-projector>
       </ngc-render>
 
     </ngs-chronos>

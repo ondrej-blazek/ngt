@@ -181,6 +181,7 @@ export class ChronosService {
     this.subject.next({
       type: 'setClickedObject',
       id: id,
+      name: oneObject.name,
       clickedID: oneObject.uuid
     });
   }
@@ -188,6 +189,7 @@ export class ChronosService {
     this.subject.next({
       type: 'clearClickedObject',
       id: id,
+      name: oneObject.name,
       clickedID: oneObject.uuid
     });
   }

@@ -8,7 +8,7 @@ import { ChronosService } from '@ngs/core/chronos.service';
 })
 export class ProjectorDirective implements OnInit, AfterViewInit, AfterContentInit, OnDestroy {
   @Input() content: any;
-  @Input() id: string;
+  @Input() link: string;
 
   private chronosID: string;
   private renderID: string;
@@ -23,6 +23,7 @@ export class ProjectorDirective implements OnInit, AfterViewInit, AfterContentIn
     this.renderID = '';
     this.activeFlag = false;
     this.clickedFlag = false;
+    this.link = '';
 
     // subscribe to home component messages
     this.subscription = this.chronosService.getMessage().subscribe(
@@ -43,8 +44,10 @@ export class ProjectorDirective implements OnInit, AfterViewInit, AfterContentIn
         }
 
         if (message.type === 'setClickedObject' && message.id === this.chronosID && this.content) {
-          this.clickedFlag = true;
-          this.content.clickedFlag = true;
+          if (this.link === message.name) {
+            this.clickedFlag = true;
+            this.content.clickedFlag = true;
+          }
         }
         if (message.type === 'clickedProjection' && message.id === this.chronosID && this.content) {
           if (this.clickedFlag) {

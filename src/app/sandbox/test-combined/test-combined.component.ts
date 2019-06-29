@@ -14,7 +14,9 @@ import {
   RectangleService,
   DotService,
   CloudService,
-  ProjectorService
+  ProjectorService,
+  ProjectorService2,
+  ProjectorService3
 } from './2d_content';
 
 @Component({
@@ -28,6 +30,8 @@ export class TestCombinedComponent implements OnInit {
   public dot: DotService = new DotService ();
   public cloud: CloudService = new CloudService ();
   public projector: ProjectorService = new ProjectorService ();
+  public projectorB: ProjectorService2 = new ProjectorService2 ();
+  public projectorC: ProjectorService3 = new ProjectorService3 ();
 
   // 3D
   public env: EnvService;
