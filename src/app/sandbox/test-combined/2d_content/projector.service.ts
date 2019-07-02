@@ -2,7 +2,8 @@ import { ShapeService } from '@ngc/service';
 import * as THREE from 'three';
 
 export class ProjectorService extends ShapeService {
-  private circleShape: any;
+  private imageLoaded: boolean;
+  private imageResource: any;
 
   public activeFlag: boolean;
   public activeObject: THREE.Vector2;
@@ -12,13 +13,8 @@ export class ProjectorService extends ShapeService {
   constructor () {
     super ();
 
-    this.circleShape = {
-      x: 20,
-      y: 20,
-      r: 10,
-      sAngle: 0,
-      eAngle: 2 * Math.PI
-    };
+    this.imageLoaded = false;
+    this.imageResource = new Image();
 
     this.activeFlag = false;
     this.activeObject = new THREE.Vector2();
@@ -26,25 +22,31 @@ export class ProjectorService extends ShapeService {
     this.clickedObject = new THREE.Vector2();
   }
 
-  drawCircle (circle, ctx): void {
-    ctx.beginPath();
-    ctx.arc(circle.x, circle.y, circle.r, circle.sAngle, circle.eAngle);
-    ctx.fillStyle = '#FF0000';
-    ctx.fill();
+  drawImage (location: THREE.Vector2, ctx): void {
+    if (this.imageLoaded) {
+      ctx.drawImage (this.imageResource, (location.x - 130), (location.y - 130));
+    } else {
+      this.imageResource.src = '/assets/2d/bubble_2.svg';
+      this.imageResource.onload = () => {
+        this.imageLoaded = true;
+        ctx.drawImage (this.imageResource, (location.x - 130), (location.y - 130));
+      }
+    }
   }
 
   animate (canvas, ctx): void {
     if (this.clickedFlag) {
-      this.circleShape.x = this.clickedObject.x;
-      this.circleShape.y = this.clickedObject.y;
-
-      this.drawCircle(this.circleShape, ctx);
+      const locationVector: THREE.Vector2 = new THREE.Vector2();
+      locationVector.x = this.clickedObject.x;
+      locationVector.y = this.clickedObject.y;
+      this.drawImage(locationVector, ctx);
     }
   }
 }
 
 export class ProjectorService2 extends ShapeService {
-  private circleShape: any;
+  private imageLoaded: boolean;
+  private imageResource: any;
 
   public activeFlag: boolean;
   public activeObject: THREE.Vector2;
@@ -54,13 +56,8 @@ export class ProjectorService2 extends ShapeService {
   constructor () {
     super ();
 
-    this.circleShape = {
-      x: 20,
-      y: 20,
-      r: 10,
-      sAngle: 0,
-      eAngle: 2 * Math.PI
-    };
+    this.imageLoaded = false;
+    this.imageResource = new Image();
 
     this.activeFlag = false;
     this.activeObject = new THREE.Vector2();
@@ -68,19 +65,24 @@ export class ProjectorService2 extends ShapeService {
     this.clickedObject = new THREE.Vector2();
   }
 
-  drawCircle (circle, ctx): void {
-    ctx.beginPath();
-    ctx.arc(circle.x, circle.y, circle.r, circle.sAngle, circle.eAngle);
-    ctx.fillStyle = '#00FF00';
-    ctx.fill();
+  drawImage (location: THREE.Vector2, ctx): void {
+    if (this.imageLoaded) {
+      ctx.drawImage (this.imageResource, location.x, (location.y - 24.27));
+    } else {
+      this.imageResource.src = '/assets/2d/bubble_1.svg';
+      this.imageResource.onload = () => {
+        this.imageLoaded = true;
+        ctx.drawImage (this.imageResource, location.x, (location.y - 24.27));
+      }
+    }
   }
 
   animate (canvas, ctx): void {
     if (this.clickedFlag) {
-      this.circleShape.x = this.clickedObject.x;
-      this.circleShape.y = this.clickedObject.y;
-
-      this.drawCircle(this.circleShape, ctx);
+      const locationVector: THREE.Vector2 = new THREE.Vector2();
+      locationVector.x = this.clickedObject.x;
+      locationVector.y = this.clickedObject.y;
+      this.drawImage(locationVector, ctx);
     }
   }
 }
