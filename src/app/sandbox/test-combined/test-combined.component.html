@@ -35,7 +35,9 @@
                   [content]="sphereB" [interact]="true" name="oneSphere"></ngt-object>
             </ngt-layer>
             <ngt-layer (layer)="layers[1].layer" [visible]="layers[1].visible">
-              <ngt-object [offset]="cubes.cubeAOffset" [rotation]="cubes.cubeARotation" [scale]="cubes.cubeAScale" [content]="cubeA"></ngt-object>
+              <ngt-object
+                  [offset]="cubes.cubeAOffset" [rotation]="cubes.cubeARotation" [scale]="cubes.cubeAScale"
+                  [content]="cubeA" [interact]="true" name="twoCube"></ngt-object>
               <ngt-object
                   [offset]="cubes.cubeBOffset" [rotation]="cubes.cubeBRotation" [scale]="cubes.cubeBScale"
                   [content]="cubeB" [interact]="true" name="oneCube"></ngt-object>
@@ -56,6 +58,8 @@
         <ngc-shape [content]="dot"></ngc-shape>
         <ngc-projector link="oneSphere" [content]="projector"></ngc-projector>
         <ngc-projector link="oneCube" [content]="projectorB"></ngc-projector>
+        <ngc-projector link="twoCube" [content]="projectorB"></ngc-projector>
+        <ngc-projector link="twoCube" [content]="projectorC"></ngc-projector>
         <ngc-projector link="" [content]="projectorC"></ngc-projector>
       </ngc-render>
 

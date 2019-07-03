@@ -65,7 +65,7 @@ export class ProjectorService2 extends ShapeService {
     this.clickedObject = new THREE.Vector2();
   }
 
-  drawImage (location: THREE.Vector2, ctx): void {
+  shape (ctx: any, location: THREE.Vector2): void {
     if (this.imageLoaded) {
       ctx.drawImage (this.imageResource, location.x, (location.y - 24.27));
     } else {
@@ -82,7 +82,7 @@ export class ProjectorService2 extends ShapeService {
       const locationVector: THREE.Vector2 = new THREE.Vector2();
       locationVector.x = this.clickedObject.x;
       locationVector.y = this.clickedObject.y;
-      this.drawImage(locationVector, ctx);
+      this.shape(ctx, locationVector);
     }
   }
 }
@@ -101,7 +101,7 @@ export class ProjectorService3 extends ShapeService {
     this.circleShape = {
       x: 20,
       y: 20,
-      r: 10,
+      r: 20,
       sAngle: 0,
       eAngle: 2 * Math.PI
     };
@@ -112,19 +112,37 @@ export class ProjectorService3 extends ShapeService {
     this.clickedObject = new THREE.Vector2();
   }
 
-  drawCircle (circle, ctx): void {
-    ctx.beginPath();
-    ctx.arc(circle.x, circle.y, circle.r, circle.sAngle, circle.eAngle);
+  shape (ctx: any): void {
+    ctx.lineWidth = 5;
+    ctx.strokeStyle = 'red';
     ctx.fillStyle = '#0000FF';
+
+    ctx.beginPath();
+    ctx.arc(this.circleShape.x, this.circleShape.y, this.circleShape.r, this.circleShape.sAngle, this.circleShape.eAngle);
+
+    if (ctx.isPointInPath(this.mouseX, this.mouseY)) {
+      this.mouseWithinShape = true;
+    } else {
+      this.mouseWithinShape = false;
+    }
+
+    if (this.mouseState && this.mouseWithinShape) {
+      ctx.fillStyle = '#89e84a';
+    }
+    if (this.mouseInView && this.mouseWithinShape) {
+      ctx.strokeStyle = 'yellow';
+    }
+
     ctx.fill();
+    ctx.stroke();
   }
 
-  animate (canvas, ctx): void {
+  animate (canvas: any, ctx: any): void {
     if (this.clickedFlag) {
       this.circleShape.x = this.clickedObject.x;
       this.circleShape.y = this.clickedObject.y;
 
-      this.drawCircle(this.circleShape, ctx);
+      this.shape(ctx);
     }
   }
 }

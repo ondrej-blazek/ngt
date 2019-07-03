@@ -15,12 +15,16 @@ export class ProjectorDirective implements OnInit, AfterViewInit, AfterContentIn
   private subscription: Subscription;
   private activeFlag: boolean;
   private clickedFlag: boolean;
+  private screenWidth: number;
+  private screenHeight: number;
 
   constructor(
     private chronosService: ChronosService
   ) {
     this.chronosID = '';
     this.renderID = '';
+    this.screenWidth = 0;
+    this.screenHeight = 0;
     this.activeFlag = false;
     this.clickedFlag = false;
     this.link = '';
@@ -28,6 +32,18 @@ export class ProjectorDirective implements OnInit, AfterViewInit, AfterContentIn
     // subscribe to home component messages
     this.subscription = this.chronosService.getMessage().subscribe(
       message => {
+        if (message.type === 'elementSize' && message.id === this.chronosID && this.content) {
+          this.updateCanvasSize (message.width, message.height);
+        }
+        if (message.type === 'mouseMove' && message.id === this.chronosID && this.content) {
+          this.mouseMove (message.mouse.x, message.mouse.y);
+        }
+        if (message.type === 'mouseActive' && message.id === this.chronosID && this.content) {
+          this.mouseActive (message.active);
+        }
+        if (message.type === 'mouseDown' && message.id === this.chronosID && this.content) {
+          this.mouseDown (message.down);
+        }
         if (message.type === 'setActiveObject' && message.id === this.chronosID && this.content) {
           this.activeFlag = false;
           this.content.activeFlag = true;
@@ -71,6 +87,25 @@ export class ProjectorDirective implements OnInit, AfterViewInit, AfterContentIn
   }
 
   // ---------------------------------------------------------------------------------
+
+  updateCanvasSize (width: number, height: number): void {
+    this.screenWidth = width;
+    this.screenHeight = height;
+  }
+
+  mouseMove (mouseX: number, mouseY: number): void {
+    const mouseX_px = Math.round(((mouseX + 1) / 2) * this.screenWidth);
+    const mouseY_px = Math.round(((mouseY - 1) / 2) * this.screenHeight * (-1));
+    this.content.mouseMove (mouseX_px, mouseY_px);
+  }
+
+  mouseActive (mouseState: boolean) {
+    this.content.mouseActive (mouseState);
+  }
+
+  mouseDown (mouseState: boolean) {
+    this.content.mouseDown (mouseState);
+  }
 
   processID (chronosID: string, renderID: string): void {
     this.chronosID = chronosID;
