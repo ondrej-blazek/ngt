@@ -91,7 +91,7 @@ export class ShapeService {
   }
 
   // Canvas rendering default
-  shape (ctx: any, loc?:THREE.Vector2): void {}
+  shape (ctx: any, loc?: THREE.Vector2): void {}
 
   animate (canvas: any, ctx: any): void {
     this.shape(ctx);

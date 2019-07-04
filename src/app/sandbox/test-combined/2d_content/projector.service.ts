@@ -30,7 +30,7 @@ export class ProjectorService extends ShapeService {
       this.imageResource.onload = () => {
         this.imageLoaded = true;
         ctx.drawImage (this.imageResource, (location.x - 130), (location.y - 130));
-      }
+      };
     }
   }
 
@@ -73,7 +73,7 @@ export class ProjectorService2 extends ShapeService {
       this.imageResource.onload = () => {
         this.imageLoaded = true;
         ctx.drawImage (this.imageResource, location.x, (location.y - 24.27));
-      }
+      };
     }
   }
 

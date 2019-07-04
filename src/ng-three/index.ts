@@ -25,6 +25,8 @@ More reading:
     https://www.turbosquid.com/Search/3D-Models/free
     https://www.turbosquid.com/3d-models/free-duesen-bayern-mystar-190-3d-model/1062796
     https://www.turbosquid.com/3d-models/blender-carrot-crystal-oak-tree-3d-model-1189852
+    https://www.cgtrader.com/free-3d-models
+    https://www.cgtrader.com/free-3d-models/car/racing/low-poly-sports-car-20
 
   Works by others
     https://www.npmjs.com/package/atft
