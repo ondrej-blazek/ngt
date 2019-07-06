@@ -6,6 +6,7 @@ import { SandboxRoutingModule } from './sandbox-routing.module';
 import { NgsModule } from '@ngs/ngs.module';
 import { NgcModule } from '@ngc/ngc.module';
 import { NgtModule } from '@ngt/ngt.module';
+import { NgdModule } from '@ngd/ngd.module';
 
 // Local setup
 import { TestCanvasComponent } from './test-canvas/test-canvas.component';
@@ -25,6 +26,7 @@ import { UiLayersComponent } from './test-combined/ui-layers/ui-layers.component
     NgsModule,
     NgcModule,
     NgtModule,
+    NgdModule,
     SandboxRoutingModule
   ]
 })

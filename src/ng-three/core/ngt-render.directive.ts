@@ -7,9 +7,6 @@ import { SceneService } from '@ngt/service';
 import { PerspectiveCameraDirective, OrthoCameraDirective } from '@ngt/camera';
 import { SceneDirective, OrbitDirective } from '@ngt/scene';
 
-// TODO - REMOVE all of VR mode
-// TODO - remove VR directive
-
 @Directive({
   selector: 'ngt-render'     // tslint:disable-line
 })

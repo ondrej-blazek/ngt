@@ -28,11 +28,11 @@ import { ReporterDirective } from './core/reporter.directive';
 })
 export class NgsModule {
   /* make sure CoreModule is imported only by one NgModule the AppModule */
-  constructor (
-    @Optional() @SkipSelf() parentModule: NgsModule
-  ) {
-    if (parentModule) {
-      throw new Error('CoreModule is already loaded. Import only in AppModule');
-    }
-  }
+  // constructor (
+  //   @Optional() @SkipSelf() parentModule: NgsModule
+  // ) {
+  //   if (parentModule) {
+  //     throw new Error('CoreModule is already loaded. Import only in AppModule');
+  //   }
+  // }
 }

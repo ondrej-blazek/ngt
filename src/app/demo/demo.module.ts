@@ -6,6 +6,7 @@ import { DemoRoutingModule } from './demo-routing.module';
 import { NgsModule } from '@ngs/ngs.module';
 import { NgcModule } from '@ngc/ngc.module';
 import { NgtModule } from '@ngt/ngt.module';
+import { NgdModule } from '@ngd/ngd.module';
 
 // Local setup
 import { CarComponent } from './car/car.component';
@@ -23,6 +24,7 @@ import { HelmetComponent } from './helmet/helmet.component';
     NgsModule,
     NgcModule,
     NgtModule,
+    NgdModule,
     DemoRoutingModule
   ]
 })

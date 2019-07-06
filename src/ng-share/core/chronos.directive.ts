@@ -2,6 +2,7 @@ import { Directive, ContentChild, ContentChildren, QueryList, OnInit, OnDestroy,
 
 import { NgtRenderDirective } from '@ngt/core';
 import { NgcRenderDirective } from '@ngc/core';
+import { NgdRenderDirective } from '@ngd/core';
 
 
 @Directive({
@@ -11,9 +12,11 @@ export class ChronosDirective implements OnInit, OnDestroy, AfterContentInit {
   // child components / directives
   @ContentChild(NgtRenderDirective, {static: true}) threeRenderDirective: NgtRenderDirective;
   @ContentChildren(NgcRenderDirective) canvasDomQuery: QueryList<NgcRenderDirective>;
+  @ContentChildren(NgdRenderDirective) htmlDomQuery: QueryList<NgdRenderDirective>;
 
   private chronosID: string;
   private canvasRenderDirectives: NgcRenderDirective[];
+  private domRenderDirectives: NgdRenderDirective[];
   private currentFrame: number;
 
   constructor () {
@@ -27,8 +30,9 @@ export class ChronosDirective implements OnInit, OnDestroy, AfterContentInit {
   ngAfterContentInit () {
     // Fetch the dom elements into an array
     this.canvasRenderDirectives = this.canvasDomQuery.toArray();
+    this.domRenderDirectives = this.htmlDomQuery.toArray();
 
-    this.propagateID_Canvas(this.chronosID);
+    this.propagateID(this.chronosID);
     this.render();
   }
 
@@ -49,8 +53,11 @@ export class ChronosDirective implements OnInit, OnDestroy, AfterContentInit {
     }
   }
 
-  propagateID_Canvas (chronosID: string) {
+  propagateID (chronosID: string) {
     for (const oneCanvasRender of this.canvasRenderDirectives) {
+      oneCanvasRender.processID(chronosID);
+    }
+    for (const oneCanvasRender of this.domRenderDirectives) {
       oneCanvasRender.processID(chronosID);
     }
   }
