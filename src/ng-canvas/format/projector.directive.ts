@@ -44,6 +44,7 @@ export class ProjectorDirective implements OnInit, AfterViewInit, AfterContentIn
         if (message.type === 'mouseDown' && message.id === this.chronosID && this.content) {
           this.mouseDown (message.down);
         }
+
         if (message.type === 'setActiveObject' && message.id === this.chronosID && this.content) {
           this.activeFlag = false;
           this.content.activeFlag = true;
