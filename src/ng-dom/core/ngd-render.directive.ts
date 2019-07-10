@@ -4,7 +4,7 @@ import { Subscription } from 'rxjs';
 import { ChronosService } from '@ngs/core/chronos.service';
 
 @Directive({
-  selector: 'ngd-render'
+  selector: 'ngd-render'       // tslint:disable-line
 })
 export class NgdRenderDirective implements OnInit, OnDestroy, OnChanges, AfterContentInit {
   @Input() link: string;
