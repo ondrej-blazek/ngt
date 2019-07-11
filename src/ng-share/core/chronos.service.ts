@@ -12,12 +12,14 @@ export class ChronosService {
 
   private activeObject: any;
   private clickedObject: any;
+  // private activeCanvasLayers: string[];
 
   constructor () {
     this.domElements = [];
     this.interactionArray = [];
     this.activeObject = null;
     this.clickedObject = null;
+    // this.activeCanvasLayers = [];
   }
 
   // Main
@@ -126,6 +128,14 @@ export class ChronosService {
       coordinates: coordinates
     });
   }
+
+  // Projection layers
+  canvasLayerAddition (uuid: string): void {
+    console.log ('canvasLayerAddition', uuid);
+  }
+  canvasLayerRemoval (uuid: string): void {
+    console.log ('canvasLayerRemoval', uuid);
+  } 
 
   // active DOM Elements within the page
   getDOM (chronosID: string): HTMLElement {

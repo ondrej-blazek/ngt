@@ -64,6 +64,7 @@ export class ProjectorDirective implements OnInit, AfterViewInit, AfterContentIn
           if (this.link === message.name) {
             this.clickedFlag = true;
             this.content.clickedFlag = true;
+            this.chronosService.canvasLayerAddition (this.content.uuid);
           }
         }
         if (message.type === 'clickedProjection' && message.id === this.chronosID && this.content) {
@@ -75,6 +76,7 @@ export class ProjectorDirective implements OnInit, AfterViewInit, AfterContentIn
           this.clickedFlag = false;
           this.content.clickedFlag = false;
           this.content.clickedObject = null;
+          this.chronosService.canvasLayerRemoval (this.content.uuid);
         }
       }
     );
