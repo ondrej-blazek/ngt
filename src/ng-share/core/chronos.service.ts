@@ -12,14 +12,14 @@ export class ChronosService {
 
   private activeObject: any;
   private clickedObject: any;
-  // private activeCanvasLayers: string[];
+  private activeCanvasLayers: string[];
 
   constructor () {
     this.domElements = [];
     this.interactionArray = [];
     this.activeObject = null;
     this.clickedObject = null;
-    // this.activeCanvasLayers = [];
+    this.activeCanvasLayers = [];
   }
 
   // Main
@@ -131,10 +131,15 @@ export class ChronosService {
 
   // Projection layers
   canvasLayerAddition (uuid: string): void {
-    console.log ('canvasLayerAddition', uuid);
+    this.activeCanvasLayers.push(uuid);
+    const unique = this.activeCanvasLayers.filter((item, i, ar) => ( ar.indexOf(item) === i ));
+    this.activeCanvasLayers = unique;
   }
   canvasLayerRemoval (uuid: string): void {
-    console.log ('canvasLayerRemoval', uuid);
+    if (this.activeCanvasLayers.length > 0) {
+      const filtered = this.activeCanvasLayers.filter((item, i, ar) => ( item !== uuid ));
+      this.activeCanvasLayers = filtered;
+    }
   } 
 
   // active DOM Elements within the page
