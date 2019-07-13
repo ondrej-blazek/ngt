@@ -9,6 +9,7 @@ import { ChronosService } from '@ngs/core/chronos.service';
 export class ProjectorDirective implements OnInit, AfterViewInit, AfterContentInit, OnDestroy {
   @Input() content: any;
   @Input() link: string;
+  @Input() interact: boolean;
 
   private chronosID: string;
   private renderID: string;
@@ -28,6 +29,7 @@ export class ProjectorDirective implements OnInit, AfterViewInit, AfterContentIn
     this.activeFlag = false;
     this.clickedFlag = false;
     this.link = '';
+    this.interact = false;
 
     // subscribe to home component messages
     this.subscription = this.chronosService.getMessage().subscribe(
@@ -50,7 +52,7 @@ export class ProjectorDirective implements OnInit, AfterViewInit, AfterContentIn
           this.content.activeFlag = true;
         }
         if (message.type === 'activeProjection' && message.id === this.chronosID && this.content) {
-          if (this.activeFlag) {
+          if (this.activeFlag && this.interact) {
             this.content.activeObject = message.coordinates;
           }
         }
@@ -64,7 +66,10 @@ export class ProjectorDirective implements OnInit, AfterViewInit, AfterContentIn
           if (this.link === message.name) {
             this.clickedFlag = true;
             this.content.clickedFlag = true;
-            this.chronosService.canvasLayerAddition (this.content.uuid);
+
+            if (this.interact) {
+              this.chronosService.canvasLayerAddition (this.content.uuid);
+            }
           }
         }
         if (message.type === 'clickedProjection' && message.id === this.chronosID && this.content) {
@@ -76,7 +81,10 @@ export class ProjectorDirective implements OnInit, AfterViewInit, AfterContentIn
           this.clickedFlag = false;
           this.content.clickedFlag = false;
           this.content.clickedObject = null;
-          this.chronosService.canvasLayerRemoval (this.content.uuid);
+
+          if (this.interact) {
+            this.chronosService.canvasLayerRemoval (this.content.uuid);
+          }
         }
       }
     );
@@ -97,17 +105,23 @@ export class ProjectorDirective implements OnInit, AfterViewInit, AfterContentIn
   }
 
   mouseMove (mouseX: number, mouseY: number): void {
-    const mouseX_px = Math.round(((mouseX + 1) / 2) * this.screenWidth);
-    const mouseY_px = Math.round(((mouseY - 1) / 2) * this.screenHeight * (-1));
-    this.content.mouseMove (mouseX_px, mouseY_px);
+    if (this.interact) {
+      const mouseX_px = Math.round(((mouseX + 1) / 2) * this.screenWidth);
+      const mouseY_px = Math.round(((mouseY - 1) / 2) * this.screenHeight * (-1));
+      this.content.mouseMove (mouseX_px, mouseY_px);
+    }
   }
 
   mouseActive (mouseState: boolean) {
-    this.content.mouseActive (mouseState);
+    if (this.interact) {
+      this.content.mouseActive (mouseState);
+    }
   }
 
   mouseDown (mouseState: boolean) {
-    this.content.mouseDown (mouseState);
+    if (this.interact) {
+      this.content.mouseDown (mouseState);
+    }
   }
 
   processID (chronosID: string, renderID: string): void {

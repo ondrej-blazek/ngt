@@ -134,11 +134,15 @@ export class ChronosService {
     this.activeCanvasLayers.push(uuid);
     const unique = this.activeCanvasLayers.filter((item, i, ar) => ( ar.indexOf(item) === i ));
     this.activeCanvasLayers = unique;
+
+    console.log ('this.activeCanvasLayers', this.activeCanvasLayers);
   }
   canvasLayerRemoval (uuid: string): void {
     if (this.activeCanvasLayers.length > 0) {
       const filtered = this.activeCanvasLayers.filter((item, i, ar) => ( item !== uuid ));
       this.activeCanvasLayers = filtered;
+
+      console.log ('this.activeCanvasLayers', this.activeCanvasLayers);
     }
   } 
 

@@ -10,6 +10,7 @@ import { LayersService } from '@ngc/service';
 export class ShapeDirective implements OnInit, AfterViewInit, AfterContentInit, OnDestroy {
   @Input() content: any;
   @Input() id: string;
+  @Input() interact: boolean;
 
   private chronosID: string;
   private renderID: string;
@@ -21,6 +22,9 @@ export class ShapeDirective implements OnInit, AfterViewInit, AfterContentInit, 
     private chronosService: ChronosService,
     private layers: LayersService
   ) {
+    this.id = '';
+    this.interact = false;
+
     this.chronosID = '';
     this.renderID = '';
     this.screenWidth = 0;
@@ -62,17 +66,23 @@ export class ShapeDirective implements OnInit, AfterViewInit, AfterContentInit, 
   }
 
   mouseMove (mouseX: number, mouseY: number): void {
-    const mouseX_px = Math.round(((mouseX + 1) / 2) * this.screenWidth);
-    const mouseY_px = Math.round(((mouseY - 1) / 2) * this.screenHeight * (-1));
-    this.content.mouseMove (mouseX_px, mouseY_px);
+    if (this.interact) {
+      const mouseX_px = Math.round(((mouseX + 1) / 2) * this.screenWidth);
+      const mouseY_px = Math.round(((mouseY - 1) / 2) * this.screenHeight * (-1));
+      this.content.mouseMove (mouseX_px, mouseY_px);
+    }
   }
 
   mouseActive (mouseState: boolean) {
-    this.content.mouseActive (mouseState);
+    if (this.interact) {
+      this.content.mouseActive (mouseState);
+    }
   }
 
   mouseDown (mouseState: boolean) {
-    this.content.mouseDown (mouseState);
+    if (this.interact) {
+      this.content.mouseDown (mouseState);
+    }
   }
 
   processID (chronosID: string, renderID: string): void {
