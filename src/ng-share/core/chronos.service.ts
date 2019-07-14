@@ -12,14 +12,16 @@ export class ChronosService {
 
   private activeObject: any;
   private clickedObject: any;
-  private activeCanvasLayers: string[];
+  private activeOverlay: boolean;
+  private interactiveCanvasLayers: string[];
 
   constructor () {
     this.domElements = [];
     this.interactionArray = [];
     this.activeObject = null;
     this.clickedObject = null;
-    this.activeCanvasLayers = [];
+    this.activeOverlay = false;
+    this.interactiveCanvasLayers = [];
   }
 
   // Main
@@ -131,20 +133,25 @@ export class ChronosService {
 
   // Projection layers
   canvasLayerAddition (uuid: string): void {
-    this.activeCanvasLayers.push(uuid);
-    const unique = this.activeCanvasLayers.filter((item, i, ar) => ( ar.indexOf(item) === i ));
-    this.activeCanvasLayers = unique;
-
-    console.log ('this.activeCanvasLayers', this.activeCanvasLayers);
+    this.interactiveCanvasLayers.push(uuid);
+    const unique = this.interactiveCanvasLayers.filter((item, i, ar) => ( ar.indexOf(item) === i ));
+    this.interactiveCanvasLayers = unique;
+    this.broadcastOverlayUpdate();
   }
   canvasLayerRemoval (uuid: string): void {
-    if (this.activeCanvasLayers.length > 0) {
-      const filtered = this.activeCanvasLayers.filter((item, i, ar) => ( item !== uuid ));
-      this.activeCanvasLayers = filtered;
-
-      console.log ('this.activeCanvasLayers', this.activeCanvasLayers);
+    if (this.interactiveCanvasLayers.length > 0) {
+      const filtered = this.interactiveCanvasLayers.filter((item, i, ar) => ( item !== uuid ));
+      this.interactiveCanvasLayers = filtered;
+      this.broadcastOverlayUpdate();
     }
-  } 
+  }
+  broadcastOverlayUpdate (): void {
+    this.activeOverlay = (this.interactiveCanvasLayers.length > 0) ? true : false;
+    this.subject.next({
+      type: 'activeOverlay',
+      active: this.activeOverlay
+    });
+  }
 
   // active DOM Elements within the page
   getDOM (chronosID: string): HTMLElement {

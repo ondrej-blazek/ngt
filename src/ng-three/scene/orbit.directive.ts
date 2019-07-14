@@ -1,5 +1,6 @@
 import { Directive, Input, OnChanges, OnInit, AfterContentInit } from '@angular/core';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
+import { Subscription } from 'rxjs';
 
 import { ChronosService } from '@ngs/core/chronos.service';
 
@@ -12,6 +13,7 @@ export class OrbitDirective implements OnChanges, OnInit, AfterContentInit {
 
   private chronosID: string;
   private renderID: string;
+  private subscription: Subscription;
   public orbitControls: OrbitControls;
 
   constructor (
@@ -20,6 +22,16 @@ export class OrbitDirective implements OnChanges, OnInit, AfterContentInit {
     this.chronosID = '';
     this.renderID = '';
     this.enabled = true;
+
+    
+    // subscribe to home component messages
+    this.subscription = this.chronosService.getMessage().subscribe(
+      message => {
+        if (message.type === 'activeOverlay') {
+          this.enableControls(message.active);
+        }
+      }
+    );
   }
 
   ngOnChanges (changes) {
@@ -47,6 +59,12 @@ export class OrbitDirective implements OnChanges, OnInit, AfterContentInit {
         this.orbitControls[key] = this.controls[key];
       });
     }
+  }
+
+  enableControls (active: boolean): void {
+    this.enabled = !active;
+    this.orbitControls.enabled = this.enabled;
+    this.orbitControls.update();
   }
 
   updateControls (scene, camera): void {
