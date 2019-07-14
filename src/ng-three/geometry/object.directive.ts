@@ -17,6 +17,7 @@ export class ObjectDirective implements OnChanges, OnInit, AfterContentInit, OnD
   @Input() content: any;
 
   private subscription: Subscription;
+  private enabled: boolean;
   public object: THREE.Mesh;
 
   constructor (
@@ -27,6 +28,7 @@ export class ObjectDirective implements OnChanges, OnInit, AfterContentInit, OnD
     this.scale = new THREE.Vector3(1, 1, 1);
     this.animate = true;
     this.interact = false;
+    this.enabled = true;
     this.name = '';
 
     // subscribe to home component messages
@@ -43,6 +45,9 @@ export class ObjectDirective implements OnChanges, OnInit, AfterContentInit, OnD
         }
         if (message.type === 'clearClickedObject') {
           this.userClearClickedObject (message.clickedID);
+        }
+        if (message.type === 'activeOverlay') {
+          this.enableControls (message.active);
         }
       }
     );
@@ -92,7 +97,7 @@ export class ObjectDirective implements OnChanges, OnInit, AfterContentInit, OnD
 
   // User interaction
   userSetActiveObject (id: string): void {
-    if (this.object.uuid === id && this.interact) {
+    if (this.object.uuid === id && this.interact && this.enabled) {
       this.content.userSetActiveObject();
     }
   }
@@ -104,7 +109,7 @@ export class ObjectDirective implements OnChanges, OnInit, AfterContentInit, OnD
   }
 
   userSetClickedObject (id: string): void {
-    if (this.object.uuid === id && this.interact) {
+    if (this.object.uuid === id && this.interact && this.enabled) {
       this.content.userSetClickedObject();
     }
   }
@@ -113,5 +118,9 @@ export class ObjectDirective implements OnChanges, OnInit, AfterContentInit, OnD
     if (this.object.uuid === id && this.interact) {
       this.content.userClearClickedObject();
     }
+  }
+
+  enableControls (active: boolean): void {
+    this.enabled = !active;
   }
 }

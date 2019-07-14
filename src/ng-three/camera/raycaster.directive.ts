@@ -32,6 +32,7 @@ export class RaycasterDirective implements OnChanges, OnInit, AfterContentInit, 
 
   private interactionArray: Array<string>;
   private intersects: Array<any>;
+  private enabled: boolean;
 
   constructor (
     private chronosService: ChronosService,
@@ -50,6 +51,7 @@ export class RaycasterDirective implements OnChanges, OnInit, AfterContentInit, 
 
     this.interactionArray = [];
     this.intersects = [];
+    this.enabled = true;
 
     // subscribe to home component messages
     this.subscription = this.chronosService.getMessage().subscribe(
@@ -66,6 +68,9 @@ export class RaycasterDirective implements OnChanges, OnInit, AfterContentInit, 
         }
         if ((message.type === 'enableLayer' || message.type === 'disableLayer' || message.type === 'toggleLayer') && message.id === this.chronosID) {       // tslint:disable-line
           this.interactionArray = this.chronosService.getInteraction ();
+        }
+        if (message.type === 'activeOverlay') {
+          this.enableControls(message.active);
         }
       }
     );
@@ -141,8 +146,10 @@ export class RaycasterDirective implements OnChanges, OnInit, AfterContentInit, 
 
   // Ray through / mouse click
   rayClick (): void {
-    const interaction = this.rayFilter ();
-    this.rayThroughClick (interaction);
+    if (this.enabled) {
+      const interaction = this.rayFilter ();
+      this.rayThroughClick (interaction);
+    }
   }
 
   // Only some objects are allowed
@@ -173,5 +180,9 @@ export class RaycasterDirective implements OnChanges, OnInit, AfterContentInit, 
     if (interaction !== null) {
       this.chronosService.updateClickedObject (this.chronosID, interaction);
     }
+  }
+
+  enableControls (active: boolean): void {
+    this.enabled = !active;
   }
 }
