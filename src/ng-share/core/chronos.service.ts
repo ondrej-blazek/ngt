@@ -221,17 +221,36 @@ export class ChronosService {
   }
   updateClickedObject (id: string, oneObject: any): void {
     if (this.clickedObject === null) {
+
+      console.log ('updateClickedObject - null', this.clickedObject);
+      console.log ('updateClickedObject - oneObject', this.clickedObject);
+
       this.clickedObject = oneObject;
-      this.setClickedObject (id, oneObject);
+      if (oneObject !== null) {
+        this.setClickedObject (id, oneObject);
+      }
     } else {
       if (this.clickedObject.uuid === oneObject.uuid ) {
+
+        console.log ('updateClickedObject - ===', this.clickedObject);
+
         this.clickedObject = null;
         this.clearClickedObject (id, oneObject);
       } else {
+
+        console.log ('updateClickedObject - !==', this.clickedObject);
+
         this.clearClickedObject (id, this.clickedObject);
         this.clickedObject = oneObject;
         this.setClickedObject (id, oneObject);
       }
+    }
+  }
+  resetClickedObject (chronosID: string): void {
+    // const clickedObject = this.getClickedObject ();
+    if (this.clickedObject !== null) {
+      console.log ('resetClickedObject - this.clickedObject', this.clickedObject);
+      this.updateClickedObject (chronosID, this.clickedObject);
     }
   }
 }

@@ -10,6 +10,7 @@ export class ProjectorDirective implements OnInit, AfterViewInit, AfterContentIn
   @Input() content: any;
   @Input() link: string;
   @Input() interact: boolean;
+  @Input() buttonEvent: string;
 
   private chronosID: string;
   private renderID: string;
@@ -30,6 +31,7 @@ export class ProjectorDirective implements OnInit, AfterViewInit, AfterContentIn
     this.clickedFlag = false;
     this.link = '';
     this.interact = false;
+    this.buttonEvent = '';
 
     // subscribe to home component messages
     this.subscription = this.chronosService.getMessage().subscribe(
@@ -90,7 +92,19 @@ export class ProjectorDirective implements OnInit, AfterViewInit, AfterContentIn
     );
   }
 
-  ngOnInit () {}
+  ngOnInit () {
+    if (this.interact && this.buttonEvent !== '') {
+      this.content.setCanvasEvent (this.buttonEvent, () => {
+        const clickedObjectFetch = this.chronosService.getClickedObject();
+
+        console.log ('Projector - clickedObjectFetch', clickedObjectFetch);
+
+        // this.chronosService.clearClickedObject (this.chronosID, clickedObjectFetch);
+        // this.chronosService.updateClickedObject (this.chronosID, clickedObjectFetch);
+        this.chronosService.resetClickedObject (this.chronosID);
+      });
+    }
+  }
   ngAfterViewInit () {}
   ngAfterContentInit () {}
   ngOnDestroy () {

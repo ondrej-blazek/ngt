@@ -1,50 +1,8 @@
 import { ShapeService } from '@ngc/service';
 import * as THREE from 'three';
 
-export class ProjectorService extends ShapeService {
-  private imageLoaded: boolean;
-  private imageResource: any;
 
-  public activeFlag: boolean;
-  public activeObject: THREE.Vector2;
-  public clickedFlag: boolean;
-  public clickedObject: THREE.Vector2;
-
-  constructor () {
-    super ();
-
-    this.imageLoaded = false;
-    this.imageResource = new Image();
-
-    this.activeFlag = false;
-    this.activeObject = new THREE.Vector2();
-    this.clickedFlag = false;
-    this.clickedObject = new THREE.Vector2();
-  }
-
-  drawImage (location: THREE.Vector2, ctx): void {
-    if (this.imageLoaded) {
-      ctx.drawImage (this.imageResource, (location.x - 130), (location.y - 130));
-    } else {
-      this.imageResource.src = '/assets/2d/bubble_2.svg';
-      this.imageResource.onload = () => {
-        this.imageLoaded = true;
-        ctx.drawImage (this.imageResource, (location.x - 130), (location.y - 130));
-      };
-    }
-  }
-
-  animate (canvas, ctx): void {
-    if (this.clickedFlag) {
-      const locationVector: THREE.Vector2 = new THREE.Vector2();
-      locationVector.x = this.clickedObject.x;
-      locationVector.y = this.clickedObject.y;
-      this.drawImage(locationVector, ctx);
-    }
-  }
-}
-
-export class ProjectorService2 extends ShapeService {
+export class ProjectorServiceInteractiveBubble extends ShapeService {
   private imageLoaded: boolean;
   private imageResource: any;
 
@@ -87,7 +45,7 @@ export class ProjectorService2 extends ShapeService {
   }
 }
 
-export class ProjectorService3 extends ShapeService {
+export class ProjectorServiceInteractiveClose extends ShapeService {
   private circleShape: any;
 
   public activeFlag: boolean;
@@ -101,7 +59,7 @@ export class ProjectorService3 extends ShapeService {
     this.circleShape = {
       x: 20,
       y: 20,
-      r: 20,
+      r: 10,
       sAngle: 0,
       eAngle: 2 * Math.PI
     };
@@ -113,7 +71,7 @@ export class ProjectorService3 extends ShapeService {
   }
 
   shape (ctx: any): void {
-    ctx.lineWidth = 5;
+    ctx.lineWidth = 3;
     ctx.strokeStyle = 'red';
     ctx.fillStyle = '#0000FF';
 
@@ -139,8 +97,8 @@ export class ProjectorService3 extends ShapeService {
 
   animate (canvas: any, ctx: any): void {
     if (this.clickedFlag) {
-      this.circleShape.x = this.clickedObject.x;
-      this.circleShape.y = this.clickedObject.y;
+      this.circleShape.x = this.clickedObject.x + 155;
+      this.circleShape.y = this.clickedObject.y - 25;
 
       this.shape(ctx);
     }

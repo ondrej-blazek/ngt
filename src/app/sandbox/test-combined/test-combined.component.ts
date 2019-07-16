@@ -14,9 +14,11 @@ import {
   RectangleService,
   DotService,
   CloudService,
-  ProjectorService,
-  ProjectorService2,
-  ProjectorService3
+  ProjectorServiceA,
+  ProjectorServiceB,
+  ProjectorServiceC,
+  ProjectorServiceInteractiveBubble,
+  ProjectorServiceInteractiveClose
 } from './2d_content';
 
 @Component({
@@ -29,9 +31,11 @@ export class TestCombinedComponent implements OnInit {
   public rectangle: RectangleService = new RectangleService ();
   public dot: DotService = new DotService ();
   public cloud: CloudService = new CloudService ();
-  public projector: ProjectorService = new ProjectorService ();
-  public projectorB: ProjectorService2 = new ProjectorService2 ();
-  public projectorC: ProjectorService3 = new ProjectorService3 ();
+  public projectorA: ProjectorServiceA = new ProjectorServiceA ();
+  public projectorB: ProjectorServiceB = new ProjectorServiceB ();
+  public projectorC: ProjectorServiceC = new ProjectorServiceC ();
+  public projectorInteractiveBubble: ProjectorServiceInteractiveBubble = new ProjectorServiceInteractiveBubble ();
+  public ProjectorInteractiveClose: ProjectorServiceInteractiveClose = new ProjectorServiceInteractiveClose ();
 
   // 3D
   public env: EnvService;

@@ -140,17 +140,13 @@ export class LayerDirective implements OnInit, OnChanges, OnDestroy, AfterConten
 
       if (oneDirective.interact === true) {
         if (currentValue === true && previousValue === false) {
-          // Add back reycaster interaction array
+          // Add back raycaster interaction array
           this.chronosService.addToInteraction(oneDirective.object.uuid);
         } else {
-          // Remove from reycaster interaction array
+          // Remove from raycaster interaction array
           this.chronosService.removeFromInteraction(oneDirective.object.uuid);
-
           // Clear clicked object if any
-          const clickedObject = this.chronosService.getClickedObject();
-          if (clickedObject !== null) {
-            this.chronosService.updateClickedObject (this.chronosID, clickedObject);
-          }
+          this.chronosService.resetClickedObject (this.chronosID);
         }
       }
     }
