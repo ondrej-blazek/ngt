@@ -93,17 +93,14 @@ export class ProjectorDirective implements OnInit, AfterViewInit, AfterContentIn
   }
 
   ngOnInit () {
-    if (this.interact && this.buttonEvent !== '') {
-      this.content.setCanvasEvent (this.buttonEvent, () => {
-        const clickedObjectFetch = this.chronosService.getClickedObject();
-
-        console.log ('Projector - clickedObjectFetch', clickedObjectFetch);
-
-        // this.chronosService.clearClickedObject (this.chronosID, clickedObjectFetch);
-        // this.chronosService.updateClickedObject (this.chronosID, clickedObjectFetch);
-        this.chronosService.resetClickedObject (this.chronosID);
-      });
-    }
+    // if (this.interact && this.buttonEvent !== '') {
+    //   this.content.setCanvasEvent (this.buttonEvent, () => {
+    //     const clickedObjectFetch = this.chronosService.getClickedObject();
+    //     // this.chronosService.clearClickedObject (this.chronosID, clickedObjectFetch);
+    //     this.chronosService.updateClickedObject (this.chronosID, clickedObjectFetch);
+    //     // this.chronosService.resetClickedObject (this.chronosID);
+    //   });
+    // }
   }
   ngAfterViewInit () {}
   ngAfterContentInit () {}

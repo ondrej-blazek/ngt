@@ -23,7 +23,7 @@ export class OrbitDirective implements OnChanges, OnInit, AfterContentInit {
     this.renderID = '';
     this.enabled = true;
 
-    
+
     // subscribe to home component messages
     this.subscription = this.chronosService.getMessage().subscribe(
       message => {

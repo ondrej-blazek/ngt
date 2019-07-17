@@ -14,8 +14,8 @@ export class ShapeService {
   protected intersects: boolean;
   protected uuid: string;
 
-  protected buttonEvent: string;
-  protected buttonFunction: any;
+  // protected buttonEvent: string;
+  // protected buttonFunction: any;
 
   constructor() {
     this.mouseX = 0;
@@ -32,8 +32,8 @@ export class ShapeService {
     this.intersects = false;
     this.uuid = this.generateUUID();
 
-    this.buttonEvent = '';
-    this.buttonFunction = null;
+    // this.buttonEvent = '';
+    // this.buttonFunction = null;
   }
 
   // ShapeID
@@ -78,10 +78,10 @@ export class ShapeService {
 
   // User interaction - restricted to the shape (These functions should be replaced by content functions)
   mouseClick (): void {
-    // TODO - more specific control of event. testing for not empty string seems pretty dangerous. 
-    if (this.buttonEvent === 'close') {
-      this.buttonFunction ();
-    }
+    // TODO - more specific control of event. testing for not empty string seems pretty dangerous.
+    // if (this.buttonEvent === 'close') {
+    //   this.buttonFunction ();
+    // }
     // console.log ('mouseClick', this.uuid, this.buttonEvent);
   }
   mouseHoldDown (): void {
@@ -100,10 +100,10 @@ export class ShapeService {
     // console.log ('mouseLeave', this.uuid);
   }
 
-  setCanvasEvent (buttonEvent: string, passDownFunction: any):void {
-    this.buttonEvent = buttonEvent;
-    this.buttonFunction = passDownFunction;
-  }
+  // setCanvasEvent (buttonEvent: string, passDownFunction: any):void {
+  //   this.buttonEvent = buttonEvent;
+  //   this.buttonFunction = passDownFunction;
+  // }
 
   // Canvas rendering default
   shape (ctx: any, loc?: THREE.Vector2): void {}
