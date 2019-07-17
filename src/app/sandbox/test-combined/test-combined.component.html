@@ -57,9 +57,13 @@
         <!-- <ngc-shape [content]="cloud"></ngc-shape> -->
         <ngc-shape [content]="dot"></ngc-shape>
         <ngc-projector link="oneSphere" [content]="projectorA"></ngc-projector>
+        
         <ngc-projector link="oneCube" [content]="projectorB"></ngc-projector>
+        <ngc-projector link="oneCube" [content]="ProjectorInteractiveClose" [interact]="true" buttonEvent="close"></ngc-projector>
+
         <ngc-projector link="twoCube" [content]="projectorInteractiveBubble"></ngc-projector>
         <ngc-projector link="twoCube" [content]="ProjectorInteractiveClose" [interact]="true" buttonEvent="close"></ngc-projector>
+
         <ngc-projector link="" [content]="projectorC"></ngc-projector>
       </ngc-render>
 

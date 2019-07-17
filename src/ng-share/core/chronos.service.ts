@@ -145,6 +145,12 @@ export class ChronosService {
       this.broadcastOverlayUpdate();
     }
   }
+  canvasCloseEvent (chronosID: string, canvasUUID: string): void {
+    // This is for CLOSE cavnas layer event only. By clicking this layer it will simulate click on 3D object and thus toggle to inactive
+    if (this.interactiveCanvasLayers.length > 0) {
+      this.updateClickedObject(chronosID, this.clickedObject);
+    }
+  }
   broadcastOverlayUpdate (): void {
     this.activeOverlay = (this.interactiveCanvasLayers.length > 0) ? true : false;
     this.subject.next({
