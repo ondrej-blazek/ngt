@@ -16,6 +16,7 @@ export class DynamicDirective implements OnChanges, OnInit, AfterContentInit, On
   @Input() content: any;
 
   private subscription: Subscription;
+  private enabled: boolean;
   public objectArray: any[];
 
   constructor (
@@ -26,6 +27,7 @@ export class DynamicDirective implements OnChanges, OnInit, AfterContentInit, On
     this.scale = new THREE.Vector3(1, 1, 1);
     this.animate = true;
     this.interact = false;
+    this.enabled = true;
 
     // subscribe to home component messages
     this.subscription = this.chronosService.getMessage().subscribe(
@@ -41,6 +43,9 @@ export class DynamicDirective implements OnChanges, OnInit, AfterContentInit, On
         }
         if (message.type === 'clearClickedObject') {
           this.userClearClickedObject (message.clickedID);
+        }
+        if (message.type === 'activeOverlay') {
+          this.enableControls (message.active);
         }
       }
     );
@@ -91,7 +96,7 @@ export class DynamicDirective implements OnChanges, OnInit, AfterContentInit, On
   // User interaction
   userSetActiveObject (id: string): void {
     for (const element of this.objectArray) {
-      if (element['object'].uuid === id && this.interact) {
+      if (element['object'].uuid === id && this.interact && this.enabled) {
         this.content.userSetActiveObject(element);
       }
     }
@@ -107,7 +112,7 @@ export class DynamicDirective implements OnChanges, OnInit, AfterContentInit, On
 
   userSetClickedObject (id: string): void {
     for (const element of this.objectArray) {
-      if (element['object'].uuid === id && this.interact) {
+      if (element['object'].uuid === id && this.interact && this.enabled) {
         this.content.userSetClickedObject(element);
       }
     }
@@ -119,5 +124,9 @@ export class DynamicDirective implements OnChanges, OnInit, AfterContentInit, On
         this.content.userClearClickedObject(element);
       }
     }
+  }
+
+  enableControls (active: boolean): void {
+    this.enabled = !active;
   }
 }
