@@ -8,6 +8,7 @@ import { ChronosService } from '@ngs/core/chronos.service';
 })
 export class NgdRenderDirective implements OnInit, OnDestroy, OnChanges, AfterContentInit {
   @Input() link: string;
+  @Input() interact: boolean;
 
   private chronosID: string;
   private subscription: Subscription;
@@ -20,6 +21,9 @@ export class NgdRenderDirective implements OnInit, OnDestroy, OnChanges, AfterCo
     private el: ElementRef,
     private chronosService: ChronosService
   ) {
+    this.link = '';
+    this.interact = false;
+
     this.chronosID = '';
     this.clickedFlag = false;
 
@@ -32,6 +36,10 @@ export class NgdRenderDirective implements OnInit, OnDestroy, OnChanges, AfterCo
           if (this.link === message.name) {
             this.clickedFlag = true;
             this.updateElementVisibility ('block');
+
+            if (this.interact) {
+              this.chronosService.canvasLayerAddition ('DOM-LAYER');
+            }
           }
         }
         if (message.type === 'clickedProjection' && message.id === this.chronosID) {
@@ -44,6 +52,10 @@ export class NgdRenderDirective implements OnInit, OnDestroy, OnChanges, AfterCo
         if (message.type === 'clearClickedObject' && message.id === this.chronosID) {
           this.clickedFlag = false;
           this.updateElementVisibility ('none');
+
+          if (this.interact) {
+            this.chronosService.canvasLayerRemoval ('DOM-LAYER');
+          }
         }
       }
     );

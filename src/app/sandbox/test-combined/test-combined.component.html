@@ -58,21 +58,21 @@
         <ngc-shape [content]="dot"></ngc-shape>
         <ngc-projector link="oneSphere" [content]="projectorA"></ngc-projector>
         
-        <ngc-projector link="oneCube" [content]="projectorB"></ngc-projector>
-        <ngc-projector link="oneCube" [content]="ProjectorInteractiveClose" [interact]="true" buttonEvent="close"></ngc-projector>
+        <!-- <ngc-projector link="oneCube" [content]="projectorB"></ngc-projector> -->
+        <!-- <ngc-projector link="oneCube" [content]="ProjectorInteractiveClose" [interact]="true" buttonEvent="close"></ngc-projector> -->
 
-        <ngc-projector link="twoCube" [content]="projectorInteractiveBubble"></ngc-projector>
-        <ngc-projector link="twoCube" [content]="ProjectorInteractiveClose" [interact]="true" buttonEvent="close"></ngc-projector>
+        <!-- <ngc-projector link="twoCube" [content]="projectorInteractiveBubble"></ngc-projector> -->
+        <!-- <ngc-projector link="twoCube" [content]="ProjectorInteractiveClose" [interact]="true" buttonEvent="close"></ngc-projector> -->
 
         <ngc-projector link="" [content]="projectorC"></ngc-projector>
       </ngc-render>
 
       <!-- DOM and other HTML content -->
-      <!-- <ngd-render id="testDOM" link="oneCube" class="activeHTML" [ngStyle]="{'left': '0px', 'top': '0px', 'display': 'block'}">
+      <ngd-render id="testDOM" link="oneCube" [interact]="true" class="activeHTML" [ngStyle]="{'left': '0px', 'top': '0px', 'display': 'block'}">
         <div class="block">
           some text
         </div>
-      </ngd-render> -->
+      </ngd-render>
 
     </ngs-chronos>
   </div>
