@@ -1,7 +1,8 @@
-import { Directive, Input, OnInit, OnDestroy, OnChanges, AfterContentInit, ElementRef } from '@angular/core';
+import { Directive, Input, OnInit, OnDestroy, OnChanges, AfterContentInit, ElementRef, QueryList, ContentChildren } from '@angular/core';
 import { Subscription } from 'rxjs';
 
 import { ChronosService } from '@ngs/core/chronos.service';
+import { NgdCloseEventDirective } from './ngd-close-event.directive';
 
 @Directive({
   selector: 'ngd-render'       // tslint:disable-line
@@ -10,9 +11,12 @@ export class NgdRenderDirective implements OnInit, OnDestroy, OnChanges, AfterCo
   @Input() link: string;
   @Input() interact: boolean;
 
+  @ContentChildren(NgdCloseEventDirective) closeEventQuery: QueryList<NgdCloseEventDirective>;
+
   private chronosID: string;
   private subscription: Subscription;
   private clickedFlag: boolean;
+  private closeEventArray: NgdCloseEventDirective[] = [];
 
   private valueLeft: number;
   private valueTop: number;
@@ -38,7 +42,7 @@ export class NgdRenderDirective implements OnInit, OnDestroy, OnChanges, AfterCo
             this.updateElementVisibility ('block');
 
             if (this.interact) {
-              this.chronosService.canvasLayerAddition ('DOM-LAYER');
+              this.chronosService.domLayerAddition ('DOM-LAYER');
             }
           }
         }
@@ -54,7 +58,7 @@ export class NgdRenderDirective implements OnInit, OnDestroy, OnChanges, AfterCo
           this.updateElementVisibility ('none');
 
           if (this.interact) {
-            this.chronosService.canvasLayerRemoval ('DOM-LAYER');
+            this.chronosService.domLayerRemoval ('DOM-LAYER');
           }
         }
       }
@@ -66,13 +70,22 @@ export class NgdRenderDirective implements OnInit, OnDestroy, OnChanges, AfterCo
     this.updateElementVisibility ('none');
     this.updateElementPosition (0, 0);
   }
-  ngAfterContentInit () {}
+  ngAfterContentInit () {
+    this.closeEventArray = this.closeEventQuery.toArray();
+  }
   ngOnDestroy () {}
 
   // ---------------------------------------------------------------------------------
 
   processID (chronosID: string): void {
     this.chronosID = chronosID;
+    this.propagateID (this.chronosID);
+  }
+
+  propagateID (chronosID: string): void {
+    for (const oneDirective of this.closeEventArray) {
+      oneDirective.processID(chronosID);
+    }
   }
 
   updateElementPosition (top: number, left: number): void {

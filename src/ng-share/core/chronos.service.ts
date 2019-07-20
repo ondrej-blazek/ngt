@@ -14,6 +14,7 @@ export class ChronosService {
   private clickedObject: any;
   private activeOverlay: boolean;
   private interactiveCanvasLayers: string[];
+  private interactiveDomLayers: string[];
 
   constructor () {
     this.domElements = [];
@@ -22,6 +23,7 @@ export class ChronosService {
     this.clickedObject = null;
     this.activeOverlay = false;
     this.interactiveCanvasLayers = [];
+    this.interactiveDomLayers = [];
   }
 
   // Main
@@ -131,7 +133,16 @@ export class ChronosService {
     });
   }
 
-  // Projection layers
+  // Overlay Canvas or DOM broadcast
+  broadcastOverlayUpdate (): void {
+    this.activeOverlay = (this.interactiveCanvasLayers.length > 0 || this.interactiveDomLayers.length > 0) ? true : false;
+    this.subject.next({
+      type: 'activeOverlay',
+      active: this.activeOverlay
+    });
+  }
+
+  // Projection Canvas layers
   canvasLayerAddition (uuid: string): void {
     this.interactiveCanvasLayers.push(uuid);
     const unique = this.interactiveCanvasLayers.filter((item, i, ar) => ( ar.indexOf(item) === i ));
@@ -151,13 +162,6 @@ export class ChronosService {
       this.updateClickedObject(chronosID, this.clickedObject);
     }
   }
-  broadcastOverlayUpdate (): void {
-    this.activeOverlay = (this.interactiveCanvasLayers.length > 0) ? true : false;
-    this.subject.next({
-      type: 'activeOverlay',
-      active: this.activeOverlay
-    });
-  }
 
   // active DOM Elements within the page
   getDOM (chronosID: string): HTMLElement {
@@ -168,6 +172,26 @@ export class ChronosService {
   }
   removeFromDOM (chronosID: string): void {
     this.domElements[chronosID] = null;
+  }
+
+  // Projection Canvas layers
+  domLayerAddition (uuid: string): void {
+    this.interactiveDomLayers.push(uuid);
+    const unique = this.interactiveDomLayers.filter((item, i, ar) => ( ar.indexOf(item) === i ));
+    this.interactiveDomLayers = unique;
+    this.broadcastOverlayUpdate();
+  }
+  domLayerRemoval (uuid: string): void {
+    if (this.interactiveDomLayers.length > 0) {
+      const filtered = this.interactiveDomLayers.filter((item, i, ar) => ( item !== uuid ));
+      this.interactiveDomLayers = filtered;
+      this.broadcastOverlayUpdate();
+    }
+  }
+  domCloseEvent (chronosID: string, canvasUUID: string): void {
+    if (this.interactiveDomLayers.length > 0) {
+      this.updateClickedObject(chronosID, this.clickedObject);
+    }
   }
 
   // Interactive object tracking

@@ -2,18 +2,20 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { NgdRenderDirective } from './core/ngd-render.directive';
+import { NgdRenderDirective, NgdCloseEventDirective } from './core';
 
 @NgModule({
   imports: [
     CommonModule
   ],
   declarations: [
-    NgdRenderDirective
+    NgdRenderDirective,
+    NgdCloseEventDirective
   ],
   providers: [],
   exports: [
-    NgdRenderDirective
+    NgdRenderDirective,
+    NgdCloseEventDirective
   ]
 })
 export class NgdModule { }
