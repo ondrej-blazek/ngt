@@ -100,7 +100,7 @@ export class ShapeService {
     // console.log ('mouseLeave', this.uuid);
   }
 
-  setCanvasEvent (buttonEvent: string, passDownFunction: any):void {
+  setCanvasEvent (buttonEvent: string, passDownFunction: any): void {
     this.buttonEvent = buttonEvent;
     this.buttonFunction = passDownFunction;
   }

@@ -2,7 +2,7 @@ import { Directive, HostListener } from '@angular/core';
 import { ChronosService } from '@ngs/core/chronos.service';
 
 @Directive({
-  selector: '[ngdCloseEvent]'
+  selector: '[ngdCloseEvent]'       // tslint:disable-line
 })
 export class NgdCloseEventDirective {
   private chronosID: string;
