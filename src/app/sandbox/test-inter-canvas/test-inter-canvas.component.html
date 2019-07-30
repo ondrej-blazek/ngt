@@ -28,60 +28,22 @@
           </ngt-environment>
 
           <ngt-geometry>
-            <ngt-layer (layer)="layers[0].layer" [visible]="layers[0].visible">
-              <ngt-object [offset]="spheres.sphereAOffset" [rotation]="spheres.sphereARotation" [scale]="spheres.sphereAScale" [content]="sphereA"></ngt-object>
-              <ngt-object
-                  [offset]="spheres.sphereBOffset" [rotation]="spheres.sphereBRotation" [scale]="spheres.sphereBScale"
-                  [content]="sphereB" [interact]="true" name="oneSphere"></ngt-object>
-            </ngt-layer>
-            <ngt-layer (layer)="layers[1].layer" [visible]="layers[1].visible">
-              <ngt-object
-                  [offset]="cubes.cubeAOffset" [rotation]="cubes.cubeARotation" [scale]="cubes.cubeAScale"
-                  [content]="cubeA" [interact]="true" name="twoCube"></ngt-object>
-              <ngt-object
-                  [offset]="cubes.cubeBOffset" [rotation]="cubes.cubeBRotation" [scale]="cubes.cubeBScale"
-                  [content]="cubeB" [interact]="true" name="oneCube"></ngt-object>
-            </ngt-layer>
-            <ngt-layer (layer)="layers[2].layer" [visible]="layers[2].visible">
-              <ngt-dynamic
-                  [offset]="dynamics.dynamicOffset" [rotation]="dynamics.dynamicRotation" [scale]="dynamics.dynamicScale"
-                  [animate]="dynamics.dynamicAnimate" [content]="dynamic" [interact]="true"></ngt-dynamic>
-            </ngt-layer>
+            <ngt-object [offset]="spheres.sphereAOffset" [rotation]="spheres.sphereARotation" [scale]="spheres.sphereAScale" [content]="sphereA" [interact]="true"></ngt-object>
+            <ngt-object [offset]="spheres.sphereBOffset" [rotation]="spheres.sphereBRotation" [scale]="spheres.sphereBScale" [content]="sphereB" [interact]="true"></ngt-object>
+            <ngt-object [offset]="cubes.cubeAOffset" [rotation]="cubes.cubeARotation" [scale]="cubes.cubeAScale" [content]="cubeA" [interact]="true" name="twoCube"></ngt-object>
+            <ngt-object [offset]="cubes.cubeBOffset" [rotation]="cubes.cubeBRotation" [scale]="cubes.cubeBScale" [content]="cubeB" [interact]="true" name="oneCube"></ngt-object>
           </ngt-geometry>
         </ngt-scene>
       </ngt-render>
 
       <!-- 2D canvas overlay(s) -->
       <ngc-render id="baseUI" class="overlay">
-        <!-- <ngc-shape [content]="rectangle"></ngc-shape> -->
-        <!-- <ngc-shape [content]="cloud"></ngc-shape> -->
-        <ngc-shape [content]="dot"></ngc-shape>
-        <ngc-projector link="oneSphere" [content]="projectorA"></ngc-projector>
-        
-        <!-- <ngc-projector link="oneCube" [content]="projectorB"></ngc-projector> -->
-        <!-- <ngc-projector link="oneCube" [content]="ProjectorInteractiveClose" [interact]="true" buttonEvent="close"></ngc-projector> -->
-
+        <ngc-projector link="oneCube" [content]="projectorInteractiveBubble"></ngc-projector>
         <ngc-projector link="twoCube" [content]="projectorInteractiveBubble"></ngc-projector>
         <ngc-projector link="twoCube" [content]="ProjectorInteractiveClose" [interact]="true" buttonEvent="close"></ngc-projector>
-
-        <ngc-projector link="" [content]="projectorC"></ngc-projector>
       </ngc-render>
-
-      <!-- DOM and other HTML content -->
-      <ngd-render id="testDOM" link="oneCube" [interact]="true" class="activeHTML" [ngStyle]="{'left': '0px', 'top': '0px', 'display': 'block'}">
-        <div class="block">
-          <p>some text</p>
-          <p ngdCloseEvent>Close</p>
-        </div>
-      </ngd-render>
 
     </ngs-chronos>
   </div>
 
-  <!-- User UI / HTML -->
-  <div class="someUI">
-    <app-ui-layers [id]="0" [(status)]="layers[0].visible"></app-ui-layers>
-    <app-ui-layers [id]="1" [(status)]="layers[1].visible"></app-ui-layers>
-    <app-ui-layers [id]="2" [(status)]="layers[2].visible"></app-ui-layers>
-  </div>
 </div>
