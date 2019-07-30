@@ -5,6 +5,8 @@ import { Routes, RouterModule } from '@angular/router';
 import { TestCanvasComponent } from './test-canvas/test-canvas.component';
 import { TestSetupComponent } from './test-setup/test-setup.component';
 import { TestCombinedComponent } from './test-combined/test-combined.component';
+import { TestInterCanvasComponent } from './test-inter-canvas/test-inter-canvas.component';
+import { TestInnerHTMLComponent } from './test-inter-html/test-inter-html.component';
 
 const routes: Routes = [
   {
@@ -15,6 +17,16 @@ const routes: Routes = [
   {
     path: 'test-setup',
     component: TestSetupComponent,
+    resolve: {}
+  },
+  {
+    path: 'test-interactive-canvas',
+    component: TestInterCanvasComponent,
+    resolve: {}
+  },
+  {
+    path: 'test-interactive-html',
+    component: TestInnerHTMLComponent,
     resolve: {}
   },
   {

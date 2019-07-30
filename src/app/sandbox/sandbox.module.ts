@@ -12,6 +12,8 @@ import { NgdModule } from '@ngd/ngd.module';
 import { TestCanvasComponent } from './test-canvas/test-canvas.component';
 import { TestSetupComponent } from './test-setup/test-setup.component';
 import { TestCombinedComponent } from './test-combined/test-combined.component';
+import { TestInterCanvasComponent } from './test-inter-canvas/test-inter-canvas.component';
+import { TestInnerHTMLComponent } from './test-inter-html/test-inter-html.component';
 import { UiLayersComponent } from './test-combined/ui-layers/ui-layers.component';
 
 @NgModule({
@@ -19,6 +21,8 @@ import { UiLayersComponent } from './test-combined/ui-layers/ui-layers.component
     TestCanvasComponent,
     TestSetupComponent,
     TestCombinedComponent,
+    TestInterCanvasComponent,
+    TestInnerHTMLComponent,
     UiLayersComponent
   ],
   imports: [
