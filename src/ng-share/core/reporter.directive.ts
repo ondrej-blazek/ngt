@@ -137,20 +137,34 @@ export class ReporterDirective implements OnInit, AfterContentInit {
     this.mouseEvents('click', e);
   }
 
-  mouseEvents (type: string, event: MouseEvent): void {
-    switch (type) {
-      case 'mousedown': {
-        this.chronosService.mouseIsDown (this.domID, true);
-        break;
-      }
-      case 'mouseup': {
-        this.chronosService.mouseIsDown (this.domID, false);
-        break;
-      }
-      case 'click': {
-        this.chronosService.mouseClick (this.domID);
+  // mouseEvents (type: string, event: MouseEvent): void {
+  mouseEvents (type: string, event: any): void {
+    let itPass = false;
+
+    // Limit click source only to current scene
+    for (const item of event.path) {
+      if (item.id === this.domID) {
+        itPass = true;
         break;
       }
     }
+
+    // Button Notes
+    //  event.button === 0   ->  Left button
+    //  event.button === 1   ->  Middle button
+    //  event.button === 2   ->  Right button
+
+    if (itPass) {
+      if (type === 'mousedown' && event.button === 0) {
+        this.chronosService.mouseIsDown (this.domID, true);
+      }
+      if (type === 'mouseup' && event.button === 0) {
+        this.chronosService.mouseIsDown (this.domID, false);
+      }
+      if (type === 'click' && event.button === 0) {
+        this.chronosService.mouseClick (this.domID);
+      }
+    }
+
   }
 }
