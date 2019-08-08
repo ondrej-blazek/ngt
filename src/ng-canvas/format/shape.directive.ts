@@ -66,7 +66,7 @@ export class ShapeDirective implements OnInit, AfterViewInit, AfterContentInit, 
   }
 
   mouseMove (mouseX: number, mouseY: number): void {
-    if (this.interact) {
+    if (this.interact && this.content) {
       const mouseX_px = Math.round(((mouseX + 1) / 2) * this.screenWidth);
       const mouseY_px = Math.round(((mouseY - 1) / 2) * this.screenHeight * (-1));
       this.content.mouseMove (mouseX_px, mouseY_px);
@@ -74,13 +74,13 @@ export class ShapeDirective implements OnInit, AfterViewInit, AfterContentInit, 
   }
 
   mouseActive (mouseState: boolean) {
-    if (this.interact) {
+    if (this.interact && this.content) {
       this.content.mouseActive (mouseState);
     }
   }
 
   mouseDown (mouseState: boolean) {
-    if (this.interact) {
+    if (this.interact && this.content) {
       this.content.mouseDown (mouseState);
     }
   }

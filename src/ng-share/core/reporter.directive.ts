@@ -1,4 +1,4 @@
-import { Directive, OnInit, AfterContentInit, ElementRef, HostListener, ContentChild } from '@angular/core';
+import { Directive, OnInit, AfterContentInit, AfterViewInit, ElementRef, HostListener, ContentChild } from '@angular/core';
 import * as THREE from 'three';
 
 import { ChronosService } from '@ngs/core/chronos.service';
@@ -7,7 +7,7 @@ import { ChronosDirective } from '@ngs/core/chronos.directive';
 @Directive({
   selector: '[ngsreporter]'       // tslint:disable-line
 })
-export class ReporterDirective implements OnInit, AfterContentInit {
+export class ReporterDirective implements OnInit, AfterContentInit, AfterViewInit {
   @ContentChild(ChronosDirective, {static: true}) chronosDirective: ChronosDirective;
 
   private windowWidth: number;
@@ -47,6 +47,23 @@ export class ReporterDirective implements OnInit, AfterContentInit {
 
   ngAfterContentInit () {
     this.sizeReportFunction();
+  }
+
+  ngAfterViewInit () {
+    this.sizeReportFunction();
+
+    // 3, 7, 15ms delay     // TODO - Is there not a better way to handle or call back?
+    setTimeout(() => {
+      this.sizeReportFunction();
+    }, 3);
+
+    setTimeout(() => {
+      this.sizeReportFunction();
+    }, 7);
+
+    setTimeout(() => {
+      this.sizeReportFunction();
+    }, 15);
   }
 
   // ---------------------------------------------------------------------------------
