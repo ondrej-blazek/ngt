@@ -31,7 +31,7 @@ export class CarComponent implements OnInit {
     this.imageUrls = ['px.jpg', 'nx.jpg', 'py.jpg', 'ny.jpg', 'pz.jpg', 'nz.jpg'];
 
     this.gltfPath = '/assets/3d/audi/';
-    this.gltfFile = 'Audi_r8.gltf';
+    this.gltfFile = 'audi_r8_wip-3.gltf';
   }
 
   ngOnInit() {}
