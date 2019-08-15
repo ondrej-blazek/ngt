@@ -5,6 +5,7 @@ import { GLTFLoader, GLTF } from 'three/examples/jsm/loaders/GLTFLoader';
 import { PMREMGenerator } from 'three/examples/jsm/pmrem/PMREMGenerator.js';
 import { PMREMCubeUVPacker } from 'three/examples/jsm/pmrem/PMREMCubeUVPacker.js';
 
+import { ChronosService } from '@ngs/core/chronos.service';
 import { SceneService } from '@ngt/service';
 
 // TODO - Clean this directive up. There is too much logic that should be part of object class
@@ -28,7 +29,8 @@ export class GltfDirective implements OnInit, OnChanges, AfterContentInit, OnDes
   private renderStorage: THREE.WebGLRenderer;
 
   constructor(
-    private sceneService: SceneService
+    private sceneService: SceneService,
+    private chronosService: ChronosService
   ) {
     this.chronosID = '';
     this.renderID = '';
@@ -116,6 +118,21 @@ export class GltfDirective implements OnInit, OnChanges, AfterContentInit, OnDes
           }
         });
       }
+
+      // Look for interactive objects
+      gltf.scene.traverse(( child: any ) => {
+        if (child.type === 'Mesh') {
+          console.log ('child.name', child.name);
+
+          const objName = child.name;
+          const hasIt = objName.includes('-interactive');
+
+          if (hasIt) {
+            this.chronosService.addToInteraction(child.uuid);
+          }
+        }
+      });
+
 
       console.log ('gltf', gltf);
 
