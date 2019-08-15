@@ -79,7 +79,7 @@ export class GltfDirective implements OnInit, OnChanges, AfterContentInit, OnDes
 
   render (): void {
     if (this.mixer) {
-      this.mixer.update(0.01666666666666666);
+      this.mixer.update(1 / 60);
     }
   }
 
@@ -89,6 +89,8 @@ export class GltfDirective implements OnInit, OnChanges, AfterContentInit, OnDes
     this.meshLoader.setPath(basePath);
     this.meshLoader.load(fileName, (gltf: GLTF) => {
       let textureBackground = null;
+
+      // Cube background reflection mapping
       if (typeof(this.scene.background) === 'object') {   // type of THREE.CubeTexture
         textureBackground = this.scene.background;
 
@@ -114,6 +116,8 @@ export class GltfDirective implements OnInit, OnChanges, AfterContentInit, OnDes
           }
         });
       }
+
+      console.log ('gltf', gltf);
 
       this.scene.add(gltf.scene);
 

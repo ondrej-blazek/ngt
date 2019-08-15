@@ -28,7 +28,7 @@ export class TestGLTFComponent implements OnInit {
     this.imageUrls = ['px.jpg', 'nx.jpg', 'py.jpg', 'ny.jpg', 'pz.jpg', 'nz.jpg'];
 
     this.gltfPath = '/assets/3d/test_box/';
-    this.gltfFile = 'testCube_v1.gltf';
+    this.gltfFile = 'testCube_v1_b.gltf';
   }
 
   ngOnInit() {}
