@@ -1,29 +1,11 @@
-import { SphereContentServiceService } from './sphere-content-service.service';
 import * as THREE from 'three';
+import { DynamicService } from '@ngt/service';
+import { SphereContentServiceService } from './sphere-content-service.service';
 
-export class DynamicContentServiceService {
-  private offset: THREE.Vector3;
-  private rotation: THREE.Euler;
-  private scale: THREE.Vector3;
-  public objectArray: SphereContentServiceService[];
+export class DynamicContentServiceService extends DynamicService {
 
   constructor () {
-    this.offset = new THREE.Vector3(0, 0, 0);
-    this.rotation = new THREE.Euler(0, 0, 0, 'XYZ');
-    this.scale = new THREE.Vector3(1, 1, 1);
-    this.objectArray = [];
-  }
-
-  setPosition (offset: THREE.Vector3): void {
-    this.offset = offset;
-  }
-
-  setRotation (rotation: THREE.Euler): void {
-    this.rotation = rotation;
-  }
-
-  setScale (scale: THREE.Vector3): void {
-    this.scale = scale;
+    super();
   }
 
   setAllObjects (): void {
@@ -36,7 +18,7 @@ export class DynamicContentServiceService {
         sp.setRotation(this.rotation);
         sp.setDegrees(x * z * 5);
 
-        this.objectArray.push(sp);
+        this.objectArrayAdd (sp);
       }
     }
   }
@@ -64,12 +46,5 @@ export class DynamicContentServiceService {
 
   userClearClickedObject(element: any): void {
     element.object.material.color = element.defaultColor;
-  }
-
-  // Render every frame
-  render (): void {
-    this.objectArray.forEach(element => {
-      element.render();
-    });
   }
 }

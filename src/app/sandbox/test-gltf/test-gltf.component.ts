@@ -17,7 +17,8 @@ export class TestGLTFComponent implements OnInit {
   private imageUrls: string[];
 
   private gltfPath: string;
-  private gltfFile: string;
+  private gltfFileOne: string;
+  private gltfFileTwo: string;
 
   constructor() {
     this.env = new EnvService ();
@@ -28,7 +29,8 @@ export class TestGLTFComponent implements OnInit {
     this.imageUrls = ['px.jpg', 'nx.jpg', 'py.jpg', 'ny.jpg', 'pz.jpg', 'nz.jpg'];
 
     this.gltfPath = '/assets/3d/test_box/';
-    this.gltfFile = 'testCube_v1_b.gltf';
+    this.gltfFileOne = 'testCube_v2a.gltf';
+    this.gltfFileTwo = 'testCube_v2b.gltf';
   }
 
   ngOnInit() {}

@@ -16,6 +16,7 @@ import { SceneService } from '@ngt/service';
 export class GltfDirective implements OnInit, OnChanges, AfterContentInit, OnDestroy {
   @Input() basePath: string;
   @Input() fileName: string;
+  @Input() mode: string;
   @Input() shadows: boolean;
   @Input() envReflection: boolean;
 
@@ -36,6 +37,7 @@ export class GltfDirective implements OnInit, OnChanges, AfterContentInit, OnDes
     this.renderID = '';
     this.basePath = '';
     this.fileName = '';
+    this.mode = 'scene';      // ['scene', 'mesh']
     this.shadows = true;
     this.envReflection = true;
     this.withParams = true;
@@ -43,7 +45,7 @@ export class GltfDirective implements OnInit, OnChanges, AfterContentInit, OnDes
     this.meshLoader = new GLTFLoader();
   }
 
-  ngOnChanges (changes) {
+  ngOnChanges(changes) {
     if (changes.basePath) {
       this.basePath = changes.basePath.currentValue;
     }
@@ -56,20 +58,20 @@ export class GltfDirective implements OnInit, OnChanges, AfterContentInit, OnDes
     }
   }
 
-  ngOnInit (): void {}
-  ngAfterContentInit (): void {}
-  ngOnDestroy (): void {}
+  ngOnInit(): void { }
+  ngAfterContentInit(): void { }
+  ngOnDestroy(): void { }
 
   // ---------------------------------------------------------------------------------
 
-  processID (chronosID: string, renderID: string): void {     // Executed AFTER ngAfterContentInit -> staring point
+  processID(chronosID: string, renderID: string): void {     // Executed AFTER ngAfterContentInit -> staring point
     this.chronosID = chronosID;
     this.renderID = renderID;
 
-    this.executeLogic ();
+    this.executeLogic();
   }
 
-  executeLogic (): void {
+  executeLogic(): void {
     this.renderStorage = this.sceneService.getRender(this.chronosID, this.renderID);
     this.scene = this.sceneService.getScene(this.chronosID, this.renderID);
 
@@ -79,78 +81,94 @@ export class GltfDirective implements OnInit, OnChanges, AfterContentInit, OnDes
     }
   }
 
-  render (): void {
+  render(): void {
     if (this.mixer) {
       this.mixer.update(1 / 60);
     }
   }
 
-  updateScene (basePath: string, fileName: string): void {
+  updateScene(basePath: string, fileName: string): void {
     this.withParams = false;
 
     this.meshLoader.setPath(basePath);
     this.meshLoader.load(fileName, (gltf: GLTF) => {
-      let textureBackground = null;
-
-      // Cube background reflection mapping
-      if (typeof(this.scene.background) === 'object') {   // type of THREE.CubeTexture
-        textureBackground = this.scene.background;
-
-        const pmremGenerator = new PMREMGenerator( textureBackground );
-        pmremGenerator.update( this.renderStorage );
-
-        const pmremCubeUVPacker = new PMREMCubeUVPacker( pmremGenerator.cubeLods );
-        pmremCubeUVPacker.update( this.renderStorage );
-
-        const envMap = pmremCubeUVPacker.CubeUVRenderTarget.texture;
-
-        gltf.scene.traverse(( child: any ) => {
-          if (child.type === 'Mesh') {
-            // reflect cube panorama
-            if (this.envReflection) {
-              child.material.envMap = envMap;
-            }
-            // casts and receive shadows
-            if (this.shadows) {
-              child.castShadow = true;
-              child.receiveShadow = true;
-            }
-          }
-        });
+      this.sceneOptions(gltf);
+      if (this.mode === 'scene') {
+        this.modeScene(gltf);
+      } else if (this.mode === 'mesh') {
+        this.modeMesh(gltf);
       }
+    },
+      (xhr: ProgressEvent) => {
+        // console.info( ( xhr.loaded / xhr.total * 100 ) + '% loaded' );
+      },
+      (error: ErrorEvent) => {
+        // console.error( 'An error happened', error );
+      });
+  }
 
-      // Look for interactive objects
-      gltf.scene.traverse(( child: any ) => {
+  // Environment options - global reflections, shadows
+  sceneOptions(gltf: GLTF): void {
+    let textureBackground = null;
+
+    // Cube background reflection mapping
+    if (typeof (this.scene.background) === 'object') {   // type of THREE.CubeTexture
+      textureBackground = this.scene.background;
+
+      const pmremGenerator = new PMREMGenerator(textureBackground);
+      pmremGenerator.update(this.renderStorage);
+
+      const pmremCubeUVPacker = new PMREMCubeUVPacker(pmremGenerator.cubeLods);
+      pmremCubeUVPacker.update(this.renderStorage);
+
+      const envMap = pmremCubeUVPacker.CubeUVRenderTarget.texture;
+
+      gltf.scene.traverse((child: any) => {
         if (child.type === 'Mesh') {
-          console.log ('child.name', child.name);
-
-          const objName = child.name;
-          const hasIt = objName.includes('-interactive');
-
-          if (hasIt) {
-            this.chronosService.addToInteraction(child.uuid);
+          // reflect cube panorama
+          if (this.envReflection) {
+            child.material.envMap = envMap;
+          }
+          // casts and receive shadows
+          if (this.shadows) {
+            child.castShadow = true;
+            child.receiveShadow = true;
           }
         }
       });
+    }
+  }
 
 
-      console.log ('gltf', gltf);
+  // Load as a complete scene
+  modeScene(gltf: GLTF): void {
+    this.scene.add(gltf.scene);
 
-      this.scene.add(gltf.scene);
+    this.mixer = new THREE.AnimationMixer(gltf.scene);
+    gltf.animations.forEach((clip) => {
+      this.mixer.clipAction(clip).play();
+    });
+  }
 
-      this.mixer = new THREE.AnimationMixer(gltf.scene);
-      gltf.animations.forEach((clip) => {
-        this.mixer.clipAction(clip).play();
-      });
-    },
-    (xhr: ProgressEvent) => {
-      // console.info( ( xhr.loaded / xhr.total * 100 ) + '% loaded' );
-    },
-    (error: ErrorEvent) => {
-      // console.error( 'An error happened', error );
+  // Parse after load and set interactive objects
+  modeMesh(gltf: GLTF): void {
+    gltf.scene.traverse((child: any) => {
+      if (child.type === 'Mesh') {
+        console.log('child.name', child.name);
+
+        const objName = child.name;
+        const hasIt = objName.includes('-interactive');
+
+        if (hasIt) {
+          this.chronosService.addToInteraction(child.uuid);
+        }
+
+        this.scene.add(child);
+      }
     });
   }
 }
+
 
 
 // More info:
