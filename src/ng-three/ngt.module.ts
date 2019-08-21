@@ -7,7 +7,7 @@ import { PerspectiveCameraDirective, OrthoCameraDirective, RaycasterDirective, P
 import { PointLightDirective, HemisphereLightDirective } from '@ngt/light';
 import { AxesDirective, BackgroundDirective, CubePanoramaDirective,
          DomeDirective, FogDirective, GridDirective, GroundDirective } from '@ngt/environment';
-import { ObjectDirective, DynamicDirective, LayerDirective, GltfDirective } from '@ngt/geometry';
+import { ObjectDirective, DynamicDirective, LayerDirective, GltfSceneDirective, GltfMeshDirective } from '@ngt/geometry';
 
 @NgModule({
   imports: [
@@ -19,7 +19,7 @@ import { ObjectDirective, DynamicDirective, LayerDirective, GltfDirective } from
     PerspectiveCameraDirective, OrthoCameraDirective, RaycasterDirective, ProjectorDirective,
     PointLightDirective, HemisphereLightDirective,
     AxesDirective, BackgroundDirective, CubePanoramaDirective, DomeDirective, FogDirective, GridDirective, GroundDirective,
-    ObjectDirective, DynamicDirective, LayerDirective, GltfDirective
+    ObjectDirective, DynamicDirective, LayerDirective, GltfSceneDirective, GltfMeshDirective
   ],
   providers: [],
   exports: [
@@ -28,7 +28,7 @@ import { ObjectDirective, DynamicDirective, LayerDirective, GltfDirective } from
     PerspectiveCameraDirective, OrthoCameraDirective, RaycasterDirective, ProjectorDirective,
     PointLightDirective, HemisphereLightDirective,
     AxesDirective, BackgroundDirective, CubePanoramaDirective, DomeDirective, FogDirective, GridDirective, GroundDirective,
-    ObjectDirective, DynamicDirective, LayerDirective, GltfDirective
+    ObjectDirective, DynamicDirective, LayerDirective, GltfSceneDirective, GltfMeshDirective
   ]
 })
 export class NgtModule {

@@ -1,14 +1,15 @@
 import { OnInit, Directive, ContentChildren, QueryList, AfterContentInit } from '@angular/core';
 
 import { SceneService } from '@ngt/service';
-import { ObjectDirective, DynamicDirective, LayerDirective, GltfDirective } from '@ngt/geometry';
+import { ObjectDirective, DynamicDirective, LayerDirective, GltfSceneDirective, GltfMeshDirective } from '@ngt/geometry';
 
 @Directive({
   selector: 'ngt-geometry'     // tslint:disable-line
 })
 export class GeometryDirective implements OnInit, AfterContentInit {
   @ContentChildren(ObjectDirective) objectDomQuery: QueryList<ObjectDirective>;
-  @ContentChildren(GltfDirective) gltfDomQuery: QueryList<GltfDirective>;
+  @ContentChildren(GltfSceneDirective) gltfSceneDomQuery: QueryList<GltfSceneDirective>;
+  @ContentChildren(GltfMeshDirective) gltfMeshDomQuery: QueryList<GltfMeshDirective>;
   @ContentChildren(DynamicDirective) dynamicDomQuery: QueryList<DynamicDirective>;
   @ContentChildren(LayerDirective) layerDomQuery: QueryList<LayerDirective>;
 
@@ -17,7 +18,8 @@ export class GeometryDirective implements OnInit, AfterContentInit {
   private renderID: string;
 
   private objectDirectives: ObjectDirective[] = [];
-  private gltfDirectives: GltfDirective[] = [];
+  private GltfSceneDirectives: GltfSceneDirective[] = [];
+  private GltfMeshDirectives: GltfMeshDirective[] = [];
   private dynamicDirectives: DynamicDirective[] = [];
   private layerDirectives: LayerDirective[] = [];
 
@@ -34,7 +36,8 @@ export class GeometryDirective implements OnInit, AfterContentInit {
 
   ngAfterContentInit () {
     this.objectDirectives = this.objectDomQuery.toArray();
-    this.gltfDirectives = this.gltfDomQuery.toArray();
+    this.GltfSceneDirectives = this.gltfSceneDomQuery.toArray();
+    this.GltfMeshDirectives = this.gltfMeshDomQuery.toArray();
     this.dynamicDirectives = this.dynamicDomQuery.toArray();
     this.layerDirectives = this.layerDomQuery.toArray();
 
@@ -60,7 +63,10 @@ export class GeometryDirective implements OnInit, AfterContentInit {
   }
 
   propagateID (chronosID: string, renderID: string): void {
-    for (const oneDirective of this.gltfDirectives) {
+    for (const oneDirective of this.GltfSceneDirectives) {
+      oneDirective.processID(chronosID, renderID);
+    }
+    for (const oneDirective of this.GltfMeshDirectives) {
       oneDirective.processID(chronosID, renderID);
     }
     for (const oneDirective of this.layerDirectives) {
@@ -76,7 +82,10 @@ export class GeometryDirective implements OnInit, AfterContentInit {
     for (const oneDirective of this.objectDirectives) {
       oneDirective.render();
     }
-    for (const oneDirective of this.gltfDirectives) {
+    for (const oneDirective of this.GltfSceneDirectives) {
+      oneDirective.render();
+    }
+    for (const oneDirective of this.GltfMeshDirectives) {
       oneDirective.render();
     }
     for (const oneDirective of this.dynamicDirectives) {

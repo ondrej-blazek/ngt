@@ -11,9 +11,9 @@ import { SceneService } from '@ngt/service';
 // TODO - Clean this directive up. There is too much logic that should be part of object class
 
 @Directive({
-  selector: 'ngt-gltf'     // tslint:disable-line
+  selector: 'ngt-gltf-scene'     // tslint:disable-line
 })
-export class GltfDirective implements OnInit, OnChanges, AfterContentInit, OnDestroy {
+export class GltfSceneDirective implements OnInit, OnChanges, AfterContentInit, OnDestroy {
   @Input() basePath: string;
   @Input() fileName: string;
   @Input() mode: string;

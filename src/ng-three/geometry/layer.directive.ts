@@ -8,7 +8,7 @@ import { SceneService } from '@ngt/service';
 
 import { ObjectDirective } from './object.directive';
 import { DynamicDirective } from './dynamic.directive';
-import { GltfDirective } from './gltf.directive';
+import { GltfSceneDirective } from './gltf.scene.directive';
 
 // TODO - make glTF files / loaders react to layer toggle
 
@@ -20,7 +20,7 @@ export class LayerDirective implements OnInit, OnChanges, OnDestroy, AfterConten
   @Input() visible: boolean;
 
   @ContentChildren(ObjectDirective) objectDomQuery: QueryList<ObjectDirective>;
-  @ContentChildren(GltfDirective) gltfDomQuery: QueryList<GltfDirective>;
+  @ContentChildren(GltfSceneDirective) gltfDomQuery: QueryList<GltfSceneDirective>;
   @ContentChildren(DynamicDirective) dynamicDomQuery: QueryList<DynamicDirective>;
 
   private scene: THREE.Scene;
@@ -29,7 +29,7 @@ export class LayerDirective implements OnInit, OnChanges, OnDestroy, AfterConten
   private subscription: Subscription;
 
   private objectDirectives: ObjectDirective[] = [];
-  private gltfDirectives: GltfDirective[] = [];
+  private GltfSceneDirectives: GltfSceneDirective[] = [];
   private dynamicDirectives: DynamicDirective[] = [];
 
   constructor (
@@ -66,7 +66,7 @@ export class LayerDirective implements OnInit, OnChanges, OnDestroy, AfterConten
 
   ngAfterContentInit () {
     this.objectDirectives = this.objectDomQuery.toArray();
-    this.gltfDirectives = this.gltfDomQuery.toArray();
+    this.GltfSceneDirectives = this.gltfDomQuery.toArray();
     this.dynamicDirectives = this.dynamicDomQuery.toArray();
   }
 
@@ -113,7 +113,7 @@ export class LayerDirective implements OnInit, OnChanges, OnDestroy, AfterConten
   }
 
   propagateID (chronosID: string, renderID: string): void {
-    for (const oneDirective of this.gltfDirectives) {
+    for (const oneDirective of this.GltfSceneDirectives) {
       oneDirective.processID(chronosID, renderID);
     }
   }
@@ -126,7 +126,7 @@ export class LayerDirective implements OnInit, OnChanges, OnDestroy, AfterConten
     for (const oneDirective of this.objectDirectives) {
       oneDirective.render();
     }
-    for (const oneDirective of this.gltfDirectives) {
+    for (const oneDirective of this.GltfSceneDirectives) {
       oneDirective.render();
     }
     for (const oneDirective of this.dynamicDirectives) {
