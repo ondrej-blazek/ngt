@@ -16,7 +16,6 @@ import { SceneService } from '@ngt/service';
 export class GltfSceneDirective implements OnInit, OnChanges, AfterContentInit, OnDestroy {
   @Input() basePath: string;
   @Input() fileName: string;
-  @Input() mode: string;
   @Input() shadows: boolean;
   @Input() envReflection: boolean;
 
@@ -37,7 +36,6 @@ export class GltfSceneDirective implements OnInit, OnChanges, AfterContentInit, 
     this.renderID = '';
     this.basePath = '';
     this.fileName = '';
-    this.mode = 'scene';      // ['scene', 'mesh']
     this.shadows = true;
     this.envReflection = true;
     this.withParams = true;
@@ -93,18 +91,14 @@ export class GltfSceneDirective implements OnInit, OnChanges, AfterContentInit, 
     this.meshLoader.setPath(basePath);
     this.meshLoader.load(fileName, (gltf: GLTF) => {
       this.sceneOptions(gltf);
-      if (this.mode === 'scene') {
-        this.modeScene(gltf);
-      } else if (this.mode === 'mesh') {
-        this.modeMesh(gltf);
-      }
+      this.modeScene(gltf);
     },
-      (xhr: ProgressEvent) => {
-        // console.info( ( xhr.loaded / xhr.total * 100 ) + '% loaded' );
-      },
-      (error: ErrorEvent) => {
-        // console.error( 'An error happened', error );
-      });
+    (xhr: ProgressEvent) => {
+      // console.info( ( xhr.loaded / xhr.total * 100 ) + '% loaded' );
+    },
+    (error: ErrorEvent) => {
+      // console.error( 'An error happened', error );
+    });
   }
 
   // Environment options - global reflections, shadows
@@ -147,24 +141,6 @@ export class GltfSceneDirective implements OnInit, OnChanges, AfterContentInit, 
     this.mixer = new THREE.AnimationMixer(gltf.scene);
     gltf.animations.forEach((clip) => {
       this.mixer.clipAction(clip).play();
-    });
-  }
-
-  // Parse after load and set interactive objects
-  modeMesh(gltf: GLTF): void {
-    gltf.scene.traverse((child: any) => {
-      if (child.type === 'Mesh') {
-        console.log('child.name', child.name);
-
-        const objName = child.name;
-        const hasIt = objName.includes('-interactive');
-
-        if (hasIt) {
-          this.chronosService.addToInteraction(child.uuid);
-        }
-
-        this.scene.add(child);
-      }
     });
   }
 }
