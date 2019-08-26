@@ -6,7 +6,7 @@ import { PMREMGenerator } from 'three/examples/jsm/pmrem/PMREMGenerator.js';
 import { PMREMCubeUVPacker } from 'three/examples/jsm/pmrem/PMREMCubeUVPacker.js';
 
 import { ChronosService } from '@ngs/core/chronos.service';
-import { SceneService } from '@ngt/service';
+import { SceneService, GltfLoaderService } from '@ngt/service';
 
 // TODO - Clean this directive up. There is too much logic that should be part of object class
 
@@ -25,8 +25,10 @@ export class GltfMeshDirective implements OnInit, OnChanges, AfterContentInit, O
   private meshLoader: GLTFLoader;
 
   private scene: THREE.Scene;
-  private mixer: THREE.AnimationMixer;
+  // private mixer: THREE.AnimationMixer;
   private renderStorage: THREE.WebGLRenderer;
+
+  public objectArray: any[];
 
   constructor(
     private sceneService: SceneService,
@@ -80,9 +82,9 @@ export class GltfMeshDirective implements OnInit, OnChanges, AfterContentInit, O
   }
 
   render(): void {
-    if (this.mixer) {
-      this.mixer.update(1 / 60);
-    }
+    // if (this.mixer) {
+    //   this.mixer.update(1 / 60);
+    // }
   }
 
   updateScene(basePath: string, fileName: string): void {
@@ -137,6 +139,12 @@ export class GltfMeshDirective implements OnInit, OnChanges, AfterContentInit, O
   modeMesh(gltf: GLTF): void {
     gltf.scene.traverse((child: any) => {
       if (child.type === 'Mesh') {
+
+
+        const decoratedObject = new GltfLoaderService ();
+        decoratedObject.object = child;
+
+
         console.log('child.name', child.name);
 
         const objName = child.name;
@@ -146,9 +154,16 @@ export class GltfMeshDirective implements OnInit, OnChanges, AfterContentInit, O
           this.chronosService.addToInteraction(child.uuid);
         }
 
-        this.scene.add(child);
+        // this.scene.add(child);
+
+        this.objectArray.push (decoratedObject);
+
+        console.log('hey');
       }
     });
+
+
+    console.log ('gltf loader - this.objectArray', this.objectArray);
   }
 }
 
