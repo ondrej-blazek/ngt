@@ -41,6 +41,7 @@ export class GltfMeshDirective implements OnInit, OnChanges, AfterContentInit, O
     this.shadows = true;
     this.envReflection = true;
     this.withParams = true;
+    this.objectArray = [];
 
     this.meshLoader = new GLTFLoader();
   }
@@ -154,7 +155,7 @@ export class GltfMeshDirective implements OnInit, OnChanges, AfterContentInit, O
           this.chronosService.addToInteraction(child.uuid);
         }
 
-        // this.scene.add(child);
+        this.scene.add(child);
 
         this.objectArray.push (decoratedObject);
 
