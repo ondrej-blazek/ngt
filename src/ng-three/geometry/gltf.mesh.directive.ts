@@ -138,29 +138,34 @@ export class GltfMeshDirective implements OnInit, OnChanges, AfterContentInit, O
 
   // Parse after load and set interactive objects
   modeMesh(gltf: GLTF): void {
-    gltf.scene.traverse((child: any) => {
-      if (child.type === 'Mesh') {
+
+    console.log ('gltf', gltf.scene);
+
+    gltf.scene.traverse((child: THREE.Object3D | THREE.Mesh) => {
+      console.log ('child', child.type, child.name);
+
+    //   if (child.type === 'Mesh') {
 
 
-        const decoratedObject = new GltfLoaderService ();
-        decoratedObject.object = child;
+    //     const decoratedObject = new GltfLoaderService ();
+    //     decoratedObject.object = child;
 
 
-        console.log('child.name', child.name);
+    //     console.log('child.name', child.name);
 
-        const objName = child.name;
-        const hasIt = objName.includes('-interactive');
+    //     const objName = child.name;
+    //     const hasIt = objName.includes('-interactive');
 
-        if (hasIt) {
-          this.chronosService.addToInteraction(child.uuid);
-        }
+    //     if (hasIt) {
+    //       this.chronosService.addToInteraction(child.uuid);
+    //     }
 
-        this.scene.add(child);
+    //     this.scene.add(child);
 
-        this.objectArray.push (decoratedObject);
+    //     this.objectArray.push (decoratedObject);
 
-        console.log('hey');
-      }
+    //     console.log('hey');
+    //   }
     });
 
 
