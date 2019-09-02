@@ -19,13 +19,19 @@ export class GltfMeshDirective implements OnInit, OnChanges, AfterContentInit, O
   @Input() shadows: boolean;
   @Input() envReflection: boolean;
 
+  @Input() offset: THREE.Vector3;
+  @Input() rotation: THREE.Euler;
+  @Input() scale: THREE.Vector3;
+  @Input() animate: boolean;
+  @Input() interact: boolean;
+  @Input() content: any;
+
   private chronosID: string;
   private renderID: string;
   private withParams: boolean;
   private meshLoader: GLTFLoader;
-
+  private enabled: boolean;
   private scene: THREE.Scene;
-  // private mixer: THREE.AnimationMixer;
   private renderStorage: THREE.WebGLRenderer;
 
   public objectArray: any[];
@@ -36,10 +42,19 @@ export class GltfMeshDirective implements OnInit, OnChanges, AfterContentInit, O
   ) {
     this.chronosID = '';
     this.renderID = '';
+
     this.basePath = '';
     this.fileName = '';
     this.shadows = true;
     this.envReflection = true;
+
+    this.offset = new THREE.Vector3(0, 0, 0);
+    this.rotation = new THREE.Euler(0, 0, 0, 'XYZ');
+    this.scale = new THREE.Vector3(1, 1, 1);
+    this.animate = true;
+    this.interact = false;
+    this.enabled = true;
+
     this.withParams = true;
     this.objectArray = [];
 
@@ -138,36 +153,15 @@ export class GltfMeshDirective implements OnInit, OnChanges, AfterContentInit, O
 
   // Parse after load and set interactive objects
   modeMesh(gltf: GLTF): void {
+    gltf.scene.traverse((child: THREE.Object3D | THREE.Mesh | THREE.Scene) => {
+      if (child.type === 'Mesh') {
+        let decoratedObject = new GltfLoaderService ();
+        decoratedObject.object = child;
 
-    console.log ('gltf', gltf.scene);
-
-    gltf.scene.traverse((child: THREE.Object3D | THREE.Mesh) => {
-      console.log ('child', child.type, child.name);
-
-    //   if (child.type === 'Mesh') {
-
-
-    //     const decoratedObject = new GltfLoaderService ();
-    //     decoratedObject.object = child;
-
-
-    //     console.log('child.name', child.name);
-
-    //     const objName = child.name;
-    //     const hasIt = objName.includes('-interactive');
-
-    //     if (hasIt) {
-    //       this.chronosService.addToInteraction(child.uuid);
-    //     }
-
-    //     this.scene.add(child);
-
-    //     this.objectArray.push (decoratedObject);
-
-    //     console.log('hey');
-    //   }
+        this.objectArray.push (decoratedObject);
+        decoratedObject = null;
+      }
     });
-
 
     console.log ('gltf loader - this.objectArray', this.objectArray);
   }

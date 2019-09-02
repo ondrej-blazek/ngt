@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 
 import { EnvService } from './service';
-import { PointLightService, HemiLightService } from './3d_content';
+
+import { PointLightService, HemiLightService, DynamicContentServiceService } from './3d_content';
 
 @Component({
   selector: 'app-test-gltf',
@@ -20,6 +21,8 @@ export class TestGLTFComponent implements OnInit {
   private gltfFileOne: string;
   private gltfFileTwo: string;
 
+  public dynamic: DynamicContentServiceService;
+
   constructor() {
     this.env = new EnvService ();
     this.pointLight = new PointLightService();
@@ -31,6 +34,8 @@ export class TestGLTFComponent implements OnInit {
     this.gltfPath = '/assets/3d/test_box/';
     this.gltfFileOne = 'testCube_v2a1.gltf';
     this.gltfFileTwo = 'testCube_v2b.gltf';
+
+    this.dynamic = new DynamicContentServiceService();
   }
 
   ngOnInit() {}

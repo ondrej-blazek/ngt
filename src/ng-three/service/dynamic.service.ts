@@ -7,7 +7,6 @@ export abstract class DynamicService {
   protected scale: THREE.Vector3;
   protected objectArray: any[];      // <<<---  THREE.Mesh
 
-
   constructor() {
     this.offset = new THREE.Vector3(0, 0, 0);
     this.rotation = new THREE.Euler(0, 0, 0, 'XYZ');
