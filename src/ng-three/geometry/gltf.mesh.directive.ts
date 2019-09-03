@@ -1,4 +1,5 @@
 import { Directive, Input, OnInit, OnChanges, AfterContentInit, OnDestroy } from '@angular/core';
+import { Subscription } from 'rxjs';
 import * as THREE from 'three';
 
 import { GLTFLoader, GLTF } from 'three/examples/jsm/loaders/GLTFLoader';
@@ -30,6 +31,7 @@ export class GltfMeshDirective implements OnInit, OnChanges, AfterContentInit, O
   private renderID: string;
   private withParams: boolean;
   private meshLoader: GLTFLoader;
+  private subscription: Subscription;
   private enabled: boolean;
   private scene: THREE.Scene;
   private renderStorage: THREE.WebGLRenderer;
@@ -56,9 +58,30 @@ export class GltfMeshDirective implements OnInit, OnChanges, AfterContentInit, O
     this.enabled = true;
 
     this.withParams = true;
+    this.meshLoader = new GLTFLoader();
+
     this.objectArray = [];
 
-    this.meshLoader = new GLTFLoader();
+    // subscribe to home component messages
+    this.subscription = this.chronosService.getMessage().subscribe(
+      message => {
+        if (message.type === 'setActiveObject') {
+          this.userSetActiveObject(message.activeID);
+        }
+        if (message.type === 'clearActiveObject') {
+          this.userClearActiveObject (message.activeID);
+        }
+        if (message.type === 'setClickedObject') {
+          this.userSetClickedObject (message.clickedID);
+        }
+        if (message.type === 'clearClickedObject') {
+          this.userClearClickedObject (message.clickedID);
+        }
+        if (message.type === 'activeOverlay') {
+          this.enableControls (message.active);
+        }
+      }
+    );
   }
 
   ngOnChanges(changes) {
@@ -68,17 +91,75 @@ export class GltfMeshDirective implements OnInit, OnChanges, AfterContentInit, O
     if (changes.fileName) {
       this.fileName = changes.fileName.currentValue;
     }
-
     if (changes.basePath || changes.imageArray) {
       this.updateScene(this.basePath, this.fileName);
     }
+
+    if (changes.offset && changes.offset.currentValue) {
+      this.offset = changes.offset.currentValue;
+      this.content.setPosition (changes.offset.currentValue);
+    }
+    if (changes.rotation && changes.rotation.currentValue) {
+      this.rotation = changes.rotation.currentValue;
+      this.content.setRotation (changes.rotation.currentValue);
+    }
+    if (changes.scale && changes.scale.currentValue) {
+      this.scale = changes.scale.currentValue;
+      this.content.setScale (changes.scale.currentValue);
+    }
+    if (changes.animate && changes.animate.currentValue) {
+      this.animate = changes.animate.currentValue;
+    }
+    if (changes.interact && changes.interact.currentValue) {
+      this.interact = changes.interact.currentValue;
+    }
   }
 
-  ngOnInit(): void { }
+  ngOnInit(): void {
+    console.log ('GltfMeshDirective - content', this.content);
+  }
+
   ngAfterContentInit(): void { }
   ngOnDestroy(): void { }
 
   // ---------------------------------------------------------------------------------
+
+  // User interaction
+  userSetActiveObject (id: string): void {
+    for (const element of this.objectArray) {
+      if (element['object'].uuid === id && this.interact && this.enabled) {
+        this.content.userSetActiveObject(element);
+      }
+    }
+  }
+
+  userClearActiveObject (id: string): void {
+    for (const element of this.objectArray) {
+      if (element['object'].uuid === id && this.interact) {
+        this.content.userClearActiveObject(element);
+      }
+    }
+  }
+
+  userSetClickedObject (id: string): void {
+    for (const element of this.objectArray) {
+      if (element['object'].uuid === id && this.interact && this.enabled) {
+        this.content.userSetClickedObject(element);
+      }
+    }
+  }
+
+  userClearClickedObject (id: string): void {
+    for (const element of this.objectArray) {
+      if (element['object'].uuid === id && this.interact) {
+        this.content.userClearClickedObject(element);
+      }
+    }
+  }
+
+  enableControls (active: boolean): void {
+    this.enabled = !active;
+  }
 
   processID(chronosID: string, renderID: string): void {     // Executed AFTER ngAfterContentInit -> staring point
     this.chronosID = chronosID;
@@ -97,10 +178,10 @@ export class GltfMeshDirective implements OnInit, OnChanges, AfterContentInit, O
     }
   }
 
-  render(): void {
-    // if (this.mixer) {
-    //   this.mixer.update(1 / 60);
-    // }
+  render (): void {
+    if (this.content && this.animate) {
+      this.content.render();
+    }
   }
 
   updateScene(basePath: string, fileName: string): void {
@@ -108,8 +189,10 @@ export class GltfMeshDirective implements OnInit, OnChanges, AfterContentInit, O
 
     this.meshLoader.setPath(basePath);
     this.meshLoader.load(fileName, (gltf: GLTF) => {
-      this.sceneOptions(gltf);
-      this.modeMesh(gltf);
+      if (this.content) {
+        this.sceneOptions(gltf);
+        this.modeMesh(gltf);
+      }
     },
     (xhr: ProgressEvent) => {
       // console.info( ( xhr.loaded / xhr.total * 100 ) + '% loaded' );
@@ -158,24 +241,27 @@ export class GltfMeshDirective implements OnInit, OnChanges, AfterContentInit, O
         let decoratedObject = new GltfLoaderService ();
         decoratedObject.object = child;
 
-        this.objectArray.push (decoratedObject);
+        this.content.objectArrayAdd (decoratedObject);
         decoratedObject = null;
       }
     });
 
-    console.log ('gltf loader - this.objectArray', this.objectArray);
+    this.objectArray = this.content.objectArray;
+
+    // Due to asynchronous nature of glTF this directive needs to add objects when they ready
+    for (const element of this.content.objectArray) {
+      this.scene.add(element['object']);
+    }
+
+    
+    //  TODO - move to above for loop that deals with glTF load
+    // if (this.interact) {
+    //   for (const element of this.objectArray) {
+    //     element['interact'] = this.interact;
+    //     this.chronosService.addToInteraction(element['object'].uuid);
+    //   }
+    // }
+
+    console.log ('gltf loader - this.content.objectArray', this.content.objectArray);
   }
 }
-
-
-
-// More info:
-//    https://threejs.org/docs/index.html#examples/loaders/GLTFLoader
-//    https://threejs.org/examples/?q=glt#webgl2_loader_gltf
-//    https://github.com/mrdoob/three.js/blob/master/examples/webgl2_loader_gltf.html
-//    https://github.com/khronosgroup/gltf#gltf-tools
-
-// Model Sources
-//    https://github.com/KhronosGroup/glTF-Sample-Models/tree/master/2.0
-//    https://github.com/KhronosGroup/glTF-Sample-Models/tree/master/2.0/DamagedHelmet
-//    https://github.com/KhronosGroup/glTF-Sample-Models/tree/master/2.0/BoomBox

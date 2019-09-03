@@ -44,10 +44,12 @@ export class GeometryDirective implements OnInit, AfterContentInit {
     this.propagateID (this.chronosID, this.renderID);
 
     // Pickup objects from directives
+    // TODO - Object directive should probably add it's own objects????
     for (const oneDirective of this.objectDirectives) {
       this.scene.add(oneDirective.object);
     }
 
+    // TODO - Dynamic directive should probably add it's own objects????
     for (const oneDirective of this.dynamicDirectives) {
       for (const element of oneDirective.objectArray) {
         this.scene.add(element['object']);

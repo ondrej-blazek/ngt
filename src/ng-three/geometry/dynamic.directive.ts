@@ -76,8 +76,6 @@ export class DynamicDirective implements OnChanges, OnInit, AfterContentInit, On
     this.content.setAllObjects();
     this.objectArray = this.content.objectArray;
 
-    console.log ('this.objectArray - dynamic', this.objectArray);
-
     if (this.interact) {
       for (const element of this.objectArray) {
         element['interact'] = this.interact;
