@@ -5,7 +5,7 @@ export abstract class DynamicService {
   protected offset: THREE.Vector3;
   protected rotation: THREE.Euler;
   protected scale: THREE.Vector3;
-  protected objectArray: any[];      // <<<---  THREE.Mesh
+  protected objectArray: any[];      // <<<---  array of services that created it
 
   constructor() {
     this.offset = new THREE.Vector3(0, 0, 0);

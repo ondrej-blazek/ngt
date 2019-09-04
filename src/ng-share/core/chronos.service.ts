@@ -198,6 +198,9 @@ export class ChronosService {
   getInteraction (): Array<string> {
     return (this.interactionArray);
   }
+  resetInteraction (): void {
+    this.interactionArray = [];
+  }
   addToInteraction (uuid: string): void {
     this.interactionArray.push(uuid);
     const unique = this.interactionArray.filter((item, i, ar) => ( ar.indexOf(item) === i ));

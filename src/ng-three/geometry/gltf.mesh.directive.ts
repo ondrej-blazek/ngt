@@ -115,12 +115,13 @@ export class GltfMeshDirective implements OnInit, OnChanges, AfterContentInit, O
     }
   }
 
-  ngOnInit(): void {
-    console.log ('GltfMeshDirective - content', this.content);
-  }
+  ngOnInit(): void { }
 
   ngAfterContentInit(): void { }
-  ngOnDestroy(): void { }
+  ngOnDestroy(): void {
+    this.chronosService.resetInteraction();
+    this.subscription.unsubscribe();
+  }
 
   // ---------------------------------------------------------------------------------
 
@@ -189,10 +190,8 @@ export class GltfMeshDirective implements OnInit, OnChanges, AfterContentInit, O
 
     this.meshLoader.setPath(basePath);
     this.meshLoader.load(fileName, (gltf: GLTF) => {
-      if (this.content) {
-        this.sceneOptions(gltf);
-        this.modeMesh(gltf);
-      }
+      this.sceneOptions(gltf);
+      this.modeMesh(gltf);
     },
     (xhr: ProgressEvent) => {
       // console.info( ( xhr.loaded / xhr.total * 100 ) + '% loaded' );
@@ -241,27 +240,31 @@ export class GltfMeshDirective implements OnInit, OnChanges, AfterContentInit, O
         let decoratedObject = new GltfLoaderService ();
         decoratedObject.object = child;
 
-        this.content.objectArrayAdd (decoratedObject);
+        const objName = child.name;
+        if (objName.includes('-interactive')) {
+          decoratedObject['interact'] = true;
+          // decoratedObject['interact'] = this.interact;
+          this.chronosService.addToInteraction(child.uuid);
+        }
+
+        if (this.content) {
+          this.content.objectArrayAdd (decoratedObject);
+        }
+
         decoratedObject = null;
       }
     });
 
-    this.objectArray = this.content.objectArray;
+    if (this.content) {
+      this.objectArray = this.content.objectArray;
 
-    // Due to asynchronous nature of glTF this directive needs to add objects when they ready
-    for (const element of this.content.objectArray) {
-      this.scene.add(element['object']);
+      // Due to asynchronous nature of glTF this directive needs to add objects when they ready
+      for (const element of this.content.objectArray) {
+        this.scene.add(element['object']);
+      }
     }
 
-    
-    //  TODO - move to above for loop that deals with glTF load
-    // if (this.interact) {
-    //   for (const element of this.objectArray) {
-    //     element['interact'] = this.interact;
-    //     this.chronosService.addToInteraction(element['object'].uuid);
-    //   }
-    // }
-
+    console.log ('interraction', this.chronosService.getInteraction());
     console.log ('gltf loader - this.content.objectArray', this.content.objectArray);
   }
 }

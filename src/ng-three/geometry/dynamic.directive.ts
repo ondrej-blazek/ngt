@@ -29,6 +29,8 @@ export class DynamicDirective implements OnChanges, OnInit, AfterContentInit, On
     this.interact = false;
     this.enabled = true;
 
+    this.objectArray = [];
+
     // subscribe to home component messages
     this.subscription = this.chronosService.getMessage().subscribe(
       message => {
@@ -85,7 +87,10 @@ export class DynamicDirective implements OnChanges, OnInit, AfterContentInit, On
   }
 
   ngAfterContentInit (): void {}
-  ngOnDestroy (): void {}
+  ngOnDestroy (): void {
+    this.chronosService.resetInteraction();
+    this.subscription.unsubscribe();
+  }
 
   render (): void {
     if (this.content && this.animate) {

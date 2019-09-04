@@ -9,8 +9,8 @@
 
         <ngt-scene>
           <ngt-camera [location]="env.camPosition" [lookAt]="env.lookAt"></ngt-camera>
-          <!-- <ngt-raycaster></ngt-raycaster> -->
-          <!-- <ngt-projector></ngt-projector> -->
+          <ngt-raycaster></ngt-raycaster>
+          <ngt-projector></ngt-projector>
 
           <ngt-light [helpers]="true">
             <ngt-point-light [offset]="env.lightPosition" [content]="pointLight" [animate]="false"></ngt-point-light>
@@ -29,8 +29,8 @@
 
           <ngt-geometry>
 
-            <ngt-gltf-mesh [basePath]="gltfPath" [fileName]="gltfFileOne" [content]="dynamic" [interact]="true"></ngt-gltf-mesh>
-            <ngt-gltf-mesh [basePath]="gltfPath" [fileName]="gltfFileTwo"></ngt-gltf-mesh>
+            <ngt-gltf-mesh [basePath]="gltfPath" [fileName]="gltfFileOne" [animate]="true" [content]="dynamic" [interact]="true"></ngt-gltf-mesh>
+            <ngt-gltf-mesh [basePath]="gltfPath" [fileName]="gltfFileTwo" [animate]="true" [content]="dynamic" [interact]="true"></ngt-gltf-mesh>
 
           </ngt-geometry>
         </ngt-scene>
