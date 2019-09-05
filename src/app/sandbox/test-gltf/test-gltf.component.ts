@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 
 import { EnvService } from './service';
-
 import { PointLightService, HemiLightService, DynamicContentServiceService } from './3d_content';
+import { ProjectorServiceA, ProjectorServiceB } from './2d_content';
 
 @Component({
   selector: 'app-test-gltf',
@@ -22,6 +22,8 @@ export class TestGLTFComponent implements OnInit {
   private gltfFileTwo: string;
 
   public dynamic: DynamicContentServiceService;
+  public projectorA: ProjectorServiceA = new ProjectorServiceA ();
+  public projectorB: ProjectorServiceB = new ProjectorServiceB ();
 
   constructor() {
     this.env = new EnvService ();

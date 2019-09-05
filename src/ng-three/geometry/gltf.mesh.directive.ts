@@ -239,11 +239,11 @@ export class GltfMeshDirective implements OnInit, OnChanges, AfterContentInit, O
       if (child.type === 'Mesh') {
         let decoratedObject = new GltfLoaderService ();
         decoratedObject.object = child;
+        decoratedObject.defaultColor = child['material'].color;
 
         const objName = child.name;
-        if (objName.includes('-interactive')) {
-          decoratedObject['interact'] = true;
-          // decoratedObject['interact'] = this.interact;
+        if (objName.includes('-interactive') && this.interact === true) {
+          decoratedObject['interact'] = this.interact;
           this.chronosService.addToInteraction(child.uuid);
         }
 
@@ -264,7 +264,7 @@ export class GltfMeshDirective implements OnInit, OnChanges, AfterContentInit, O
       }
     }
 
-    console.log ('interraction', this.chronosService.getInteraction());
-    console.log ('gltf loader - this.content.objectArray', this.content.objectArray);
+    // console.log ('interraction', this.chronosService.getInteraction());
+    // console.log ('gltf loader - this.content.objectArray', this.content.objectArray);
   }
 }

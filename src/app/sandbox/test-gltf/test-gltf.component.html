@@ -36,10 +36,11 @@
         </ngt-scene>
       </ngt-render>
 
-
-<!-- testCube-interactive
-testCone-interactive -->
-
+      <!-- 2D canvas overlay(s) -->
+      <ngc-render id="baseUI" class="overlay">
+        <ngc-projector link="testCube-interactive" [content]="projectorA"></ngc-projector>
+        <ngc-projector link="testCone-interactive" [content]="projectorB"></ngc-projector>
+      </ngc-render>
 
     </ngs-chronos>
   </div>

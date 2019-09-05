@@ -8,11 +8,10 @@ export abstract class ObjectService {
   private rotation: THREE.Euler;
   private scale: THREE.Vector3;
 
-  protected defaultColor: THREE.Color;
-  protected highlightColor: THREE.Color;
-  protected clickedColor: THREE.Color;
-  protected clickedHighlightColor: THREE.Color;
-
+  public defaultColor: THREE.Color;
+  public highlightColor: THREE.Color;
+  public clickedColor: THREE.Color;
+  public clickedHighlightColor: THREE.Color;
   public object: any;   // THREE.Mesh;
 
   constructor() {
