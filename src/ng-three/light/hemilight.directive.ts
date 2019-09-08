@@ -5,7 +5,7 @@ import * as THREE from 'three';
 import { ChronosService } from '@ngs/core/chronos.service';
 
 @Directive({
-  selector: 'ngt-hemisphere-light'     // tslint:disable-line
+  selector: 'ngt-light-hemisphere'     // tslint:disable-line
 })
 export class HemisphereLightDirective implements OnInit, OnChanges, AfterContentInit, OnDestroy {
   // element parameters

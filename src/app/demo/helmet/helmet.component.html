@@ -13,8 +13,8 @@
           <!-- <ngt-projector></ngt-projector> -->
 
           <ngt-light [helpers]="false">
-            <ngt-point-light [offset]="env.lightPosition" [content]="pointLight" [animate]="false"></ngt-point-light>
-            <ngt-hemisphere-light [offset]="env.hemPosition" [content]="hemiLight" [animate]="false"></ngt-hemisphere-light>
+            <ngt-light-point [offset]="env.lightPosition" [content]="pointLight" [animate]="false"></ngt-light-point>
+            <ngt-light-hemisphere [offset]="env.hemPosition" [content]="hemiLight" [animate]="false"></ngt-light-hemisphere>
           </ngt-light>
 
           <ngt-environment>

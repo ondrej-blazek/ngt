@@ -1,7 +1,7 @@
 import { OnInit, Directive, ContentChildren, QueryList, AfterContentInit, Input, OnChanges } from '@angular/core';
 
 import { SceneService } from '@ngt/service';
-import { PointLightDirective, HemisphereLightDirective } from '@ngt/light';
+import { PointLightDirective, HemisphereLightDirective, GltfLightDirective } from '@ngt/light';
 
 @Directive({
   selector: 'ngt-light'     // tslint:disable-line
@@ -13,6 +13,7 @@ export class LightDirective implements OnChanges, OnInit, AfterContentInit {
   // child components / directives
   @ContentChildren(PointLightDirective) pointLightDomQuery: QueryList<PointLightDirective>;
   @ContentChildren(HemisphereLightDirective) hemiLightDomQuery: QueryList<HemisphereLightDirective>;
+  @ContentChildren(GltfLightDirective) gltfLightDomQuery: QueryList<GltfLightDirective>;
 
   private scene: THREE.Scene;
   private chronosID: string;
@@ -20,6 +21,7 @@ export class LightDirective implements OnChanges, OnInit, AfterContentInit {
 
   private pointLightDirectives: PointLightDirective[];
   private hemiLightDirectives: HemisphereLightDirective[];
+  private gltfLightDirectives: GltfLightDirective[];
 
   constructor (
     private sceneService: SceneService
@@ -27,8 +29,10 @@ export class LightDirective implements OnChanges, OnInit, AfterContentInit {
     this.helpers = false;
     this.chronosID = '';
     this.renderID = '';
+
     this.pointLightDirectives = [];
     this.hemiLightDirectives = [];
+    this.gltfLightDirectives = [];
   }
 
   ngOnChanges (changes) {
@@ -45,6 +49,9 @@ export class LightDirective implements OnChanges, OnInit, AfterContentInit {
     // Collect handlers into Array
     this.pointLightDirectives = this.pointLightDomQuery.toArray();
     this.hemiLightDirectives = this.hemiLightDomQuery.toArray();
+    this.gltfLightDirectives = this.gltfLightDomQuery.toArray();
+
+    this.propagateID (this.chronosID, this.renderID);
 
     // Add lights and their helper objects into the scene
     for (const oneDirective of this.pointLightDirectives) {
@@ -66,8 +73,6 @@ export class LightDirective implements OnChanges, OnInit, AfterContentInit {
   processID (chronosID: string, renderID: string): void {
     this.chronosID = chronosID;
     this.renderID = renderID;
-
-    this.propagateID (chronosID, renderID);
   }
 
   propagateID (chronosID: string, renderID: string): void {
@@ -75,6 +80,9 @@ export class LightDirective implements OnChanges, OnInit, AfterContentInit {
       oneDirective.processID(chronosID, renderID);
     }
     for (const oneDirective of this.hemiLightDirectives) {
+      oneDirective.processID(chronosID, renderID);
+    }
+    for (const oneDirective of this.gltfLightDirectives) {
       oneDirective.processID(chronosID, renderID);
     }
   }
@@ -88,6 +96,9 @@ export class LightDirective implements OnChanges, OnInit, AfterContentInit {
       oneDirective.render();
     }
     for (const oneDirective of this.hemiLightDirectives) {
+      oneDirective.render();
+    }
+    for (const oneDirective of this.gltfLightDirectives) {
       oneDirective.render();
     }
   }

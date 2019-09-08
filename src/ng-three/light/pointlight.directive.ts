@@ -5,7 +5,7 @@ import * as THREE from 'three';
 import { ChronosService } from '@ngs/core/chronos.service';
 
 @Directive({
-  selector: 'ngt-point-light'     // tslint:disable-line
+  selector: 'ngt-light-point'     // tslint:disable-line
 })
 export class PointLightDirective implements OnInit, OnChanges, AfterContentInit, OnDestroy {
   // element parameters

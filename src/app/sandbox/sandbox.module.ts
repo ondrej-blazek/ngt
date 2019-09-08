@@ -15,6 +15,7 @@ import { TestCombinedComponent } from './test-combined/test-combined.component';
 import { TestInterCanvasComponent } from './test-inter-canvas/test-inter-canvas.component';
 import { TestInnerHTMLComponent } from './test-inter-html/test-inter-html.component';
 import { TestGLTFComponent } from './test-gltf/test-gltf.component';
+import { TestGLTFLightsComponent } from './test-gltf-lights/test-gltf-lights.component';
 import { UiLayersComponent } from './test-combined/ui-layers/ui-layers.component';
 
 @NgModule({
@@ -25,6 +26,7 @@ import { UiLayersComponent } from './test-combined/ui-layers/ui-layers.component
     TestInterCanvasComponent,
     TestInnerHTMLComponent,
     TestGLTFComponent,
+    TestGLTFLightsComponent,
     UiLayersComponent
   ],
   imports: [

@@ -206,7 +206,8 @@ export class GltfMeshDirective implements OnInit, OnChanges, AfterContentInit, O
     let textureBackground = null;
 
     // Cube background reflection mapping
-    if (typeof (this.scene.background) === 'object') {   // type of THREE.CubeTexture
+    // if (typeof (this.scene.background) === 'object') {   // type of THREE.CubeTexture
+    if (this.scene.background['generateMipmaps'] === true) {   // type of THREE.CubeTexture
       textureBackground = this.scene.background;
 
       const pmremGenerator = new PMREMGenerator(textureBackground);

@@ -8,6 +8,7 @@ import { TestCombinedComponent } from './test-combined/test-combined.component';
 import { TestInterCanvasComponent } from './test-inter-canvas/test-inter-canvas.component';
 import { TestInnerHTMLComponent } from './test-inter-html/test-inter-html.component';
 import { TestGLTFComponent } from './test-gltf/test-gltf.component';
+import { TestGLTFLightsComponent } from './test-gltf-lights/test-gltf-lights.component';
 
 const routes: Routes = [
   {
@@ -38,6 +39,11 @@ const routes: Routes = [
   {
     path: 'test-gltf',
     component: TestGLTFComponent,
+    resolve: {}
+  },
+  {
+    path: 'test-gltf-lights',
+    component: TestGLTFLightsComponent,
     resolve: {}
   }
 ];

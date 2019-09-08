@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { NgtRenderDirective } from '@ngt/core';
 import { SceneDirective, OrbitDirective, VrDirective, EnvironmentDirective, GeometryDirective, LightDirective } from '@ngt/scene';
 import { PerspectiveCameraDirective, OrthoCameraDirective, RaycasterDirective, ProjectorDirective } from '@ngt/camera';
-import { PointLightDirective, HemisphereLightDirective } from '@ngt/light';
+import { PointLightDirective, HemisphereLightDirective, GltfLightDirective } from '@ngt/light';
 import { AxesDirective, BackgroundDirective, CubePanoramaDirective,
          DomeDirective, FogDirective, GridDirective, GroundDirective } from '@ngt/environment';
 import { ObjectDirective, DynamicDirective, LayerDirective, GltfSceneDirective, GltfMeshDirective } from '@ngt/geometry';
@@ -17,7 +17,7 @@ import { ObjectDirective, DynamicDirective, LayerDirective, GltfSceneDirective, 
     NgtRenderDirective,
     SceneDirective, OrbitDirective, VrDirective, EnvironmentDirective, GeometryDirective, LightDirective,
     PerspectiveCameraDirective, OrthoCameraDirective, RaycasterDirective, ProjectorDirective,
-    PointLightDirective, HemisphereLightDirective,
+    PointLightDirective, HemisphereLightDirective, GltfLightDirective,
     AxesDirective, BackgroundDirective, CubePanoramaDirective, DomeDirective, FogDirective, GridDirective, GroundDirective,
     ObjectDirective, DynamicDirective, LayerDirective, GltfSceneDirective, GltfMeshDirective
   ],
@@ -26,7 +26,7 @@ import { ObjectDirective, DynamicDirective, LayerDirective, GltfSceneDirective, 
     NgtRenderDirective,
     SceneDirective, OrbitDirective, VrDirective, EnvironmentDirective, GeometryDirective, LightDirective,
     PerspectiveCameraDirective, OrthoCameraDirective, RaycasterDirective, ProjectorDirective,
-    PointLightDirective, HemisphereLightDirective,
+    PointLightDirective, HemisphereLightDirective, GltfLightDirective,
     AxesDirective, BackgroundDirective, CubePanoramaDirective, DomeDirective, FogDirective, GridDirective, GroundDirective,
     ObjectDirective, DynamicDirective, LayerDirective, GltfSceneDirective, GltfMeshDirective
   ]

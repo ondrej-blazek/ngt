@@ -30,6 +30,7 @@ export class EnvironmentDirective implements OnInit, AfterContentInit, OnDestroy
 
   ngOnInit () {
     this.scene = this.sceneService.getScene(this.chronosID, this.renderID);
+    this.scene.background = new THREE.Color(0xff0000);      // Scene MUST have background color. Use ngt-background to adjust
   }
 
   ngAfterContentInit () {
