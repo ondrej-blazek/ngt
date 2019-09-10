@@ -1,5 +1,8 @@
 import * as THREE from 'three';
 
+// TODO - create abstract services for every type of light
+// TODO - ^^^ after make sure to extend this service with above abstract
+
 export class HemiLightService {
   private location: THREE.Vector3;
   private position: THREE.Vector3;

@@ -12,6 +12,7 @@ export class GltfLightDirective implements OnInit, OnChanges, AfterContentInit, 
   // element parameters
   @Input() basePath: string;
   @Input() fileName: string;
+  @Input() shadows: boolean;
   @Input() content: any;
 
   private chronosID: string;
@@ -31,9 +32,12 @@ export class GltfLightDirective implements OnInit, OnChanges, AfterContentInit, 
     this.withParams = true;
     this.lightLoader = new GLTFLoader();
     this.lightArray = [];
+    this.shadows = true;
   }
 
-  ngOnChanges (changes) {}
+  ngOnChanges (changes) {
+    // TODO - All inputs NEED change handling!!!!!!!
+  }
   ngOnInit () {}
   ngAfterContentInit (): void {}
   ngOnDestroy (): void {}
@@ -78,29 +82,35 @@ export class GltfLightDirective implements OnInit, OnChanges, AfterContentInit, 
 
   // Parse after load and set interactive objects
   modeLights(gltf: GLTF): void {
-
-    // console.log ('gltf', gltf);
-
     gltf.scene.traverse((child: THREE.Object3D | THREE.Mesh | THREE.Scene) => {
       if (child.type === 'Object3D' && child.children.length === 1) {
-        this.lightArray.push(child);
+        const disposable = child.children[0];
+
+        if (disposable.type === 'SpotLight') {
+          this.lightArray.push(child);
+        }
       }
 
       // TODO - GET ALL THE OTHER Light types
+
     });
 
     if (this.lightArray.length > 0) {
       for (const element of this.lightArray) {
-        this.scene.add(element);
-
         const light: any = element.children[0];
+
+        if (this.shadows) {
+          light.castShadow = true;
+          light.shadow.mapSize.width = 1024;      // 2048 WILL choke GPU
+          light.shadow.mapSize.height = 1024;     // 2048 WILL choke GPU
+          light.shadow.bias = -0.0001;
+        }
+
         const lightHelper = new THREE.SpotLightHelper(light);
+
+        this.scene.add(element);
         this.scene.add(lightHelper);
       }
     }
-
-    // console.log ('interraction', this.chronosService.getInteraction());
-    // console.log ('gltf loader - this.content.objectArray', this.content.objectArray);
   }
-
 }

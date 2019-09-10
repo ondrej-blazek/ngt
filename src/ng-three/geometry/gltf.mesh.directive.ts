@@ -224,11 +224,6 @@ export class GltfMeshDirective implements OnInit, OnChanges, AfterContentInit, O
           if (this.envReflection) {
             child.material.envMap = envMap;
           }
-          // casts and receive shadows
-          if (this.shadows) {
-            child.castShadow = true;
-            child.receiveShadow = true;
-          }
         }
       });
     }
@@ -238,6 +233,11 @@ export class GltfMeshDirective implements OnInit, OnChanges, AfterContentInit, O
   modeMesh(gltf: GLTF): void {
     gltf.scene.traverse((child: THREE.Object3D | THREE.Mesh | THREE.Scene) => {
       if (child.type === 'Mesh') {
+        if (this.shadows) {
+          child.castShadow = true;
+          child.receiveShadow = true;
+        }
+
         let decoratedObject = new GltfLoaderService ();
         decoratedObject.object = child;
         decoratedObject.defaultColor = child['material'].color;

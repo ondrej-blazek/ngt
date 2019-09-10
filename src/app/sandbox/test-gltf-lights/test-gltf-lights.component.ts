@@ -33,7 +33,7 @@ export class TestGLTFLightsComponent implements OnInit {
     // this.imageUrls = ['px.jpg', 'nx.jpg', 'py.jpg', 'ny.jpg', 'pz.jpg', 'nz.jpg'];
 
     this.gltfPath = '/assets/3d/test_lights/';
-    this.gltfFileOne = 'lights.gltf';
+    this.gltfFileOne = 'lights_v2.gltf';
 
     this.dynamic = new DynamicContentServiceService();
   }
