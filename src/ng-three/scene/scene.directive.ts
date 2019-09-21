@@ -1,7 +1,7 @@
-import { Directive, ContentChild, OnChanges, OnInit, AfterContentInit, OnDestroy } from '@angular/core';
+import { Directive, ContentChild, ContentChildren, QueryList, OnChanges, OnInit, AfterContentInit, OnDestroy } from '@angular/core';
 import * as THREE from 'three';
 
-import { RaycasterDirective, ProjectorDirective } from '@ngt/camera';
+import { RaycasterDirective, ProjectorDirective, GltfCameraDataDirective } from '@ngt/camera';
 import { SceneService } from '@ngt/service';
 
 import { EnvironmentDirective } from './environment.directive';
@@ -14,6 +14,7 @@ import { LightDirective } from './light.directive';
 export class SceneDirective implements OnChanges, OnInit, AfterContentInit, OnDestroy {
   @ContentChild(RaycasterDirective, {static: true}) raycasterDirective: any;
   @ContentChild(ProjectorDirective, {static: true}) projectorDirective: any;
+  @ContentChildren(GltfCameraDataDirective) gltfCameraDataDomQuery: QueryList<GltfCameraDataDirective>;
   @ContentChild(EnvironmentDirective, {static: true}) environmentDirective: any;
   @ContentChild(GeometryDirective, {static: true}) geometryDirective: any;
   @ContentChild(LightDirective, {static: true}) lightDirective: any;
@@ -22,6 +23,7 @@ export class SceneDirective implements OnChanges, OnInit, AfterContentInit, OnDe
   private renderID: string;
   public camera: THREE.PerspectiveCamera | THREE.OrthographicCamera;
   public scene: THREE.Scene;
+  private GltfCameraDataDirectives: GltfCameraDataDirective[];
 
   constructor (
     private sceneService: SceneService
@@ -29,6 +31,7 @@ export class SceneDirective implements OnChanges, OnInit, AfterContentInit, OnDe
     this.chronosID = '';
     this.renderID = '';
     this.scene = new THREE.Scene ();
+    this.GltfCameraDataDirectives = [];
   }
 
   ngOnChanges (changes) {}
@@ -52,7 +55,13 @@ export class SceneDirective implements OnChanges, OnInit, AfterContentInit, OnDe
     }
   }
 
-  ngAfterContentInit () {}
+  ngAfterContentInit () {
+    // Special case, Asyncload and data are not required to render
+    this.GltfCameraDataDirectives = this.gltfCameraDataDomQuery.toArray();
+    for (const oneDirective of this.GltfCameraDataDirectives) {
+      oneDirective.processID(this.chronosID, this.renderID);
+    }
+  }
 
   ngOnDestroy (): void {
     this.scene.remove();

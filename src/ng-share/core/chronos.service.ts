@@ -274,4 +274,19 @@ export class ChronosService {
       this.updateClickedObject (chronosID, this.clickedObject);
     }
   }
+
+  // Camera updates
+  setSetDefaultCameraPosition (id: string): void {
+    this.subject.next({
+      type: 'setSetDefaultCameraPosition',
+      id: id
+    });
+  }
+  switchToCamera (id: string, index: number): void {
+    this.subject.next({
+      type: 'switchToCamera',
+      id: id,
+      index: index
+    });
+  }
 }

@@ -9,11 +9,12 @@
 
         <ngt-scene>
           <ngt-camera [location]="env.camPosition" [lookAt]="env.lookAt"></ngt-camera>
+          <ngt-camera-gltf-data  [basePath]="gltfPath" [fileName]="gltfFileOne"></ngt-camera-gltf-data>
           <ngt-raycaster></ngt-raycaster>
           <ngt-projector></ngt-projector>
 
           <ngt-light [helpers]="true">
-            <ngt-light-gltf [basePath]="gltfPath" [fileName]="gltfFileOne" [content]="true"></ngt-light-gltf>
+            <ngt-light-gltf [basePath]="gltfPath" [fileName]="gltfFileOne" [content]="true" [helper]="true"></ngt-light-gltf>
           </ngt-light>
 
           <ngt-environment>
@@ -39,4 +40,3 @@
   </div>
 
 </div>
-  

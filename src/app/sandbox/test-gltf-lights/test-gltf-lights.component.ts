@@ -11,12 +11,6 @@ import { ProjectorServiceA, ProjectorServiceB } from './2d_content';
 })
 export class TestGLTFLightsComponent implements OnInit {
   private env: EnvService;
-  // private pointLight: PointLightService;
-  // private hemiLight: HemiLightService;
-
-  // private imagePath: string;
-  // private imageUrls: string[];
-
   private gltfPath: string;
   private gltfFileOne: string;
 
@@ -26,15 +20,8 @@ export class TestGLTFLightsComponent implements OnInit {
 
   constructor() {
     this.env = new EnvService ();
-    // this.pointLight = new PointLightService();
-    // this.hemiLight = new HemiLightService();
-
-    // this.imagePath = '/assets/3d/skybox_sun/';
-    // this.imageUrls = ['px.jpg', 'nx.jpg', 'py.jpg', 'ny.jpg', 'pz.jpg', 'nz.jpg'];
-
     this.gltfPath = '/assets/3d/test_lights/';
-    this.gltfFileOne = 'lights_v2.gltf';
-
+    this.gltfFileOne = 'lights_v5.gltf';
     this.dynamic = new DynamicContentServiceService();
   }
 

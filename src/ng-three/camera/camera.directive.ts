@@ -3,7 +3,8 @@ import { Subscription } from 'rxjs';
 import * as THREE from 'three';
 
 import { ChronosService } from '@ngs/core/chronos.service';
-import { Content } from '@angular/compiler/src/render3/r3_ast';
+import { CameraService } from '@ngt/service';
+// import { Content } from '@angular/compiler/src/render3/r3_ast';
 
 // TODO - Partially Augment camera into a content class that provides settings in
 
@@ -36,7 +37,8 @@ export class PerspectiveCameraDirective implements OnInit, OnChanges, OnDestroy,
   public cameraHelper: THREE.CameraHelper;
 
   constructor (
-    private chronosService: ChronosService
+    private chronosService: ChronosService,
+    private cameraService: CameraService
   ) {
     this.chronosID = '';
     this.renderID = '';
@@ -69,6 +71,12 @@ export class PerspectiveCameraDirective implements OnInit, OnChanges, OnDestroy,
         }
         if (message.type === 'disableLayer' && message.id === this.chronosID ) {
           this.camera.layers.disable(message.layerNo);
+        }
+        if (message.type === 'setSetDefaultCameraPosition' && message.id === this.chronosID ) {
+          this.changeCameraDefaultPosition ();
+        }
+        if (message.type === 'switchToCamera' && message.id === this.chronosID ) {
+          console.log ('switchToCamera', message.index);
         }
       }
     );
@@ -125,6 +133,15 @@ export class PerspectiveCameraDirective implements OnInit, OnChanges, OnDestroy,
   processID (chronosID: string, renderID: string): void {
     this.chronosID = chronosID;
     this.renderID = renderID;
+  }
+
+  changeCameraDefaultPosition (): void {
+    const positionObject: THREE.Object3D =  this.cameraService.getDefaultPosition();
+
+    console.log ('changeCameraDefaultPosition', positionObject);
+
+    this.setPosition (positionObject.position, positionObject.rotation, this.lookAt);
+    this.camera.updateProjectionMatrix();
   }
 }
 

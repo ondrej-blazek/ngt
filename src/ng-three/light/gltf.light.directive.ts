@@ -13,6 +13,7 @@ export class GltfLightDirective implements OnInit, OnChanges, AfterContentInit, 
   @Input() basePath: string;
   @Input() fileName: string;
   @Input() shadows: boolean;
+  @Input() helper: boolean;
   @Input() content: any;
 
   private chronosID: string;
@@ -29,10 +30,11 @@ export class GltfLightDirective implements OnInit, OnChanges, AfterContentInit, 
   ) {
     this.chronosID = '';
     this.renderID = '';
-    this.withParams = true;
+    this.withParams = true;         // TODO - Proper @input validation is required.
     this.lightLoader = new GLTFLoader();
     this.lightArray = [];
     this.shadows = true;
+    this.helper = false;
   }
 
   ngOnChanges (changes) {
@@ -41,6 +43,8 @@ export class GltfLightDirective implements OnInit, OnChanges, AfterContentInit, 
   ngOnInit () {}
   ngAfterContentInit (): void {}
   ngOnDestroy (): void {}
+
+  // ---------------------------------------------------------------------------------
 
   render (): void {
     // if (this.content && this.animate) {
@@ -106,10 +110,11 @@ export class GltfLightDirective implements OnInit, OnChanges, AfterContentInit, 
           light.shadow.bias = -0.0001;
         }
 
-        const lightHelper = new THREE.SpotLightHelper(light);
-
         this.scene.add(element);
-        this.scene.add(lightHelper);
+        if (this.helper) {
+          const lightHelper = new THREE.SpotLightHelper(light);
+          this.scene.add(lightHelper);
+        }
       }
     }
   }
