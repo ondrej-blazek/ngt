@@ -289,4 +289,10 @@ export class ChronosService {
       index: index
     });
   }
+  updateOrbitControls (id: string): void {
+    this.subject.next({
+      type: 'updateOrbitControls',
+      id: id
+    });
+  }
 }

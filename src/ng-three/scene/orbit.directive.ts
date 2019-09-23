@@ -30,6 +30,9 @@ export class OrbitDirective implements OnChanges, OnInit, AfterContentInit {
         if (message.type === 'activeOverlay') {
           this.enableControls(message.active);
         }
+        if (message.type === 'updateOrbitControls') {
+          this.updateControls();
+        }
       }
     );
   }
@@ -67,7 +70,7 @@ export class OrbitDirective implements OnChanges, OnInit, AfterContentInit {
     this.orbitControls.update();
   }
 
-  updateControls (scene, camera): void {
+  updateControls (): void {
     this.orbitControls.update();
   }
 

@@ -58,24 +58,24 @@ export class PerspectiveCameraDirective implements OnInit, OnChanges, OnDestroy,
     // subscribe to home component messages
     this.subscription = this.chronosService.getMessage().subscribe(
       message => {
-        if (message.type === 'elementSize' && message.id === this.chronosID ) {
+        if (message.type === 'elementSize' && message.id === this.chronosID) {
           this.width = message.width;
           this.height = message.height;
           this.updateAspect(this.width / this.height);
         }
-        if (message.type === 'enableLayer' && message.id === this.chronosID ) {
+        if (message.type === 'enableLayer' && message.id === this.chronosID) {
           this.camera.layers.enable(message.layerNo);
         }
-        if (message.type === 'toggleLayer' && message.id === this.chronosID ) {
+        if (message.type === 'toggleLayer' && message.id === this.chronosID) {
           this.camera.layers.toggle(message.layerNo);
         }
-        if (message.type === 'disableLayer' && message.id === this.chronosID ) {
+        if (message.type === 'disableLayer' && message.id === this.chronosID) {
           this.camera.layers.disable(message.layerNo);
         }
-        if (message.type === 'setSetDefaultCameraPosition' && message.id === this.chronosID ) {
+        if (message.type === 'setSetDefaultCameraPosition' && message.id === this.chronosID) {
           this.changeCameraDefaultPosition ();
         }
-        if (message.type === 'switchToCamera' && message.id === this.chronosID ) {
+        if (message.type === 'switchToCamera' && message.id === this.chronosID) {
           console.log ('switchToCamera', message.index);
         }
       }

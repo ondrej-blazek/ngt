@@ -1,6 +1,5 @@
 import { Directive, Input, OnInit, OnChanges, AfterContentInit, OnDestroy } from '@angular/core';
 import { GLTFLoader, GLTF } from 'three/examples/jsm/loaders/GLTFLoader';
-import { Subscription } from 'rxjs';
 
 import { CameraService } from '@ngt/service';
 import { ChronosService } from '@ngs/core/chronos.service';
@@ -14,7 +13,6 @@ export class GltfCameraDataDirective implements OnInit, OnChanges, AfterContentI
   @Input() fileName: string;
   @Input() useDefaultPosition: boolean;
 
-  private subscription: Subscription;
   private chronosID: string;
   private renderID: string;
   private withParams: boolean;
@@ -28,15 +26,6 @@ export class GltfCameraDataDirective implements OnInit, OnChanges, AfterContentI
     this.renderID = '';
     this.withParams = true;         // TODO - Proper @input validation is required.
     this.cameraLoader = new GLTFLoader();
-
-    // subscribe to home component messages
-    this.subscription = this.chronosService.getMessage().subscribe(
-      message => {
-        // if (message.type === 'setActiveObject') {
-        //   this.userSetActiveObject(message.activeID);
-        // }
-      }
-    );
   }
 
   ngOnChanges (changes) {}
@@ -92,6 +81,7 @@ export class GltfCameraDataDirective implements OnInit, OnChanges, AfterContentI
       if (specialCase.children.length === 0 && specialCase.name.toLowerCase().includes('camera') && specialCase.type === 'Object3D') {
         this.cameraService.setDefaultPosition(gltf.scene.children[0]);
         this.chronosService.setSetDefaultCameraPosition(this.chronosID);
+        this.chronosService.updateOrbitControls(this.chronosID);
       }
     }
   }
