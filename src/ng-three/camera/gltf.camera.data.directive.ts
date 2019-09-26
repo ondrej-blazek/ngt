@@ -1,7 +1,7 @@
 import { Directive, Input, OnInit, OnChanges, AfterContentInit, OnDestroy } from '@angular/core';
 import { GLTFLoader, GLTF } from 'three/examples/jsm/loaders/GLTFLoader';
 
-import { CameraService } from '@ngt/service';
+import { CameraService, SceneService } from '@ngt/service';
 import { ChronosService } from '@ngs/core/chronos.service';
 
 @Directive({
@@ -17,8 +17,11 @@ export class GltfCameraDataDirective implements OnInit, OnChanges, AfterContentI
   private renderID: string;
   private withParams: boolean;
   private cameraLoader: GLTFLoader;
+  private scene: THREE.Scene;
+  private renderStorage: THREE.WebGLRenderer;
 
   constructor(
+    private sceneService: SceneService,
     private cameraService: CameraService,
     private chronosService: ChronosService
   ) {
@@ -43,6 +46,9 @@ export class GltfCameraDataDirective implements OnInit, OnChanges, AfterContentI
   }
 
   executeLogic(): void {
+    this.renderStorage = this.sceneService.getRender(this.chronosID, this.renderID);
+    this.scene = this.sceneService.getScene(this.chronosID, this.renderID);
+
     if (this.withParams) {
       this.updateScene(this.basePath, this.fileName);
     }
@@ -70,8 +76,9 @@ export class GltfCameraDataDirective implements OnInit, OnChanges, AfterContentI
       for (const child of gltf.cameras) {
         const camPosition: THREE.PerspectiveCamera | THREE.OrthographicCamera | THREE.Object3D = child;
         const camParent: THREE.Object3D = camPosition.parent;
+
         this.cameraService.addCamera(camParent);
-        // TODO - Add these cameras into the scene ????
+        // this.scene.add(camParent);  // Adding cameras to the scene. (not yet sure if good or bad)
       }
     }
 

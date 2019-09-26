@@ -5,7 +5,7 @@ import * as THREE from 'three';
   providedIn: 'root'
 })
 export class CameraService {
-  private initialPosition: THREE.Object3D;
+  private initialPosition: THREE.PerspectiveCamera | THREE.OrthographicCamera;
   private defaultPosition: THREE.Object3D;
   private cameraArray: THREE.Object3D[];
 
@@ -15,10 +15,10 @@ export class CameraService {
     this.cameraArray = [];
   }
 
-  getInitialPosition (): THREE.Object3D {
+  getInitialPosition (): THREE.PerspectiveCamera | THREE.OrthographicCamera {
     return this.initialPosition;
   }
-  setInitialPosition (camera: THREE.Object3D): void {
+  setInitialPosition (camera: THREE.PerspectiveCamera | THREE.OrthographicCamera): void {
     this.initialPosition = camera;
   }
 

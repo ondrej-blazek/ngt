@@ -108,6 +108,7 @@ export class PerspectiveCameraDirective implements OnInit, OnChanges, OnDestroy,
 
   ngOnInit () {
     this.setPosition (this.location, this.rotation, this.lookAt);
+    this.cameraService.setInitialPosition (this.camera);
   }
 
   ngAfterContentInit (): void {}
@@ -137,9 +138,6 @@ export class PerspectiveCameraDirective implements OnInit, OnChanges, OnDestroy,
 
   changeCameraDefaultPosition (): void {
     const positionObject: THREE.Object3D =  this.cameraService.getDefaultPosition();
-
-    console.log ('changeCameraDefaultPosition', positionObject);
-
     this.setPosition (positionObject.position, positionObject.rotation, this.lookAt);
     this.camera.updateProjectionMatrix();
   }
