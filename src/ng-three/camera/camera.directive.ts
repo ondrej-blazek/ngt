@@ -109,6 +109,7 @@ export class PerspectiveCameraDirective implements OnInit, OnChanges, OnDestroy,
   ngOnInit () {
     this.setPosition (this.location, this.rotation, this.lookAt);
     this.cameraService.setInitialPosition (this.camera);
+    this.chronosService.setSetInitialCamera(this.chronosID);
   }
 
   ngAfterContentInit (): void {}

@@ -78,7 +78,7 @@ export class GltfCameraDataDirective implements OnInit, OnChanges, AfterContentI
         const camParent: THREE.Object3D = camPosition.parent;
 
         this.cameraService.addCamera(camParent);
-        // this.scene.add(camParent);  // Adding cameras to the scene. (not yet sure if good or bad)
+        this.scene.add(camParent);
       }
     }
 

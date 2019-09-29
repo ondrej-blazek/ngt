@@ -3,9 +3,10 @@ import * as THREE from 'three';
 import { Subscription } from 'rxjs';
 
 import { ChronosService } from '@ngs/core/chronos.service';
-import { SceneService } from '@ngt/service';
+import { SceneService, CameraService } from '@ngt/service';
 import { PerspectiveCameraDirective, OrthoCameraDirective } from '@ngt/camera';
-import { SceneDirective, OrbitDirective } from '@ngt/scene';
+import { SceneDirective } from '@ngt/render';
+import { OrbitDirective } from '@ngt/scene';
 
 @Directive({
   selector: 'ngt-render'     // tslint:disable-line
@@ -38,7 +39,7 @@ export class NgtRenderDirective implements OnInit, OnDestroy, OnChanges, AfterCo
 
   // variables
   private renderer: THREE.WebGLRenderer;
-  private message: any;
+  private runBaby: boolean;
   private chronosID: string;
   private subscription: Subscription;
   private width: number;
@@ -47,6 +48,7 @@ export class NgtRenderDirective implements OnInit, OnDestroy, OnChanges, AfterCo
   constructor (
     private chronosService: ChronosService,
     private sceneService: SceneService,
+    private cameraService: CameraService,
     private element: ElementRef
   ) {
     this.chronosID = '';
@@ -54,11 +56,22 @@ export class NgtRenderDirective implements OnInit, OnDestroy, OnChanges, AfterCo
       antialias: true,
       precision: 'lowp'
     });
+    this.runBaby = false;
 
     // subscribe to home component messages
     this.subscription = this.chronosService.getMessage().subscribe(
       message => {
-        this.processMessage (message);
+        if (message.type === 'elementSize' && message.id === this.chronosID ) {
+          this.width = message.width;
+          this.height = message.height;
+          this.renderer.setSize(this.width, this.height);
+        }
+        if (message.type === 'setSetInitialCamera' && message.id === this.chronosID ) {
+
+          this.runBaby = true;
+          console.log ('setSetInitialCamera', this.cameraService.getInitialPosition());
+
+        }
       }
     );
   }
@@ -99,18 +112,10 @@ export class NgtRenderDirective implements OnInit, OnDestroy, OnChanges, AfterCo
     this.renderer.clear();
     this.renderer.dispose();
     this.element = null;
+    this.runBaby = false;
   }
 
   // ---------------------------------------------------------------------------------
-
-  processMessage (message: any): void {
-    this.message = message;
-    if (this.message.type === 'elementSize' && this.message.id === this.chronosID ) {
-      this.width = this.message.width;
-      this.height = this.message.height;
-      this.renderer.setSize(this.width, this.height);
-    }
-  }
 
   processID (chronosID: string): void {     // Executed BEFORE ngOnInit
     this.chronosID = chronosID;
@@ -134,7 +139,7 @@ export class NgtRenderDirective implements OnInit, OnDestroy, OnChanges, AfterCo
   }
 
   render (): void {
-    if (this.element !== null) {
+    if (this.element !== null && this.runBaby) {
       this.renderer.render(this.scene, this.camera);
       this.propagateRender();
     }

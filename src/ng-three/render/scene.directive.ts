@@ -1,12 +1,9 @@
 import { Directive, ContentChild, ContentChildren, QueryList, OnChanges, OnInit, AfterContentInit, OnDestroy } from '@angular/core';
 import * as THREE from 'three';
 
-import { RaycasterDirective, ProjectorDirective, GltfCameraDataDirective } from '@ngt/camera';
 import { SceneService } from '@ngt/service';
-
-import { EnvironmentDirective } from './environment.directive';
-import { GeometryDirective } from './geometry.directive';
-import { LightDirective } from './light.directive';
+import { RaycasterDirective, ProjectorDirective, GltfCameraDataDirective } from '@ngt/camera';
+import { EnvironmentDirective, GeometryDirective, LightDirective } from '@ngt/scene';
 
 @Directive({
   selector: 'ngt-scene'     // tslint:disable-line

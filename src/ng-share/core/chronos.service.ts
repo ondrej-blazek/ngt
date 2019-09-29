@@ -276,6 +276,12 @@ export class ChronosService {
   }
 
   // Camera updates
+  setSetInitialCamera (id: string): void {
+    this.subject.next({
+      type: 'setSetInitialCamera',
+      id: id
+    });
+  }
   setSetDefaultCameraPosition (id: string): void {
     this.subject.next({
       type: 'setSetDefaultCameraPosition',
