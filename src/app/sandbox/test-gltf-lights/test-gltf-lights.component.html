@@ -6,26 +6,20 @@
       <!-- 3D scene(s) -->
       <ngt-render id="threeMaster" class="mainScene">
         <ngt-vision>
-          
-        </ngt-vision>
-
-
-
-        <ngt-orbit></ngt-orbit>
-
-        <ngt-scene>
+          <!-- <ngt-raycaster></ngt-raycaster> -->
+          <!-- <ngt-projector></ngt-projector> -->
+          <ngt-orbit></ngt-orbit>
+  
           <ngt-camera [location]="env.camPosition" [lookAt]="env.lookAt"></ngt-camera>
           <ngt-camera-gltf-data  [basePath]="gltfPath" [fileName]="gltfFileOne"></ngt-camera-gltf-data>
-          <ngt-raycaster></ngt-raycaster>
-          <ngt-projector></ngt-projector>
-
+        </ngt-vision>
+        <ngt-scene>
           <ngt-light [helpers]="true">
             <ngt-light-gltf [basePath]="gltfPath" [fileName]="gltfFileOne" [content]="true" [helper]="true"></ngt-light-gltf>
           </ngt-light>
 
           <ngt-environment>
             <ngt-background [color]="env.backgroundColor"></ngt-background>
-
             <ngt-helper-axes [side]="100"></ngt-helper-axes>
             <ngt-helper-grid [size]="400" [divisions]="40"></ngt-helper-grid>
           </ngt-environment>

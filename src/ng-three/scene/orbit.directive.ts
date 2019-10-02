@@ -49,6 +49,7 @@ export class OrbitDirective implements OnChanges, OnInit, AfterContentInit {
 
   // ---------------------------------------------------------------------------------
 
+  // TODO - Can this DOM element reference be stored in scene service?
   setupControls (camera, renderer): void {
     // Section element as provided by reporter
     const domElement: HTMLElement = this.chronosService.getDOM (this.chronosID);

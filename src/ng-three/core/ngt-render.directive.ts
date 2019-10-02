@@ -4,46 +4,36 @@ import { Subscription } from 'rxjs';
 
 import { ChronosService } from '@ngs/core/chronos.service';
 import { SceneService, CameraService } from '@ngt/service';
-import { PerspectiveCameraDirective, OrthoCameraDirective } from '@ngt/camera';
-import { SceneDirective } from '@ngt/render';
+import { SceneDirective, VisionDirective } from '@ngt/render';
 import { OrbitDirective } from '@ngt/scene';
+
+// TODO - OrbitDirective is tapping on DOM element directly with setupControls function.
+//      - Look into DOM element reference provided by Scene service.
 
 @Directive({
   selector: 'ngt-render'     // tslint:disable-line
 })
 export class NgtRenderDirective implements OnInit, OnDestroy, OnChanges, AfterContentInit {
-  // element parameters
   @Input() id: string;
   @Input() class: string;
 
-  // child components / directives
   @ContentChild(SceneDirective, {static: true}) sceneDirective: SceneDirective;
+  @ContentChild(VisionDirective, {static: true}) visionDirective: VisionDirective;
   @ContentChild(OrbitDirective, {static: true}) orbitDirective: OrbitDirective;
-  @ContentChild(PerspectiveCameraDirective, {static: true}) cameraDirective: any;
-  @ContentChild(OrthoCameraDirective, {static: true}) orthoDirective: any;
 
   get scene (): THREE.Scene {
     return (this.sceneDirective.scene);
   }
 
-  get camera (): THREE.PerspectiveCamera | THREE.OrthographicCamera {     // Called by render directive
-    let cameraValue: THREE.PerspectiveCamera | THREE.OrthographicCamera = null;
-    if (this.cameraDirective) {
-      cameraValue = this.cameraDirective.camera;
-    }
-    if (this.orthoDirective) {
-      cameraValue = this.orthoDirective.camera;
-    }
-    return (cameraValue);
-  }
-
   // variables
   private renderer: THREE.WebGLRenderer;
-  private runBaby: boolean;
+  private cameraReady: boolean;
   private chronosID: string;
   private subscription: Subscription;
   private width: number;
   private height: number;
+
+  public camera: THREE.PerspectiveCamera | THREE.OrthographicCamera;
 
   constructor (
     private chronosService: ChronosService,
@@ -56,7 +46,7 @@ export class NgtRenderDirective implements OnInit, OnDestroy, OnChanges, AfterCo
       antialias: true,
       precision: 'lowp'
     });
-    this.runBaby = false;
+    this.cameraReady = false;
 
     // subscribe to home component messages
     this.subscription = this.chronosService.getMessage().subscribe(
@@ -67,10 +57,7 @@ export class NgtRenderDirective implements OnInit, OnDestroy, OnChanges, AfterCo
           this.renderer.setSize(this.width, this.height);
         }
         if (message.type === 'setSetInitialCamera' && message.id === this.chronosID ) {
-
-          this.runBaby = true;
-          console.log ('setSetInitialCamera', this.cameraService.getInitialPosition());
-
+          this.fetchCamera ();
         }
       }
     );
@@ -94,10 +81,6 @@ export class NgtRenderDirective implements OnInit, OnDestroy, OnChanges, AfterCo
     this.renderer.setPixelRatio(Math.floor(window.devicePixelRatio));
     this.renderer.shadowMap.enabled = true;
 
-    if (this.orbitDirective) {
-      this.orbitDirective.setupControls(this.camera, this.renderer);
-    }
-
     // This bit will append <canvas> into the directive
     const elementCatch = this.element.nativeElement.appendChild(this.renderer.domElement);
     elementCatch.setAttribute('class', this.class);
@@ -112,10 +95,22 @@ export class NgtRenderDirective implements OnInit, OnDestroy, OnChanges, AfterCo
     this.renderer.clear();
     this.renderer.dispose();
     this.element = null;
-    this.runBaby = false;
+    this.cameraReady = false;
   }
 
   // ---------------------------------------------------------------------------------
+
+  fetchCamera (): void {
+    this.camera = this.cameraService.getInitialPosition();
+    this.scene.add(this.camera);
+
+    this.visionDirective.processCamera (this.camera);
+    this.cameraReady = true;
+
+    if (this.orbitDirective) {
+      this.orbitDirective.setupControls(this.camera, this.renderer);
+    }
+  }
 
   processID (chronosID: string): void {     // Executed BEFORE ngOnInit
     this.chronosID = chronosID;
@@ -124,22 +119,18 @@ export class NgtRenderDirective implements OnInit, OnDestroy, OnChanges, AfterCo
 
   propagateID (chronosID: string, renderID: string) {
     if (this.sceneDirective) {
-      this.sceneDirective.processCamera (this.camera);
       this.sceneDirective.processID(chronosID, renderID);
+    }
+    if (this.visionDirective) {
+      this.visionDirective.processID(chronosID, renderID);
     }
     if (this.orbitDirective) {
       this.orbitDirective.processID(chronosID, renderID);
     }
-    if (this.cameraDirective) {
-      this.cameraDirective.processID(chronosID, renderID);
-    }
-    if (this.orthoDirective) {
-      this.orthoDirective.processID(chronosID, renderID);
-    }
   }
 
   render (): void {
-    if (this.element !== null && this.runBaby) {
+    if (this.element !== null && this.cameraReady) {
       this.renderer.render(this.scene, this.camera);
       this.propagateRender();
     }
@@ -147,5 +138,6 @@ export class NgtRenderDirective implements OnInit, OnDestroy, OnChanges, AfterCo
 
   propagateRender (): void {
     this.sceneDirective.render();
+    this.visionDirective.render();
   }
 }
