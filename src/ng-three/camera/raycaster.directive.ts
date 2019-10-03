@@ -77,10 +77,9 @@ export class RaycasterDirective implements OnChanges, OnInit, AfterContentInit, 
   }
 
   ngOnChanges (changes): void {}
-  ngOnInit (): void {
-    this.scene = this.sceneService.getScene(this.chronosID, this.renderID);
-  }
+  ngOnInit (): void {}
   ngAfterContentInit (): void {
+    this.scene = this.sceneService.getScene(this.chronosID, this.renderID);
     this.interactionArray = this.chronosService.getInteraction ();
   }
   ngOnDestroy (): void {
