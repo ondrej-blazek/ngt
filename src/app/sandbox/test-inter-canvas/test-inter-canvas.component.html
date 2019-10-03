@@ -5,13 +5,15 @@
 
       <!-- 3D scene(s) -->
       <ngt-render id="threeMaster" class="mainScene">
-        <ngt-camera [location]="env.camPosition"></ngt-camera>
-        <ngt-orbit></ngt-orbit>
-
-        <ngt-scene>
+        <ngt-vision>
           <ngt-raycaster></ngt-raycaster>
           <ngt-projector></ngt-projector>
+          <ngt-orbit></ngt-orbit>
 
+          <ngt-camera [location]="env.camPosition"></ngt-camera>
+        </ngt-vision>
+
+        <ngt-scene>
           <ngt-light [helpers]="true">
             <ngt-light-point [offset]="env.lightPosition" [content]="pointLight" [animate]="false"></ngt-light-point>
             <ngt-light-hemisphere [offset]="env.hemPosition" [content]="hemiLight" [animate]="false"></ngt-light-hemisphere>

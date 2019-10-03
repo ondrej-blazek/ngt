@@ -45,14 +45,10 @@ export class VisionDirective implements OnChanges, OnInit, AfterContentInit, OnD
   }
 
   ngOnChanges (changes) {}
-  ngOnInit () {
-
-  }
+  ngOnInit () {}
   ngAfterContentInit () {
     this.renderer = this.sceneService.getRender(this.chronosID, this.renderID);
     this.scene = this.sceneService.getScene(this.chronosID, this.renderID);
-
-    console.log ('VisionDirective - ngAfterContentInit', this.renderer, this.scene, this.camera);
 
     // Special case, Asyncload and data are not required to render
     this.GltfCameraDataDirectives = this.gltfCameraDataDomQuery.toArray();
