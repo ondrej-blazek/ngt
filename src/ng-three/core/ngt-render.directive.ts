@@ -21,11 +21,8 @@ export class NgtRenderDirective implements OnInit, OnDestroy, OnChanges, AfterCo
   @ContentChild(VisionDirective, {static: true}) visionDirective: VisionDirective;
   @ContentChild(OrbitDirective, {static: true}) orbitDirective: OrbitDirective;
 
-  get scene (): THREE.Scene {
-    return (this.sceneDirective.scene);
-  }
-
   // variables
+  private scene: THREE.Scene;
   private renderer: THREE.WebGLRenderer;
   private cameraReady: boolean;
   private chronosID: string;
@@ -42,9 +39,10 @@ export class NgtRenderDirective implements OnInit, OnDestroy, OnChanges, AfterCo
     private element: ElementRef
   ) {
     this.chronosID = '';
+    this.scene = null;
     this.renderer = new THREE.WebGLRenderer({
       antialias: true,
-      precision: 'lowp'
+      precision: 'highp'
     });
     this.cameraReady = false;
 
@@ -77,6 +75,10 @@ export class NgtRenderDirective implements OnInit, OnDestroy, OnChanges, AfterCo
   }
 
   ngAfterContentInit () {
+    if (this.scene === null) {
+      this.scene = this.sceneDirective.scene;
+    }
+
     this.renderer.setSize(this.width, this.height);
     this.renderer.setPixelRatio(Math.floor(window.devicePixelRatio));
     this.renderer.shadowMap.enabled = true;
@@ -101,6 +103,10 @@ export class NgtRenderDirective implements OnInit, OnDestroy, OnChanges, AfterCo
   // ---------------------------------------------------------------------------------
 
   fetchCamera (): void {
+    if (this.scene === null) {
+      this.scene = this.sceneDirective.scene;
+    }
+
     this.camera = this.cameraService.getInitialPosition();
     this.scene.add(this.camera);
 
