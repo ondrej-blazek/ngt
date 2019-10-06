@@ -3,10 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { NgcModule } from '@ngc/ngc.module';
 import { NgtModule } from '@ngt/ngt.module';
-
-import { ChronosService } from './core/chronos.service';
-import { ChronosDirective } from './core/chronos.directive';
-import { ReporterDirective } from './core/reporter.directive';
+import { ChronosService, ChronosDirective, ReporterDirective } from '@ngs/core';
 
 @NgModule({
   imports: [
