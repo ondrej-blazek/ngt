@@ -32,6 +32,11 @@ export class CameraService {
   getCameras (): THREE.Object3D[] {
     return this.cameraArray;
   }
+  getCameraByIndex (index: number): THREE.PerspectiveCamera | THREE.OrthographicCamera {
+    const oneCamera: THREE.Object3D = this.cameraArray[index];
+    const cameraData = oneCamera['children'][0];
+    return cameraData[0];
+  }
   addCamera (camera: THREE.Object3D): void {
     this.cameraArray.push(camera);
   }

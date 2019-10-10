@@ -91,5 +91,7 @@ export class GltfCameraDataDirective implements OnInit, OnChanges, AfterContentI
         this.chronosService.updateOrbitControls(this.chronosID);
       }
     }
+
+    console.log ('this.scene', this.scene );
   }
 }

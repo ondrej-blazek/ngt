@@ -40,11 +40,10 @@ export class NgtRenderDirective implements OnInit, OnDestroy, OnChanges, AfterCo
   ) {
     this.chronosID = '';
     this.scene = null;
-    this.renderer = new THREE.WebGLRenderer({
-      antialias: true,
-      precision: 'highp'
-    });
+    this.renderer = null;
     this.cameraReady = false;
+
+    this.rendererInit();
 
     // subscribe to home component messages
     this.subscription = this.chronosService.getMessage().subscribe(
@@ -52,7 +51,7 @@ export class NgtRenderDirective implements OnInit, OnDestroy, OnChanges, AfterCo
         if (message.type === 'elementSize' && message.id === this.chronosID ) {
           this.width = message.width;
           this.height = message.height;
-          this.renderer.setSize(this.width, this.height);
+          this.rendererResize();
         }
         if (message.type === 'setSetInitialCamera' && message.id === this.chronosID ) {
           this.fetchCamera ();
@@ -65,7 +64,7 @@ export class NgtRenderDirective implements OnInit, OnDestroy, OnChanges, AfterCo
     const widthChange = changes.width && changes.width.currentValue;
     const heightChange = changes.height && changes.height.currentValue;
     if (widthChange || heightChange) {
-      this.renderer.setSize(this.width, this.height);
+      this.rendererResize();
     }
   }
 
@@ -78,8 +77,35 @@ export class NgtRenderDirective implements OnInit, OnDestroy, OnChanges, AfterCo
     if (this.scene === null) {
       this.scene = this.sceneDirective.scene;
     }
+    this.rendererSetup();
 
-    this.renderer.setSize(this.width, this.height);
+    const myVar = setTimeout(() => {
+      this.rendererCameraSwitch ();
+    }, 500);
+  }
+
+  ngOnDestroy () {
+    this.subscription.unsubscribe();
+
+    this.cameraReady = false;
+    this.camera.remove();
+    this.render = () => {};
+
+    this.rendererKill();
+    this.element = null;
+  }
+
+  // ---------------------------------------------------------------------------------
+
+  rendererInit (): void {
+    this.renderer = new THREE.WebGLRenderer({
+      antialias: true,
+      precision: 'highp'
+    });
+  }
+
+  rendererSetup (): void {
+    this.rendererResize();
     this.renderer.setPixelRatio(Math.floor(window.devicePixelRatio));
     this.renderer.shadowMap.enabled = true;
 
@@ -88,19 +114,28 @@ export class NgtRenderDirective implements OnInit, OnDestroy, OnChanges, AfterCo
     elementCatch.setAttribute('class', this.class);
   }
 
-  ngOnDestroy () {
-    this.subscription.unsubscribe();
+  rendererResize (): void {
+    this.renderer.setSize(this.width, this.height);
+  }
 
-    this.camera.remove();
-    this.render = () => {};
+  rendererKill (): void {
+    this.element.nativeElement.removeChild(this.renderer.domElement);
 
     this.renderer.clear();
     this.renderer.dispose();
-    this.element = null;
-    this.cameraReady = false;
   }
 
-  // ---------------------------------------------------------------------------------
+  rendererCameraSwitch (): void {
+    // this.rendererKill();
+
+    // this.rendererInit();
+    // this.rendererSetup();
+
+    // this.camera = null;
+    // this.camera = this.cameraService.getCameraByIndex(0);
+
+    console.log ('rendererCameraSwitch', this.camera);
+  }
 
   fetchCamera (): void {
     if (this.scene === null) {

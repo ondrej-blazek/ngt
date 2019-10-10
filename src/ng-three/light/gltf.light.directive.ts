@@ -111,6 +111,7 @@ export class GltfLightDirective implements OnInit, OnChanges, AfterContentInit, 
         }
 
         this.scene.add(element);
+
         if (this.helper) {
           const lightHelper = new THREE.SpotLightHelper(light);
           this.scene.add(lightHelper);
