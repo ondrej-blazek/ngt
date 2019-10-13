@@ -1,13 +1,15 @@
 import { Injectable } from '@angular/core';
 import * as THREE from 'three';
 
+// TODO - investigate how much work is to add THREE.OrthographicCamera
+
 @Injectable({
   providedIn: 'root'
 })
 export class CameraService {
   private initialPosition: THREE.PerspectiveCamera | THREE.OrthographicCamera;
   private defaultPosition: THREE.Object3D;
-  private cameraArray: THREE.Object3D[];
+  private cameraArray: THREE.PerspectiveCamera[];
 
   constructor() {
     this.initialPosition = null;
@@ -29,15 +31,14 @@ export class CameraService {
     this.defaultPosition = camera;
   }
 
-  getCameras (): THREE.Object3D[] {
+  getCameras (): THREE.PerspectiveCamera[] {
     return this.cameraArray;
   }
-  getCameraByIndex (index: number): THREE.PerspectiveCamera | THREE.OrthographicCamera {
-    const oneCamera: THREE.Object3D = this.cameraArray[index];
-    const cameraData = oneCamera['children'][0];
-    return cameraData[0];
+  getCameraByIndex (index: number): THREE.PerspectiveCamera {
+    const cameraData = this.cameraArray[index];
+    return cameraData;
   }
-  addCamera (camera: THREE.Object3D): void {
+  addCamera (camera: THREE.PerspectiveCamera): void {
     this.cameraArray.push(camera);
   }
 }

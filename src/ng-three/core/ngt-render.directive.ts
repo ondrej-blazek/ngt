@@ -29,8 +29,7 @@ export class NgtRenderDirective implements OnInit, OnDestroy, OnChanges, AfterCo
   private subscription: Subscription;
   private width: number;
   private height: number;
-
-  public camera: THREE.PerspectiveCamera | THREE.OrthographicCamera;
+  private camera: THREE.PerspectiveCamera | THREE.OrthographicCamera;
 
   constructor (
     private chronosService: ChronosService,
@@ -56,6 +55,12 @@ export class NgtRenderDirective implements OnInit, OnDestroy, OnChanges, AfterCo
         if (message.type === 'setSetInitialCamera' && message.id === this.chronosID ) {
           this.fetchCamera ();
         }
+        if (message.type === 'setSetDefaultCameraPosition' && message.id === this.chronosID ) {
+          this.fetchCamera ();
+        }
+        if (message.type === 'switchToCamera' && message.id === this.chronosID) {
+          this.rendererCameraSwitch (message.index);
+        }
       }
     );
   }
@@ -78,10 +83,6 @@ export class NgtRenderDirective implements OnInit, OnDestroy, OnChanges, AfterCo
       this.scene = this.sceneDirective.scene;
     }
     this.rendererSetup();
-
-    const myVar = setTimeout(() => {
-      this.rendererCameraSwitch ();
-    }, 500);
   }
 
   ngOnDestroy () {
@@ -119,22 +120,26 @@ export class NgtRenderDirective implements OnInit, OnDestroy, OnChanges, AfterCo
   }
 
   rendererKill (): void {
-    this.element.nativeElement.removeChild(this.renderer.domElement);
-
     this.renderer.clear();
     this.renderer.dispose();
+    this.renderer.forceContextLoss();
+    this.element.nativeElement.removeChild(this.renderer.domElement);
   }
 
-  rendererCameraSwitch (): void {
-    // this.rendererKill();
+  rendererCameraSwitch (index: number): void {
+    this.cameraReady = false;
+    this.rendererKill();
 
-    // this.rendererInit();
-    // this.rendererSetup();
+    this.rendererInit();
+    this.rendererSetup();
 
-    // this.camera = null;
-    // this.camera = this.cameraService.getCameraByIndex(0);
+    this.camera = null;
+    this.camera = this.cameraService.getCameraByIndex(index);
+    this.cameraReady = true;
 
-    console.log ('rendererCameraSwitch', this.camera);
+    if (this.orbitDirective) {
+      this.orbitDirective.setupControls(this.camera, this.renderer);
+    }
   }
 
   fetchCamera (): void {
@@ -155,7 +160,6 @@ export class NgtRenderDirective implements OnInit, OnDestroy, OnChanges, AfterCo
 
   processID (chronosID: string): void {     // Executed BEFORE ngOnInit
     this.chronosID = chronosID;
-    // this.propagateID(this.chronosID, this.id);    // this.id is undefined until ngOnInit
   }
 
   propagateID (chronosID: string, renderID: string) {

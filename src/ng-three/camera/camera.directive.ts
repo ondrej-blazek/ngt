@@ -75,9 +75,6 @@ export class PerspectiveCameraDirective implements OnInit, OnChanges, OnDestroy,
         if (message.type === 'setSetDefaultCameraPosition' && message.id === this.chronosID) {
           this.changeCameraDefaultPosition ();
         }
-        if (message.type === 'switchToCamera' && message.id === this.chronosID) {
-          console.log ('switchToCamera', message.index);
-        }
       }
     );
   }

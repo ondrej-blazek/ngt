@@ -1,63 +1,67 @@
 .randomWrapper {
-    padding: 0;
-    width: 100%;
-    position: relative;
-    overflow: hidden;
-  }
-  
-  .random {
-    width: 100%;
-    height: 600px;
-    display: block;
-    position: relative;
-  
-    .activeHTML {
-      position: absolute;
-      left: 0px;
-      top: 0px;
-      z-index: 30;
-  
-      .block {
-        width: 150px;
-        height: 50px;
-        display: block;
-        background-color: lightsalmon;
-        padding: 5px;
-  
-        p {
-          line-height: 20px;
-          margin: 0;
-          padding: 0;
-        }
-        a {
-          margin: 0;
-          padding: 0;
-        }
+  padding: 0;
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+}
+
+.random {
+  width: 100%;
+  height: 600px;
+  display: block;
+  position: relative;
+
+  .activeHTML {
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    z-index: 30;
+
+    .block {
+      width: 150px;
+      height: 50px;
+      display: block;
+      background-color: lightsalmon;
+      padding: 5px;
+
+      p {
+        line-height: 20px;
+        margin: 0;
+        padding: 0;
+      }
+      a {
+        margin: 0;
+        padding: 0;
       }
     }
   }
+}
+
+.mainScene {
+  position: absolute;
+  z-index: 10;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+}
+
+.overlay {
+  position: absolute;
+  z-index: 20;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
   
-  .mainScene {
-    position: absolute;
-    z-index: 10;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    width: 100%;
-  }
-  
-  .overlay {
-    position: absolute;
-    z-index: 20;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    width: 100%;
-    
-    overflow: visible;
-    // pointer-events: none;
-    background: none !important;
-  }
-  
+  overflow: visible;
+  // pointer-events: none;
+  background: none !important;
+}
+
+.someUI {
+  padding-top: 40px;
+  padding-left: 40px;
+}

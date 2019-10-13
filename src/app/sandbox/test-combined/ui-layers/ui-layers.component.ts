@@ -1,11 +1,11 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-ui-layers',
   templateUrl: './ui-layers.component.html',
   styleUrls: ['./ui-layers.component.scss']
 })
-export class UiLayersComponent implements OnInit {
+export class UiLayersComponent {
   // Params
   @Input() status: boolean;
   @Input() id: number;
@@ -15,7 +15,6 @@ export class UiLayersComponent implements OnInit {
     this.status = false;
     this.id = 0;
   }
-  ngOnInit() {}
 
   toggleSwitch (): void {
     // Status switch

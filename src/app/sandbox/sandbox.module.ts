@@ -17,6 +17,7 @@ import { TestInnerHTMLComponent } from './test-inter-html/test-inter-html.compon
 import { TestGLTFComponent } from './test-gltf/test-gltf.component';
 import { TestGLTFLightsComponent } from './test-gltf-lights/test-gltf-lights.component';
 import { UiLayersComponent } from './test-combined/ui-layers/ui-layers.component';
+import { UiCamerasComponent } from './test-gltf-lights/ui-cameras/ui-cameras.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import { UiLayersComponent } from './test-combined/ui-layers/ui-layers.component
     TestInnerHTMLComponent,
     TestGLTFComponent,
     TestGLTFLightsComponent,
-    UiLayersComponent
+    UiLayersComponent,
+    UiCamerasComponent
   ],
   imports: [
     CommonModule,

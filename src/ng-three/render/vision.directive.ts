@@ -1,6 +1,5 @@
-import { Directive, ContentChild, ContentChildren, QueryList, OnChanges, OnInit, AfterContentInit, OnDestroy } from '@angular/core';
+import { Directive, Input, ContentChild, ContentChildren, QueryList, OnChanges, OnInit, AfterContentInit, OnDestroy } from '@angular/core';
 import * as THREE from 'three';
-import { Subscription } from 'rxjs';
 
 import { ChronosService } from '@ngs/core/chronos.service';
 import { CameraService, SceneService } from '@ngt/service';
@@ -10,13 +9,14 @@ import { PerspectiveCameraDirective, OrthoCameraDirective, RaycasterDirective, P
   selector: 'ngt-vision'     // tslint:disable-line
 })
 export class VisionDirective implements OnChanges, OnInit, AfterContentInit, OnDestroy {
+  @Input() cameraIndex: number;
+
   @ContentChild(PerspectiveCameraDirective, {static: true}) cameraDirective: any;
   @ContentChild(OrthoCameraDirective, {static: true}) orthoDirective: any;
   @ContentChildren(GltfCameraDataDirective) gltfCameraDataDomQuery: QueryList<GltfCameraDataDirective>;
   @ContentChild(RaycasterDirective, {static: true}) raycasterDirective: any;
   @ContentChild(ProjectorDirective, {static: true}) projectorDirective: any;
 
-  private subscription: Subscription;
   private chronosID: string;
   private renderID: string;
   private GltfCameraDataDirectives: GltfCameraDataDirective[];
@@ -33,18 +33,23 @@ export class VisionDirective implements OnChanges, OnInit, AfterContentInit, OnD
     this.chronosID = '';
     this.renderID = '';
     this.GltfCameraDataDirectives = [];
-
-    // subscribe to home component messages
-    this.subscription = this.chronosService.getMessage().subscribe(
-      message => {
-        if (message.type === 'setSetInitialCamera' && message.id === this.chronosID ) {
-          // this.fetchCamera ();
-        }
-      }
-    );
+    this.cameraIndex = 0;
   }
 
-  ngOnChanges (changes) {}
+  ngOnChanges (changes) {
+    if (changes.cameraIndex && changes.cameraIndex.currentValue) {
+      this.cameraIndex = changes.cameraIndex.currentValue;
+      // Broadcast this change
+
+      if (this.cameraIndex === 0 || this.cameraIndex === 1) {
+        this.chronosService.setSetInitialCamera(this.chronosID);
+      } else if (this.cameraIndex === 2) {
+        this.chronosService.setSetDefaultCameraPosition(this.chronosID);
+      } else {
+        this.chronosService.switchToCamera(this.chronosID, (this.cameraIndex - 3));
+      }
+    }
+  }
   ngOnInit () {}
   ngAfterContentInit () {
     this.renderer = this.sceneService.getRender(this.chronosID, this.renderID);
@@ -69,8 +74,6 @@ export class VisionDirective implements OnChanges, OnInit, AfterContentInit, OnD
   ngOnDestroy (): void {}
 
   // ---------------------------------------------------------------------------------
-
-  // fetchCamera (): void {}
 
   processCamera (camera: THREE.PerspectiveCamera | THREE.OrthographicCamera): void {     // Executed BEFORE ngOnInit
     this.camera = camera;
