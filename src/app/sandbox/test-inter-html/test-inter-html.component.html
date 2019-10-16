@@ -4,7 +4,7 @@
     <ngs-chronos>
 
       <!-- 3D scene(s) -->
-      <ngt-render id="threeMaster" class="mainScene">
+      <ngt-render id="threeMaster">
         <ngt-vision>
           <ngt-raycaster></ngt-raycaster>
           <ngt-projector></ngt-projector>
@@ -39,14 +39,14 @@
       </ngt-render>
 
       <!-- DOM and other HTML content -->
-      <ngd-render id="testDOM" link="oneCube" [interact]="true" class="activeHTML" [ngStyle]="{'left': '0px', 'top': '0px', 'display': 'block'}">
+      <ngd-render id="testDOMone" link="oneCube" [interact]="true" class="activeHTML" [ngStyle]="{'left': '0px', 'top': '60px', 'display': 'block'}">
         <div class="block">
           <p>Interactive text</p>
           <p ngdCloseEvent>Close</p>
         </div>
       </ngd-render>
 
-      <ngd-render id="testDOM" link="twoCube" class="activeHTML" [ngStyle]="{'left': '0px', 'top': '0px', 'display': 'block'}">
+      <ngd-render id="testDOMtwo" link="twoCube" class="activeHTML" [ngStyle]="{'left': '0px', 'top': '0px', 'display': 'block'}">
         <div class="block">
           <p>Active overlay</p>
         </div>
