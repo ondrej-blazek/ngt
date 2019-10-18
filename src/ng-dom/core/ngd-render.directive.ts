@@ -1,4 +1,4 @@
-import { Directive, Input, OnInit, OnDestroy, OnChanges, AfterContentInit, ElementRef, QueryList, ContentChildren } from '@angular/core';
+import { Directive, Input, OnInit, OnDestroy, OnChanges, AfterContentInit, ElementRef, QueryList, ContentChildren, Renderer2 } from '@angular/core';
 import { Subscription } from 'rxjs';
 
 import { ChronosService } from '@ngs/core/chronos.service';
@@ -16,13 +16,14 @@ export class NgdRenderDirective implements OnInit, OnDestroy, OnChanges, AfterCo
   private chronosID: string;
   private subscription: Subscription;
   private clickedFlag: boolean;
-  private closeEventArray: NgdCloseEventDirective[] = [];
+  private closeEventArray: NgdCloseEventDirective[];
 
   private valueLeft: number;
   private valueTop: number;
 
   constructor(
     private el: ElementRef,
+    private renderer: Renderer2,
     private chronosService: ChronosService
   ) {
     this.link = '';
@@ -33,6 +34,8 @@ export class NgdRenderDirective implements OnInit, OnDestroy, OnChanges, AfterCo
 
     this.valueLeft = 0;
     this.valueTop = 0;
+
+    this.closeEventArray = [];
 
     this.subscription = this.chronosService.getMessage().subscribe(
       message => {
@@ -89,10 +92,11 @@ export class NgdRenderDirective implements OnInit, OnDestroy, OnChanges, AfterCo
   }
 
   updateElementPosition (top: number, left: number): void {
-    this.el.nativeElement.style.top = top + 'px';
-    this.el.nativeElement.style.left = left + 'px';
+    this.renderer.setStyle(this.el.nativeElement, 'top', (top + 'px'));
+    this.renderer.setStyle(this.el.nativeElement, 'left', (left + 'px'));
   }
+
   updateElementVisibility (display: string): void {
-    this.el.nativeElement.style.display = display;
+    this.renderer.setStyle(this.el.nativeElement, 'display', display);
   }
 }

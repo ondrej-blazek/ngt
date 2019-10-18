@@ -39,14 +39,14 @@
       </ngt-render>
 
       <!-- DOM and other HTML content -->
-      <ngd-render id="testDOMone" link="oneCube" [interact]="true" class="activeHTML" [ngStyle]="{'left': '0px', 'top': '60px', 'display': 'block'}">
-        <div class="block">
+      <ngd-render id="testDOMone" link="oneCube" [interact]="true" class="activeHTML">
+        <div class="block" ngdCloseEvent>
           <p>Interactive text</p>
-          <p ngdCloseEvent>Close</p>
+          <p>Close</p>
         </div>
       </ngd-render>
 
-      <ngd-render id="testDOMtwo" link="twoCube" class="activeHTML" [ngStyle]="{'left': '0px', 'top': '0px', 'display': 'block'}">
+      <ngd-render id="testDOMtwo" link="twoCube" class="activeHTML">
         <div class="block">
           <p>Active overlay</p>
         </div>

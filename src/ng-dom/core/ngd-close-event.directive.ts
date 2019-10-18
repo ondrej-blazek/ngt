@@ -13,12 +13,12 @@ export class NgdCloseEventDirective {
     this.chronosID = '';
   }
 
+  processID (chronosID: string): void {
+    this.chronosID = chronosID;
+  }
+
   @HostListener('click')
   onMouseEnter() {
     this.chronosService.domCloseEvent(this.chronosID, 'DOM-LAYER');
-  }
-
-  processID (chronosID: string): void {
-    this.chronosID = chronosID;
   }
 }

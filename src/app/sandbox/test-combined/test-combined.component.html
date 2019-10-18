@@ -70,10 +70,10 @@
       </ngc-render>
 
       <!-- DOM and other HTML content -->
-      <ngd-render id="testDOM" link="oneCube" [interact]="true" class="activeHTML" [ngStyle]="{'left': '0px', 'top': '0px', 'display': 'block'}">
-        <div class="block">
+      <ngd-render id="testDOM" link="oneCube" [interact]="true" class="activeHTML">
+        <div class="block" ngdCloseEvent>
           <p>some text</p>
-          <p ngdCloseEvent>Close</p>
+          <p>Close</p>
         </div>
       </ngd-render>
 
