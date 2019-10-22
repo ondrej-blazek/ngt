@@ -5,6 +5,8 @@ import { Routes, RouterModule } from '@angular/router';
 import { CarComponent } from './car/car.component';
 import { DancerComponent } from './dancer/dancer.component';
 import { HelmetComponent } from './helmet/helmet.component';
+import { CthulhuComponent } from './cthulhu/cthulhu.component';
+import { DatsunComponent } from './datsun/datsun.component';
 
 const routes: Routes = [
   {
@@ -20,6 +22,16 @@ const routes: Routes = [
   {
     path: 'helmet',
     component: HelmetComponent,
+    resolve: {}
+  },
+  {
+    path: 'cthulhu',
+    component: CthulhuComponent,
+    resolve: {}
+  },
+  {
+    path: 'datsun',
+    component: DatsunComponent,
     resolve: {}
   }
 ];

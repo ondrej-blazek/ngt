@@ -12,12 +12,16 @@ import { NgdModule } from '@ngd/ngd.module';
 import { CarComponent } from './car/car.component';
 import { DancerComponent } from './dancer/dancer.component';
 import { HelmetComponent } from './helmet/helmet.component';
+import { CthulhuComponent } from './cthulhu/cthulhu.component';
+import { DatsunComponent } from './datsun/datsun.component';
 
 @NgModule({
   declarations: [
     CarComponent,
     DancerComponent,
-    HelmetComponent
+    HelmetComponent,
+    CthulhuComponent,
+    DatsunComponent
   ],
   imports: [
     CommonModule,
