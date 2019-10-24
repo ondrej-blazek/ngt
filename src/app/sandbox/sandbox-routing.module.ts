@@ -2,48 +2,48 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 // Local setup
-import { TestCanvasComponent } from './test-canvas/test-canvas.component';
-import { TestSetupComponent } from './test-setup/test-setup.component';
-import { TestCombinedComponent } from './test-combined/test-combined.component';
-import { TestInterCanvasComponent } from './test-inter-canvas/test-inter-canvas.component';
-import { TestInnerHTMLComponent } from './test-inter-html/test-inter-html.component';
-import { TestGLTFComponent } from './test-gltf/test-gltf.component';
-import { TestGLTFLightsComponent } from './test-gltf-lights/test-gltf-lights.component';
+import { PageCanvasComponent } from './pages/page-canvas/page-canvas.component';
+import { PageCombinedComponent } from './pages/page-combined/page-combined.component';
+import { PageGltfComponent } from './pages/page-gltf/page-gltf.component';
+import { PageGltfLightsComponent } from './pages/page-gltf-lights/page-gltf-lights.component';
+import { PageInterCanvasComponent } from './pages/page-inter-canvas/page-inter-canvas.component';
+import { PageInterHtmlComponent } from './pages/page-inter-html/page-inter-html.component';
+import { PageSetupComponent } from './pages/page-setup/page-setup.component';
 
 const routes: Routes = [
   {
     path: 'test-canvas',
-    component: TestCanvasComponent,
+    component: PageCanvasComponent,
     resolve: {}
   },
   {
     path: 'test-setup',
-    component: TestSetupComponent,
+    component: PageSetupComponent,
     resolve: {}
   },
   {
     path: 'test-interactive-canvas',
-    component: TestInterCanvasComponent,
+    component: PageInterCanvasComponent,
     resolve: {}
   },
   {
     path: 'test-interactive-html',
-    component: TestInnerHTMLComponent,
+    component: PageInterHtmlComponent,
     resolve: {}
   },
   {
     path: 'test-combined',
-    component: TestCombinedComponent,
+    component: PageCombinedComponent,
     resolve: {}
   },
   {
     path: 'test-gltf',
-    component: TestGLTFComponent,
+    component: PageGltfComponent,
     resolve: {}
   },
   {
     path: 'test-gltf-lights',
-    component: TestGLTFLightsComponent,
+    component: PageGltfLightsComponent,
     resolve: {}
   }
 ];

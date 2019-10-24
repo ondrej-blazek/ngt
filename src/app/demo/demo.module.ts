@@ -15,13 +15,24 @@ import { HelmetComponent } from './helmet/helmet.component';
 import { CthulhuComponent } from './cthulhu/cthulhu.component';
 import { DatsunComponent } from './datsun/datsun.component';
 
+import { PageCarComponent } from './pages/page-car/page-car.component';
+import { PageCthulhuComponent } from './pages/page-cthulhu/page-cthulhu.component';
+import { PageDancerComponent } from './pages/page-dancer/page-dancer.component';
+import { PageDatsunComponent } from './pages/page-datsun/page-datsun.component';
+import { PageHelmetComponent } from './pages/page-helmet/page-helmet.component';
+
 @NgModule({
   declarations: [
     CarComponent,
     DancerComponent,
     HelmetComponent,
     CthulhuComponent,
-    DatsunComponent
+    DatsunComponent,
+    PageCarComponent,
+    PageCthulhuComponent,
+    PageDancerComponent,
+    PageDatsunComponent,
+    PageHelmetComponent
   ],
   imports: [
     CommonModule,
