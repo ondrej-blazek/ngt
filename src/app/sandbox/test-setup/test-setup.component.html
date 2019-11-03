@@ -1,44 +1,42 @@
-<div class="randomWrapper">
-  <div class="random" id="aaa" ngsreporter>
-    <ngs-chronos>
+<div class="random" ngsreporter>
+  <ngs-chronos>
 
-      <!-- 3D scene(s) -->
-      <ngt-render id="threeMaster">
-        <ngt-vision>
-          <ngt-raycaster></ngt-raycaster>
-          <ngt-projector></ngt-projector>
-          <ngt-orbit></ngt-orbit>
+    <!-- 3D scene(s) -->
+    <ngt-render id="threeMaster">
+      <ngt-vision>
+        <ngt-raycaster></ngt-raycaster>
+        <ngt-projector></ngt-projector>
+        <ngt-orbit></ngt-orbit>
 
-          <ngt-camera [location]="camPosition"></ngt-camera>
-          <!-- <ngt-camera-ortho [location]="camPosition"></ngt-camera-ortho> -->
-        </ngt-vision>
+        <ngt-camera [location]="camPosition"></ngt-camera>
+        <!-- <ngt-camera-ortho [location]="camPosition"></ngt-camera-ortho> -->
+      </ngt-vision>
 
-        <ngt-scene>
-          <ngt-light [helpers]="true">
-            <ngt-light-point [offset]="lightPosition" [content]="pointLight" [animate]="false"></ngt-light-point>
-            <ngt-light-hemisphere [offset]="hemPosition" [content]="hemiLight" [animate]="false"></ngt-light-hemisphere>
-          </ngt-light>
+      <ngt-scene>
+        <ngt-light [helpers]="true">
+          <ngt-light-point [offset]="lightPosition" [content]="pointLight" [animate]="false"></ngt-light-point>
+          <ngt-light-hemisphere [offset]="hemPosition" [content]="hemiLight" [animate]="false"></ngt-light-hemisphere>
+        </ngt-light>
 
-          <ngt-environment>
-            <ngt-background [color]="backgroundColor"></ngt-background>
-            <ngt-ground></ngt-ground>
-            <ngt-dome></ngt-dome>
-            <ngt-fog [color]="backgroundColor" [near]="1" [far]="500"></ngt-fog>
+        <ngt-environment>
+          <ngt-background [color]="backgroundColor"></ngt-background>
+          <ngt-ground></ngt-ground>
+          <ngt-dome></ngt-dome>
+          <ngt-fog [color]="backgroundColor" [near]="1" [far]="500"></ngt-fog>
 
-            <ngt-helper-axes [side]="100"></ngt-helper-axes>
-            <ngt-helper-grid [size]="400" [divisions]="40"></ngt-helper-grid>
-          </ngt-environment>
+          <ngt-helper-axes [side]="100"></ngt-helper-axes>
+          <ngt-helper-grid [size]="400" [divisions]="40"></ngt-helper-grid>
+        </ngt-environment>
 
-          <ngt-geometry>
-            <ngt-object [offset]="cubeAOffset" [rotation]="cubeARotation" [scale]="cubeAScale" [content]="cubeA"></ngt-object>
-            <ngt-object [offset]="cubeBOffset" [rotation]="cubeBRotation" [scale]="cubeBScale" [content]="cubeB"></ngt-object>
-            <ngt-object [offset]="sphereAOffset" [rotation]="sphereARotation" [scale]="sphereAScale" [content]="sphereA"></ngt-object>
-            <ngt-object [offset]="sphereBOffset" [rotation]="sphereBRotation" [scale]="sphereBScale" [content]="sphereB"></ngt-object>
-            <ngt-dynamic [offset]="dynamicOffset" [rotation]="dynamicRotation" [scale]="dynamicScale" [animate]="dynamicAnimate" [content]="dynamic"></ngt-dynamic>
-          </ngt-geometry>
-        </ngt-scene>
-      </ngt-render>
+        <ngt-geometry>
+          <ngt-object [offset]="cubeAOffset" [rotation]="cubeARotation" [scale]="cubeAScale" [content]="cubeA"></ngt-object>
+          <ngt-object [offset]="cubeBOffset" [rotation]="cubeBRotation" [scale]="cubeBScale" [content]="cubeB"></ngt-object>
+          <ngt-object [offset]="sphereAOffset" [rotation]="sphereARotation" [scale]="sphereAScale" [content]="sphereA"></ngt-object>
+          <ngt-object [offset]="sphereBOffset" [rotation]="sphereBRotation" [scale]="sphereBScale" [content]="sphereB"></ngt-object>
+          <ngt-dynamic [offset]="dynamicOffset" [rotation]="dynamicRotation" [scale]="dynamicScale" [animate]="dynamicAnimate" [content]="dynamic"></ngt-dynamic>
+        </ngt-geometry>
+      </ngt-scene>
+    </ngt-render>
 
-    </ngs-chronos>
-  </div>
+  </ngs-chronos>
 </div>

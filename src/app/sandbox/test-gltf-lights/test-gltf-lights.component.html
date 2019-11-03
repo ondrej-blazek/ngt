@@ -1,50 +1,47 @@
-<div class="randomWrapper">
-  <!-- 3D part -->
-  <div class="random" id="aaa" ngsreporter>
-    <ngs-chronos>
+<!-- 3D part -->
+<div class="random" ngsreporter>
+  <ngs-chronos>
 
-      <!-- 3D scene(s) -->
-      <ngt-render id="threeMaster" class="mainScene">
-        <ngt-vision [cameraIndex]="cameraIndex">
-          <ngt-raycaster></ngt-raycaster>
-          <ngt-projector></ngt-projector>
-          <ngt-orbit></ngt-orbit>
+    <!-- 3D scene(s) -->
+    <ngt-render id="threeMaster" class="mainScene">
+      <ngt-vision [cameraIndex]="cameraIndex">
+        <ngt-raycaster></ngt-raycaster>
+        <ngt-projector></ngt-projector>
+        <ngt-orbit></ngt-orbit>
 
-          <ngt-camera [location]="env.camPosition" [lookAt]="env.lookAt"></ngt-camera>
-          <ngt-camera-gltf-data  [basePath]="gltfPath" [fileName]="gltfFileOne"></ngt-camera-gltf-data>
-        </ngt-vision>
+        <ngt-camera [location]="env.camPosition" [lookAt]="env.lookAt"></ngt-camera>
+        <ngt-camera-gltf-data  [basePath]="gltfPath" [fileName]="gltfFileOne"></ngt-camera-gltf-data>
+      </ngt-vision>
 
-        <ngt-scene>
-          <ngt-light [helpers]="true">
-            <ngt-light-gltf [basePath]="gltfPath" [fileName]="gltfFileOne" [content]="true" [helper]="true"></ngt-light-gltf>
-          </ngt-light>
+      <ngt-scene>
+        <ngt-light [helpers]="true">
+          <ngt-light-gltf [basePath]="gltfPath" [fileName]="gltfFileOne" [content]="true" [helper]="true"></ngt-light-gltf>
+        </ngt-light>
 
-          <ngt-environment>
-            <ngt-background [color]="env.backgroundColor"></ngt-background>
-            <ngt-helper-axes [side]="100"></ngt-helper-axes>
-            <ngt-helper-grid [size]="400" [divisions]="40"></ngt-helper-grid>
-          </ngt-environment>
+        <ngt-environment>
+          <ngt-background [color]="env.backgroundColor"></ngt-background>
+          <ngt-helper-axes [side]="100"></ngt-helper-axes>
+          <ngt-helper-grid [size]="400" [divisions]="40"></ngt-helper-grid>
+        </ngt-environment>
 
-          <ngt-geometry>
-            <ngt-gltf-mesh [basePath]="gltfPath" [fileName]="gltfFileOne" [animate]="true" [content]="dynamic" [interact]="true"></ngt-gltf-mesh>
-          </ngt-geometry>
-        </ngt-scene>
-      </ngt-render>
+        <ngt-geometry>
+          <ngt-gltf-mesh [basePath]="gltfPath" [fileName]="gltfFileOne" [animate]="true" [content]="dynamic" [interact]="true"></ngt-gltf-mesh>
+        </ngt-geometry>
+      </ngt-scene>
+    </ngt-render>
 
-      <!-- 2D canvas overlay(s) -->
-      <ngc-render id="baseUI" class="overlay">
-        <ngc-projector link="testCube-interactive" [content]="projectorA"></ngc-projector>
-        <ngc-projector link="testCone-interactive" [content]="projectorB"></ngc-projector>
-      </ngc-render>
+    <!-- 2D canvas overlay(s) -->
+    <ngc-render id="baseUI" class="overlay">
+      <ngc-projector link="testCube-interactive" [content]="projectorA"></ngc-projector>
+      <ngc-projector link="testCone-interactive" [content]="projectorB"></ngc-projector>
+    </ngc-render>
 
-    </ngs-chronos>
-  </div>
+  </ngs-chronos>
+</div>
 
-  <!-- User UI / HTML -->
-  <div class="someUI">
-    <app-ui-cameras [name]="cameras[0].name" [index]="cameras[0].index" [(status)]="cameraIndex"></app-ui-cameras>
-    <!-- <app-ui-cameras [name]="cameras[1].name" [index]="cameras[1].index" [(status)]="cameraIndex"></app-ui-cameras> -->
-    <app-ui-cameras [name]="cameras[2].name" [index]="cameras[2].index" [(status)]="cameraIndex"></app-ui-cameras>
-    <app-ui-cameras [name]="cameras[3].name" [index]="cameras[3].index" [(status)]="cameraIndex"></app-ui-cameras>
-  </div>
+<!-- User UI / HTML -->
+<div class="someUI">
+  <app-ui-cameras [name]="cameras[0].name" [index]="cameras[0].index" [(status)]="cameraIndex"></app-ui-cameras>
+  <app-ui-cameras [name]="cameras[2].name" [index]="cameras[2].index" [(status)]="cameraIndex"></app-ui-cameras>
+  <app-ui-cameras [name]="cameras[3].name" [index]="cameras[3].index" [(status)]="cameraIndex"></app-ui-cameras>
 </div>

@@ -1,14 +1,12 @@
-<div class="randomWrapper">
-  <div class="random" id="aaa" ngsreporter>
-    <ngs-chronos>
+<div class="random" ngsreporter>
+  <ngs-chronos>
 
-      <!-- 2D canvas overlay(s) -->
-      <ngc-render id="baseUI" class="overlay">
-        <ngc-shape id="shape-dot" [content]="dot"></ngc-shape>
-        <ngc-shape id="shape-cloud" [content]="cloud" [interact]="false"></ngc-shape>
-        <ngc-shape id="shape-rect" [content]="rectangle" [interact]="true"></ngc-shape>
-      </ngc-render>
-      
-    </ngs-chronos>
-  </div>
+    <!-- 2D canvas overlay(s) -->
+    <ngc-render id="baseUI" class="overlay">
+      <ngc-shape id="shape-dot" [content]="dot"></ngc-shape>
+      <ngc-shape id="shape-cloud" [content]="cloud" [interact]="false"></ngc-shape>
+      <ngc-shape id="shape-rect" [content]="rectangle" [interact]="true"></ngc-shape>
+    </ngc-render>
+    
+  </ngs-chronos>
 </div>

@@ -34,6 +34,30 @@ export class ChronosService {
     this.subject.next();
   }
 
+  // ShapeID
+  makeRandomString (length: number): string {
+    let text = '';
+    const char_list = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+
+    for (let i = 0; i < length; i++ ) {
+      text += char_list.charAt(Math.floor(Math.random() * char_list.length));
+    }
+    return text;
+  }
+  generateUUID (): string {
+    let newUUID = '';
+    newUUID += this.makeRandomString(8);
+    newUUID += '-';
+    newUUID += this.makeRandomString(4);
+    newUUID += '-';
+    newUUID += this.makeRandomString(4);
+    newUUID += '-';
+    newUUID += this.makeRandomString(4);
+    newUUID += '-';
+    newUUID += this.makeRandomString(12);
+    return (newUUID);
+  }
+
 /*
  *   DO NOT set 'type' dynamically. Use this service to track event(s) on your channel
  */

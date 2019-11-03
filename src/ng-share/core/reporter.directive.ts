@@ -19,6 +19,7 @@ export class ReporterDirective implements OnInit, AfterContentInit, AfterViewIni
   private domWidth: number;
   private domHeight: number;
   private domScrollTop: number;
+  private uuid: string;
 
   constructor (
     private el: ElementRef,
@@ -33,14 +34,16 @@ export class ReporterDirective implements OnInit, AfterContentInit, AfterViewIni
     this.domWidth = 0;
     this.domHeight = 0;
     this.domScrollTop = 0;
+    this.uuid = this.chronosService.generateUUID();
   }
 
   ngOnInit () {    // Update chronos BEFORE rendering starts
     // Stash this DOM element
-    this.chronosService.addToDOM (this.el.nativeElement.id, this.el.nativeElement);
+    this.el.nativeElement.id = this.uuid;
+    this.chronosService.addToDOM (this.uuid, this.el.nativeElement);
 
     if (this.chronosDirective) {
-      this.chronosDirective.processID(this.el.nativeElement.id);
+      this.chronosDirective.processID(this.uuid);
       this.sizeReportFunction();
     }
   }
@@ -82,7 +85,7 @@ export class ReporterDirective implements OnInit, AfterContentInit, AfterViewIni
     this.chronosService.screenSize(this.windowWidth, this.windowHeight);
 
     // DOM Element
-    this.domID = this.el.nativeElement.id;
+    this.domID = this.uuid;
     this.domWidth = this.el.nativeElement.clientWidth;
     this.domHeight = this.el.nativeElement.clientHeight;
     this.chronosService.elementSize(this.domID, this.domWidth, this.domHeight);

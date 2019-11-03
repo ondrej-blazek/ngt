@@ -1,41 +1,37 @@
-<div class="randomWrapper">
-  <!-- 3D part -->
-  <div class="random" id="aaa" ngsreporter>
-    <ngs-chronos>
+<!-- 3D part -->
+<div class="CthulhuComponent" ngsreporter>
+  <ngs-chronos>
+    <!-- 3D scene(s) -->
+    <ngt-render id="threeMaster" class="mainScene">
+      <ngt-vision>
+        <ngt-orbit></ngt-orbit>
 
-      <!-- 3D scene(s) -->
-      <ngt-render id="threeMaster" class="mainScene">
-        <ngt-vision>
-          <ngt-orbit></ngt-orbit>
+        <ngt-camera [location]="env.camPosition"></ngt-camera>
+      </ngt-vision>
 
-          <ngt-camera [location]="env.camPosition"></ngt-camera>
-        </ngt-vision>
+      <ngt-scene>
+        <ngt-light [helpers]="false">
+          <ngt-light-point [offset]="env.lightPosition" [content]="pointLight" [animate]="false"></ngt-light-point>
+          <ngt-light-hemisphere [offset]="env.hemPosition" [content]="hemiLight" [animate]="false"></ngt-light-hemisphere>
+        </ngt-light>
 
-        <ngt-scene>
-          <ngt-light [helpers]="false">
-            <ngt-light-point [offset]="env.lightPosition" [content]="pointLight" [animate]="false"></ngt-light-point>
-            <ngt-light-hemisphere [offset]="env.hemPosition" [content]="hemiLight" [animate]="false"></ngt-light-hemisphere>
-          </ngt-light>
+        <ngt-environment>
+          <ngt-background [color]="env.backgroundColor"></ngt-background>
+          <ngt-fog [color]="env.fogColor" [near]="1" [far]="500"></ngt-fog>
 
-          <ngt-environment>
-            <ngt-background [color]="env.backgroundColor"></ngt-background>
-            <ngt-fog [color]="env.fogColor" [near]="1" [far]="500"></ngt-fog>
+          <!-- <ngt-helper-axes [side]="100"></ngt-helper-axes> -->
+          <!-- <ngt-helper-grid [size]="400" [divisions]="40"></ngt-helper-grid> -->
+        </ngt-environment>
 
-            <!-- <ngt-helper-axes [side]="100"></ngt-helper-axes> -->
-            <!-- <ngt-helper-grid [size]="400" [divisions]="40"></ngt-helper-grid> -->
-          </ngt-environment>
+        <ngt-geometry>
+          <ngt-layer (layer)="layers[0].layer" [visible]="layers[0].visible">
+            <ngt-gltf-scene [basePath]="gltfPath" [fileName]="gltfFile"></ngt-gltf-scene>
+          </ngt-layer>
+        </ngt-geometry>
+      </ngt-scene>
+    </ngt-render>
 
-          <ngt-geometry>
-            <ngt-layer (layer)="layers[0].layer" [visible]="layers[0].visible">
-              <ngt-gltf-scene [basePath]="gltfPath" [fileName]="gltfFile"></ngt-gltf-scene>
-            </ngt-layer>
-          </ngt-geometry>
-        </ngt-scene>
-      </ngt-render>
-
-    </ngs-chronos>
-  </div>
-
-  <p>Source: <a href="https://sketchfab.com/3d-models/cthulhu-statuette-f2b2894395864d49b12ca0065f30ade2" target="blank">sketchfab.com/3d-models/cthulhu-statuette-f2b2894395864d49b12ca0065f30ade2</a></p>
+  </ngs-chronos>
 </div>
-  
+
+<p>Source: <a href="https://sketchfab.com/3d-models/cthulhu-statuette-f2b2894395864d49b12ca0065f30ade2" target="blank">sketchfab.com/3d-models/cthulhu-statuette-f2b2894395864d49b12ca0065f30ade2</a></p>
