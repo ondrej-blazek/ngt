@@ -16,6 +16,7 @@ import { SceneService } from '@ngt/service';
 export class GltfSceneDirective implements OnInit, OnChanges, AfterContentInit, OnDestroy {
   @Input() basePath: string;
   @Input() fileName: string;
+  @Input() gltfData: ArrayBuffer;
   @Input() shadows: boolean;
   @Input() envReflection: boolean;
 
@@ -36,6 +37,7 @@ export class GltfSceneDirective implements OnInit, OnChanges, AfterContentInit, 
     this.renderID = '';
     this.basePath = '';
     this.fileName = '';
+    this.gltfData = null;
     this.shadows = true;
     this.envReflection = true;
     this.withParams = true;
@@ -50,9 +52,17 @@ export class GltfSceneDirective implements OnInit, OnChanges, AfterContentInit, 
     if (changes.fileName) {
       this.fileName = changes.fileName.currentValue;
     }
-
-    if (changes.basePath || changes.imageArray) {
+    if (this.basePath === '' || this.fileName === '') {
+      // Do nothing - console.error ('GltfSceneDirective - load failed')
+    } else {
       this.updateScene(this.basePath, this.fileName);
+    }
+
+    if (changes.gltfData) {
+      this.gltfData = changes.gltfData.currentValue;
+      if (this.gltfData !== null) {
+        this.updateSceneData (this.gltfData);
+      }
     }
   }
 
@@ -74,7 +84,9 @@ export class GltfSceneDirective implements OnInit, OnChanges, AfterContentInit, 
     this.scene = this.sceneService.getScene(this.chronosID, this.renderID);
 
     // ngOnInit
-    if (this.withParams) {
+    if (this.basePath === '' || this.fileName === '' || this.withParams === false) {
+      // Do nothing
+    } else {
       this.updateScene(this.basePath, this.fileName);
     }
   }
@@ -92,11 +104,23 @@ export class GltfSceneDirective implements OnInit, OnChanges, AfterContentInit, 
     this.meshLoader.load(fileName, (gltf: GLTF) => {
       this.sceneOptions(gltf);
       this.modeScene(gltf);
-    },
-    (xhr: ProgressEvent) => {
+    }, (xhr: ProgressEvent) => {
       // console.info( ( xhr.loaded / xhr.total * 100 ) + '% loaded' );
-    },
-    (error: ErrorEvent) => {
+    }, (error: ErrorEvent) => {
+      // console.error( 'An error happened', error );
+    });
+  }
+
+  updateSceneData(data: ArrayBuffer): void {
+    console.log ('updateSceneData - called');
+
+    this.meshLoader.parse(data, '', (gltf: GLTF) => {
+
+      console.log ('gltf', gltf);
+
+      this.sceneOptions(gltf);
+      this.modeScene(gltf);
+    }, (error: ErrorEvent) => {
       // console.error( 'An error happened', error );
     });
   }

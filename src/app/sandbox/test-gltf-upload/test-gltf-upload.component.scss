@@ -1,0 +1,13 @@
+.TestGltfUploadComponent {
+    width: 100%;
+    height: 100%;
+    position: relative;
+
+    .uploadBits {
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        background-color: black;
+        display: block;
+    }
+}

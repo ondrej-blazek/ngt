@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 
 import { EnvService } from './service';
-import { PointLightService, HemiLightService, DynamicContentServiceService } from './3d_content';
+import { DynamicContentServiceService } from './3d_content';
 import { ProjectorServiceA, ProjectorServiceB } from './2d_content';
 
 @Component({
