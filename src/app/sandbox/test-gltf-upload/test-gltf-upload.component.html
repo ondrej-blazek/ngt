@@ -5,8 +5,6 @@
     <!-- 3D scene(s) -->
     <ngt-render id="threeMaster" class="mainScene">
       <ngt-vision>
-        <!-- <ngt-raycaster></ngt-raycaster> -->
-        <!-- <ngt-projector></ngt-projector> -->
         <ngt-orbit [controls]="env.orbitControls"></ngt-orbit>
 
         <ngt-camera [location]="env.camPosition"></ngt-camera>
@@ -24,8 +22,8 @@
           <ngt-ground [color]="env.groundColor" [specular]="env.groundSpecular" [size]="2000"></ngt-ground>
           <ngt-fog [color]="env.fogColor" [near]="1" [far]="500"></ngt-fog>
 
-          <ngt-helper-axes [side]="100"></ngt-helper-axes>
-          <ngt-helper-grid [size]="400" [divisions]="40"></ngt-helper-grid>
+          <ngt-helper-axes [side]="20"></ngt-helper-axes>
+          <ngt-helper-grid [size]="500" [divisions]="50"></ngt-helper-grid>
         </ngt-environment>
 
         <ngt-geometry>

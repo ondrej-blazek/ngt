@@ -42,9 +42,7 @@ export class TestGltfUploadComponent implements OnInit {
   ngOnInit() {}
 
   handleFileInput(file: FileList) {
-    console.log ('file', file);
     this.fileToUpload = file.item(0);
-    console.log ('this.fileToUpload', this.fileToUpload);
 
     // read the file
     let fileReader = new FileReader();

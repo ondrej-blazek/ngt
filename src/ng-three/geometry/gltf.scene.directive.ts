@@ -112,12 +112,7 @@ export class GltfSceneDirective implements OnInit, OnChanges, AfterContentInit, 
   }
 
   updateSceneData(data: ArrayBuffer): void {
-    console.log ('updateSceneData - called');
-
     this.meshLoader.parse(data, '', (gltf: GLTF) => {
-
-      console.log ('gltf', gltf);
-
       this.sceneOptions(gltf);
       this.modeScene(gltf);
     }, (error: ErrorEvent) => {
