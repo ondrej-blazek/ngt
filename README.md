@@ -9,3 +9,6 @@ This project is still in Alpha version. Quite early in the process of production
 ### Next steps
    1) Separate all 4 key components into its own NPM packages
    2) Create webComponents using these new NPM packages
+
+### Demo web
+https://ng-three.com/
